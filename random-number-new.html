@@ -33,6 +33,11 @@
 						<option value="6" >6</option>
 						<option value="7" >7</option>
 						<option value="8" >8</option>
+						<option value="9" >9</option>
+						<option value="10" >10</option>
+						<option value="11" >11</option>
+						<option value="12" >12</option>
+						<option value="13" >13</option>
 					</select>
 				</div>
         
@@ -87,7 +92,7 @@
 			<div class="row">
 				<div class="col-sm-1"></div>
 				<div class="col-sm-2">
-					<input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6"  value=""  /> 
+					<input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6"  value="" onkeydown="return (event.keyCode!=13);"  /> 
 				</div>
 				
 				<div class="col-sm-2">
@@ -99,7 +104,7 @@
 			<div class="row">
 				<div class="col-sm-1"></div>
 				<div class="col-sm-4">
-					<label class="description" id="feedbackLabel"> </label>
+					<label class="description" id="feedbackLabel" value=""></label>
 				</div>
 			</div>
 
@@ -124,9 +129,10 @@
 		var numTurns = 1;
 
 		// Get the input field
-		var input = document.getElementById("numberGuess");
+		//var input = document.getElementById("numberGuess");
 
 		// Execute a function when the user releases a key on the keyboard
+		/*
 		input.addEventListener("keyup", function(event) {
 			// Number 13 is the "Enter" key on the keyboard
 			if (event.keyCode === 13) {
@@ -136,7 +142,9 @@
 				submitNumber();
 			}
 		});
+		*/
 
+		
 		function logAction(logEvent) {
 			console.log(logEvent);
 			if (debugOn) {
@@ -163,62 +171,170 @@
 			document.getElementById('rollDiceButton').disabled = false;
 			document.getElementById('rollDiceRow').hidden = true;
 		}
+
+		function rollOneDice() {
+			var randomNumber = Math.random();
+			var scaledNumber, returnValue;
+
+			if(buildSelected == 11) {
+				scaledNumber = +randomNumber * 8.0;
+			} else {
+				scaledNumber = +randomNumber * 6.0;
+			}
+
+			if(buildSelected!=2) {
+				scaledNumber = +scaledNumber + 1.0;
+			}
+
+			if(buildSelected != 3) {
+				returnValue = parseInt(+scaledNumber);
+			} else {
+				returnValue = +scaledNumber;
+			}
+
+			return returnValue;
+		}
    
 		function rollDice() {
 			document.getElementById('rollDiceButton').disabled = true;
 			document.getElementById('rollDiceRow').hidden = false;
 			document.getElementById('numGuessForm').hidden = true;
 			document.getElementById('logForm').value = "";
-			document.getElementById('feedbackLabel').value = " ";
+			document.getElementById('feedbackLabel').innerHTML = " ";
 
 			var dice1, dice2;
 			
-			dice1 = parseInt(Math.random() * 6.0) + 1;
-			dice2 = parseInt(Math.random() * 6.0) + 1;
+			dice1 = rollOneDice();
+			dice2 = rollOneDice();
 
 			logAction("Dice 1: " + dice1 + ", Dice 2: " + dice2);
 
-			targetNumber = +dice1 + +dice2;
+			if ( buildSelected == 8 ) {
+				targetNumber = +dice1 + +dice1;
+				
+			} else if ( buildSelected == 12 ) {
+				targetNumber = "" + dice1 + dice2;
+			} else {
+				targetNumber = +dice1 + +dice2;
+			}
 			numTurns = 1;
 
 			logAction("Target number: " + targetNumber );
 			document.getElementById('rollDiceButton').value = "Re-roll";
 			document.getElementById('rollDiceButton').disabled = false;
-			document.getElementById('turnNumber').value = turnNumber;
+			document.getElementById('turnNumber').innerHTML = numTurns;
 			setTimeout(function() {
 				document.getElementById('rollDiceRow').hidden = true;
 				document.getElementById('numGuessForm').hidden = false;
+				document.getElementById('submitButton').disabled = false;
+				document.getElementById('numberGuess').value = "";
 			}, 1000);
 
+
+			if(buildSelected==13) {
+				setTimeout(function() {
+					logAction("Browser error ... restart");
+					window.location.reload(false);
+				}, 8000);
+			}
 		}
 
-		function giveFeedback(feedbackString) {
-			document.getElementById('feedbackLabel').value = feedbackString;
+		function giveFeedback(feedbackString, errorMsg) {
+			var fontSet;
+			if(errorMsg) {
+				fontSet="<font size=\"+2\" color=\"red\">";
+			} else {
+				fontSet="<font size=\"+2\" color=\"black\">";
+			}
+			document.getElementById('feedbackLabel').innerHTML = fontSet + "<b><i>"+feedbackString+"</i></b></font>";
 			logAction(feedbackString);
 		}
+
+		function crashBrowser(errorMsg) {
+			giveFeedback(errorMsg, true);
+			setTimeout(function() {
+				window.location.reload(false);
+			}, 2000);
+		}
+
+
 
 		function submitNumber() {
 			var guess = document.getElementById('numberGuess').value;
 			document.getElementById('submitButton').disabled = true;
 
-			if (isNaN(guess)) {
-				giveFeedback(guess + ": Not a number!");
-			} else {
+			if (buildSelected == 1) {
+				giveFeedback("Correct, it took " + numTurns + " turns!", false);
+				return;
+			} 
 
-				if(guess == targetNumber) {
-					giveFeedback("Correct, it took " + numTurns);
-					return;
-				} else {
-					if(guess > targetNumber) {
-						giveFeedback(guess + ": Too high!");
+			if (buildSelected !=9 ) {
+
+				if (isNaN(guess)) {
+					if (buildSelected == 6) {
+						crashBrowser("Error: NaN not handled, restart", false);
 					} else {
-						giveFeedback(guess + ": Too low!");
+						giveFeedback(guess + ": Not a number!", true);
+					}
+				} else {
+					if (buildSelected == 6 && guess >= 32000) {
+						crashBrowser("Error: Integer overflow, restart", false);
+						return;
+					}
+				
+					if(guess == targetNumber) {
+						giveFeedback("Correct, it took " + numTurns + " turns!", false);
+						return;
+					} else {
+						var tooHighText, tooLowText;
+						if (buildSelected==4) {
+							tooLowText = ": Too high!";
+							tooHighText = ": Too low!";
+						} else {
+							tooHighText = ": Too high!";
+							tooLowText = ": Too low!";
+						}
+
+						if (buildSelected == 10) {
+							if( (guess%2) == 0) {
+								giveFeedback(guess + tooHighText, true);
+							} else {
+								giveFeedback(guess + tooLowText, true);
+							}
+						} else {
+							if(guess > targetNumber) {
+								giveFeedback(guess + tooHighText, true);
+							} else {
+								giveFeedback(guess + tooLowText, true);
+							}
+						}
 					}
 				}
+			} else {
+				var tooHighText, tooLowText;
+				tooHighText = ": Too high!";
+				tooLowText = ": Too low!";
+
+				switch(numTurns) {
+					case 1:
+						giveFeedback(guess + tooHighText, true);
+						break;
+					case 2:
+						giveFeedback(guess + tooLowText, true);
+						break;
+					case 3:
+						giveFeedback("Correct, it took " + numTurns + " turns!", false);
+						return;
+				}
+			}
+
+			if (buildSelected == 5) {
+				targetNumber++;
 			}
 			document.getElementById('submitButton').disabled = false;
 			numTurns++;
-			document.getElementById('turnNumber').value = turnNumber;
+			document.getElementById('turnNumber').innerHTML = numTurns;
+			document.getElementById('numberGuess').value = "";
 		}
     
 

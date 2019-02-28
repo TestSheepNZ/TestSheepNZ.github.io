@@ -2,15 +2,12 @@
 <html>
 	<head>
 		<base target="_top">
-		<title>Random Number Game</title>
+		<title>The Number Game</title>
 		<!link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 	</head>
 	<body>
-		<h1>Random Number Game</h1>
-
-		<p>
-		<!label class="description">Details about the Panther ODM can be found in <a href="https://docs.google.com/document/d/19Q2Is2WLFLqcv1QyXeFMVQJVWOWU0oc77TKL8y6G-bE/edit?usp=sharing">this document</a></label>
+		<h1>The Number Game</h1>
 
       
 		<p>
@@ -25,7 +22,7 @@
 					<label class="description" id="buildID" for="buildNumber">Select build:</label>
 				</div>
 				<div class="col-sm-2">
-					<select style="font-size:25px;" class="element select medium" id="buildNumber" name="buildNumber"  > 
+					<select style="font-size:25px;" class="element select medium" id="buildNumber" name="buildNumber" onchange="selectBuild(this.preset)" > 
 						<option value="-1" ></option>
 						<option value="0" >Demo</option>
 						<option value="1" >1</option>
@@ -36,6 +33,11 @@
 						<option value="6" >6</option>
 						<option value="7" >7</option>
 						<option value="8" >8</option>
+						<option value="9" >9</option>
+						<option value="10" >10</option>
+						<option value="11" >11</option>
+						<option value="12" >12</option>
+						<option value="13" >13</option>
 					</select>
 				</div>
         
@@ -44,9 +46,9 @@
 			<p>
 		</form>
 
-		<form id="rollDiceForm" class="form-horizontal"  method="post" action="">
+		<form id="rollDiceForm" class="form-horizontal"  method="post" action="" hidden>
 			<div class="row">
-
+				<div class="col-sm-1"></div>
 				<div class="col-sm-2">
 					<label class="description" id="gameSelected">Game selected</label>
 				</div>
@@ -57,7 +59,8 @@
 			</div>
 			<p>
 
-			<div class="row" id="rollDiceRow">
+			<div class="row" id="rollDiceRow" hidden>
+				<div class="col-sm-1"></div>
 				<div class="col-sm-2">
 					<label class="description" id="rollDiceLabel">Rolling dice ...</label>
 				</div>
@@ -67,26 +70,51 @@
 			</div>
 		</form>
 
-		<form id="numGuessForm" class="form-horizontal"  method="post" action="">
+		<form id="numGuessForm" class="form-horizontal"  method="post" action="" hidden>
 
 			<div class="row">
-
 				<div class="col-sm-4">
 					<label class="description" id="Game selected">Guess the number...</label>
 				</div>
-       
 			</div>
-			<div class="row">
 
+			<div class="row">
+				<div class="col-sm-1"></div>
 				<div class="col-sm-2">
-					<input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="10"  value=""/> 
+					<label class="description" id="turnLabel">Turn:</label> 
 				</div>
+				
 				<div class="col-sm-2">
-					<input type="button" class="btn btn-primary" id="rollDiceButton" value="Submit" onClick="submitNumber()">
+					<label class="description" id="turnNumber">0</label> 
 				</div>
-        
+			</div>
+
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-2">
+					<input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6"  value="" onkeydown="return (event.keyCode!=13);"  /> 
+				</div>
+				
+				<div class="col-sm-2">
+					<input type="button" class="btn btn-primary" id="submitButton" value="Submit" onClick="submitNumber()">
+				</div>
 			</div>
 			<p>
+			
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-4">
+					<label class="description" id="feedbackLabel" value=""></label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-1" />
+				<div class="col-sm-6">
+				<textarea id="logForm" rows="10" cols="50"></textarea>
+				</div>
+			</div>
+
 
 
 		</form>
@@ -95,651 +123,219 @@
 
     <script>
     
+		var buildSelected = -1;
+		var targetNumber = 0;
+		var debugOn = true;
+		var numTurns = 1;
+
+		// Get the input field
+		//var input = document.getElementById("numberGuess");
+
+		// Execute a function when the user releases a key on the keyboard
+		/*
+		input.addEventListener("keyup", function(event) {
+			// Number 13 is the "Enter" key on the keyboard
+			if (event.keyCode === 13) {
+				// Cancel the default action, if needed
+				event.preventDefault();
+				// Trigger the button element with a click
+				submitNumber();
+			}
+		});
+		*/
+
+		
+		function logAction(logEvent) {
+			console.log(logEvent);
+			if (debugOn) {
+				var originalText = document.getElementById('logForm').value;
+				document.getElementById('logForm').value = originalText + logEvent + "\n";
+			}
+		}
+
+		function selectBuild(buildNum) {
+			buildSelected = document.getElementById('buildNumber').value;
+
+			if(buildSelected == -1) {
+				document.getElementById('rollDiceForm').hidden = true;
+				document.getElementById('numGuessForm').hidden = true;
+			} else {
+				document.getElementById('rollDiceForm').hidden = false;
+				document.getElementById('rollDiceButton').value = "Roll the dice";
+				document.getElementById('numGuessForm').hidden = true;
+			}
+		}
+
+		function restoreButtons() {
+			document.getElementById('rollDiceButton').value = "Re-roll";
+			document.getElementById('rollDiceButton').disabled = false;
+			document.getElementById('rollDiceRow').hidden = true;
+		}
+
+		function rollOneDice() {
+			var randomNumber = Math.random();
+			var scaledNumber, returnValue;
+
+			if(buildSelected == 11) {
+				scaledNumber = +randomNumber * 8.0;
+			} else {
+				scaledNumber = +randomNumber * 6.0;
+			}
+
+			if(buildSelected!=2) {
+				scaledNumber = +scaledNumber + 1.0;
+			}
+
+			if(buildSelected != 3) {
+				returnValue = parseInt(+scaledNumber);
+			} else {
+				returnValue = +scaledNumber;
+			}
+
+			return returnValue;
+		}
    
-    
-    
-    
-    function restart () {
-      google.script.run.doGet();
-    }
-    
-    // Utility functions
-    var errorMsg = "";
-    
-    function updateStatus() { 
-      console.log("updateStatus");
-      document.getElementById('aircraftLeg').value = aircraftManagement.acLeg;
-      document.getElementById('aircraftHeight').value = aircraftManagement.acAltitude;
-      document.getElementById('aircraftWeight').value = aircraftManagement.acAllUpWeight;
-      document.getElementById('aircraftFuelRemaining').value = aircraftManagement.acFuelRemaining;
-      document.getElementById('aircraftFuelLastLeg').value = aircraftManagement.fuelUsedLastManoeuvre;
-      
-      setStatusError();
-      document.getElementById('moveType').value = 0;
-      moveTypeSelection();
-      
-    }
-    
-    function setStatusError() {
-      console.log("setStatusError");
-      document.getElementById('statusErrorMsg').innerHTML = errorMsg;
-    }
-    
-    /*
-    function readMe() {
-      console.log("readMe");
-      google.script.run
-        .withSuccessHandler(function(response)) {
-          console.log(response);
-        }
-        .withFailure.Handler(function(err)) {
-          console.log(err)
-        }
-        .getDoc();
-    }*/
-    
-    // Equipment load functions
-      
-    function equipmentLocked (lockSetting) {
-      document.getElementById('initialFuel').readOnly  = lockSetting;
-      document.getElementById('initialFuel').disabled  = lockSetting;
-      document.getElementById('numMissiles').disabled  = lockSetting;
-      document.getElementById('numDumbBomb').disabled  = lockSetting;
-      document.getElementById('reconPod').disabled  = lockSetting;
-      document.getElementById('intelliBomb').disabled  = lockSetting;
-      document.getElementById('fuelTank').disabled  = lockSetting;
-      document.getElementById('setEquipmentButton').disabled  = lockSetting;
-      
-      if (lockSetting == true) {
-        document.getElementById('equipmentForm').style.fontStyle = "italic";
-      } else {
-        document.getElementById('equipmentForm').style.fontStyle = "normal";
-      }
-        
-        
-    }
-    
-    function dumbBomb(numBomb) {
-      console.log("dumbBomb");
-      document.getElementById('reconPod').checked  = false;
-      document.getElementById('intelliBomb').checked = false;
-    }
-    
-    function reconPod() {
-      console.log("reconPod");
-      document.getElementById('numDumbBomb').selectedIndex  = 0;
-      document.getElementById('intelliBomb').checked = false;
-    }
-    
-    function intelliBomb() {
-      console.log("intelliBomb");
-      document.getElementById('numDumbBomb').selectedIndex  = 0;
-      document.getElementById('reconPod').checked = false;
-    }
-    
+		function rollDice() {
+			document.getElementById('rollDiceButton').disabled = true;
+			document.getElementById('rollDiceRow').hidden = false;
+			document.getElementById('numGuessForm').hidden = true;
+			document.getElementById('logForm').value = "";
+			document.getElementById('feedbackLabel').innerHTML = " ";
 
-   
-    function initEquipment() {
-      console.log("initEquipment");
-      equipmentLocked(true);
-      setupFuelData();
-      var fuelWeight = document.getElementById('initialFuel').value;
-      var numMissile = document.getElementById('numMissiles').selectedIndex;
-      var numDumbBomb = document.getElementById('numDumbBomb').selectedIndex;
-      var numReconPod = document.getElementById('reconPod').checked ? 1 : 0;
-      var numIntelliBomb = document.getElementById('intelliBomb').checked ? 1 : 0;
-      var numFuelTank = document.getElementById('fuelTank').checked ? 1 : 0;
-      
-      
-      if (initAircraftEquip( fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) ) {
-        document.getElementById('initErrorMsg').innerHTML = "";
-        errorMsg = "";
-        updateStatus();
-        document.getElementById('statusForm').hidden = false;
-        document.getElementById('equipmentForm').hidden = true;
-        
-      } else {
-        document.getElementById('initErrorMsg').innerHTML = errorMsg;
-        equipmentLocked(false);
-      }
+			var dice1, dice2;
+			
+			dice1 = rollOneDice();
+			dice2 = rollOneDice();
+
+			logAction("Dice 1: " + dice1 + ", Dice 2: " + dice2);
+
+			if ( buildSelected == 8 ) {
+				targetNumber = +dice1 + +dice1;
+				
+			} else if ( buildSelected == 12 ) {
+				targetNumber = "" + dice1 + dice2;
+			} else {
+				targetNumber = +dice1 + +dice2;
+			}
+			numTurns = 1;
+
+			logAction("Target number: " + targetNumber );
+			document.getElementById('rollDiceButton').value = "Re-roll";
+			document.getElementById('rollDiceButton').disabled = false;
+			document.getElementById('turnNumber').innerHTML = numTurns;
+			setTimeout(function() {
+				document.getElementById('rollDiceRow').hidden = true;
+				document.getElementById('numGuessForm').hidden = false;
+				document.getElementById('submitButton').disabled = false;
+				document.getElementById('numberGuess').value = "";
+			}, 1000);
 
 
-        
-    }
-    
-    // Cruise
-    function applyCruise() {
-      console.log("applyCruise");
-      var speed = document.getElementById('aircraftSpeed').value;
-      var distance = document.getElementById('aircraftDistance').value;
-      
-      if(isNaN(speed)) {
-        errorMsg = "Set speed is not a number";
-        setStatusError();
-        return;
-      }
-      
-      if(isNaN(distance)) {
-        errorMsg = "Set distance is not a number";
-        setStatusError();
-        return;
-      }
-      
-      var fuelRate = fuelRateData.match( aircraftManagement.acAltitude, speed, aircraftManagement.acAllUpWeight );
-      var fuelNeeded = +fuelRate * +distance * 60.0 / (1.0 * +speed);
-      console.log("Fuel rate: " + fuelRate);  
-      
-      if(fuelNeeded > aircraftManagement.acFuelRemaining) {
-        errorMsg = "Insufficient fuel for manoeuvre";
-        setStatusError();
-        return;
-      }
-      
-      //Set new values
-      aircraftManagement.acLeg++;
-      aircraftManagement.acFuelRemaining -= fuelNeeded;
-      aircraftManagement.fuelUsedLastManoeuvre = fuelNeeded;
-      aircraftManagement.allUpWeight();
-      errorMsg = "";
-      
-      updateStatus();
-    
-    }
+			if(buildSelected==13) {
+				setTimeout(function() {
+					logAction("Browser error ... restart");
+					window.location.reload(false);
+				}, 8000);
+			}
+		}
 
-    
-    // Climb and dive
-    function aircraftClimb (acClimb) {
-      var newAlt;
-      if (acClimb) {
-        newAlt = document.getElementById('climbAltitude').value;
-      } else {
-        newAlt = document.getElementById('diveAltitude').value;
-      }
-      
-      if(isNaN(newAlt)) {
-        errorMsg = "New set altitude is not a number";
-        setStatusError();
-        return;
-      }
-      
-      var fuelNeeded;
-      
-      if (acClimb) { 
-        fuelNeeded = (+newAlt - +aircraftManagement.acAltitude) /100.0;
-      } else {
-        fuelNeeded = 0;
-      }
-      
-      if(fuelNeeded > aircraftManagement.acFuelRemaining) {
-        errorMsg = "Insufficient fuel for manoeuvre";
-        setStatusError();
-        return;
-      }
-      
-      //Set new values
-      aircraftManagement.acLeg++;
-      aircraftManagement.acAltitude = newAlt;
-      aircraftManagement.acFuelRemaining -= fuelNeeded;
-      aircraftManagement.fuelUsedLastManoeuvre = fuelNeeded;
-      aircraftManagement.allUpWeight();
-      errorMsg = "";
-      
-      updateStatus();
-    }
-    
-    
+		function giveFeedback(feedbackString, errorMsg) {
+			var fontSet;
+			if(errorMsg) {
+				fontSet="<font size=\"+2\" color=\"red\">";
+			} else {
+				fontSet="<font size=\"+2\" color=\"black\">";
+			}
+			document.getElementById('feedbackLabel').innerHTML = fontSet + "<b><i>"+feedbackString+"</i></b></font>";
+			logAction(feedbackString);
+		}
 
-    
-    // Move functions
-    
-    function moveTypeSelection(moveNum) {
-      moveType
-      var selection = document.getElementById('moveType').value;
-      
-      console.log("moveType selection num:" + selection);
-      
-      document.getElementById('cruiseForm').hidden = true;
-      document.getElementById('climbForm').hidden = true;
-      document.getElementById('diveForm').hidden = true;
-     
-      switch (+selection) {
-        case 0:
-          break;
-        case 1:
-          document.getElementById('cruiseForm').hidden = false;
-          break;
-        case 2:
-          document.getElementById('climbForm').hidden = false;
-          break;
-        case 3:
-          document.getElementById('diveForm').hidden = false;
-          break;
-        default:
-      }
-    }
-    
-    
-    // Data handling functions
-    var fuelData = [];
-
-
-function roundedHeight (inputHgt) {
-  var retHeight = 32000;
-  
-  if (+inputHgt < 500.0) {
-      retHeight = 100;
-  } else if (+inputHgt< 2000.0) {
-      retHeight = 500;
-  } else if (+inputHgt < 8000.0) {
-      retHeight = 2000;
-  } else if (+inputHgt < 16000.0) {
-      retHeight = 8000;
-  } else if (+inputHgt < 32000.0) {
-      retHeight = 16000;
-  }
-  
-  return retHeight;
-}
-
-
-function roundedWeight(inputWgt) {
-  var retWeight = 7000;
-
-  if (+inputWgt > 15000.0) {
-    retWeight = 16000;
-  } else if (+inputWgt > 14000.0) {
-    retWeight = 15000;
-  } else if (+inputWgt > 13000.0) {
-    retWeight = 14000;
-  } else if (+inputWgt > 12000.0) {
-    retWeight = 13000;
-  } else if (+inputWgt > 11000.0) {
-    retWeight = 12000;
-  } else if (+inputWgt > 10000.0) {
-    retWeight = 11000;
-  } else if (+inputWgt > 9000.0) {
-    retWeight = 10000;
-  } else if (+inputWgt > 8000.0) {
-    retWeight = 9000;
-  } else if (+inputWgt > 7000.0) {
-    retWeight = 8000;
-  } else if (+inputWgt >= 6000.0) {
-    retWeight = 7000;
-  }
-
-  return retWeight;
-}
-
-function roundedSpeed(inputSpd) {
-  var retSpeed = 400;
-  
-  if (+inputSpd > 500) {
-    retSpeed = 600;
-  } else if (+inputSpd > 400) {
-    retSpeed = 500;
-  }
-  
-  return retSpeed;
-}
+		function crashBrowser(errorMsg) {
+			giveFeedback(errorMsg, true);
+			setTimeout(function() {
+				window.location.reload(false);
+			}, 2000);
+		}
 
 
 
-var fuelRateData = {
-  itemSize: 0,
-  altitude: 0,
-  weight: 0 ,
-  speed: 0 ,
-  fuelUsage: 0,
+		function submitNumber() {
+			var guess = document.getElementById('numberGuess').value;
+			document.getElementById('submitButton').disabled = true;
 
-  match: function(tgtAltitude, tgtSpeed, tgtWeight) {
-    var returnVal = 99.9;
-    var notMatched = 1;
-    
-    //Data uses rounded values
-    var rndHeight = roundedHeight(tgtAltitude);
-    var rndSpeed = roundedSpeed(tgtSpeed);
-    var rndWeight = roundedWeight(tgtWeight);
-    console.log("Rounded ht:" + rndHeight + " spd:" + rndSpeed + " wgt:" + rndWeight);
-    
-    for(var i = 0; i < fuelRateData.itemSize && notMatched == 1 ; i++) {
-      //console.log("Data ht:" + this.altitude[i] + " spd:" + this.speed[i] + " wgt:" + this.weight[i]);
-      if (this.altitude[i] == rndHeight && 
-        this.weight[i] == rndWeight &&
-        this.speed[i] == rndSpeed ) {
-        returnVal = this.fuelUsage[i];
-        notMatched = 0;
-      }
-    }
-    
-    return returnVal;
-  },
-  add: function (dataAlt, dataSpd, dataWgt, dataFuel) {
-    if ( this.itemSize == 0 ) {
-      // Initialise
-      this.altitude = [];
-      this.weight = [];
-      this.speed = [];
-      this.fuelUsage = [];
-    } 
-    
-    this.altitude.push(dataAlt);
-    this.weight.push(dataWgt);
-    this.speed.push(dataSpd);
-    this.fuelUsage.push(dataFuel);
-    this.itemSize = this.itemSize + 1;
-    
-  }
-};
+			if (buildSelected == 1) {
+				giveFeedback("Correct, it took " + numTurns + " turns!", false);
+				return;
+			} 
 
+			if (buildSelected !=9 ) {
 
+				if (isNaN(guess)) {
+					if (buildSelected == 6) {
+						crashBrowser("Error: NaN not handled, restart", false);
+					} else {
+						giveFeedback(guess + ": Not a number!", true);
+					}
+				} else {
+					if (buildSelected == 6 && guess >= 32000) {
+						crashBrowser("Error: Integer overflow, restart", false);
+						return;
+					}
+				
+					if(guess == targetNumber) {
+						giveFeedback("Correct, it took " + numTurns + " turns!", false);
+						return;
+					} else {
+						var tooHighText, tooLowText;
+						if (buildSelected==4) {
+							tooLowText = ": Too high!";
+							tooHighText = ": Too low!";
+						} else {
+							tooHighText = ": Too high!";
+							tooLowText = ": Too low!";
+						}
 
+						if (buildSelected == 10) {
+							if( (guess%2) == 0) {
+								giveFeedback(guess + tooHighText, true);
+							} else {
+								giveFeedback(guess + tooLowText, true);
+							}
+						} else {
+							if(guess > targetNumber) {
+								giveFeedback(guess + tooHighText, true);
+							} else {
+								giveFeedback(guess + tooLowText, true);
+							}
+						}
+					}
+				}
+			} else {
+				var tooHighText, tooLowText;
+				tooHighText = ": Too high!";
+				tooLowText = ": Too low!";
 
-var aircraftManagement = {
-  acAllUpWeight: 0,
-  acBaseWeight: 6000,
-  
-  acAltitude: 0,
-  acLeg: 0,
+				switch(numTurns) {
+					case 1:
+						giveFeedback(guess + tooHighText, true);
+						break;
+					case 2:
+						giveFeedback(guess + tooLowText, true);
+						break;
+					case 3:
+						giveFeedback("Correct, it took " + numTurns + " turns!", false);
+						return;
+				}
+			}
 
-  
-  acMaxFuel: 3000,
-  acMaxFuelNoTanks: 3000,
-  acFuelRemaining: 0,
-  fuelUsedLastManoeuvre: 0,
-  
-  missileWeight: 150,
-  numMissile: 0,
-  maxMissile: 8,
-  dumbBombWeight: 600,
-  numDumbBomb: 0,
-  maxDumbBomb: 6,
-  reconPodWeight: 800,
-  numReconPod: 0,
-  maxReconPod: 1,
-  intelliBombWeight: 2000,
-  numIntelliBomb: 0,
-  maxIntelliBomb: 1,
-  
-  fuelTankWeight: 200,
-  numFuelTank: 0,
-  addedFuelCapacity: 3000,
-  maxFuelTank: 1,
-  
-  allUpWeight: function() {
-    this.acAllUpWeight = +this.acBaseWeight 
-      + +this.acFuelRemaining
-      + ( this.missileWeight *  this.numMissile )
-      + ( this.dumbBombWeight * this.numDumbBomb )
-      + ( this.reconPodWeight * this.numReconPod )
-      + ( this.intelliBombWeight * this.numIntelliBomb )
-      + ( this.fuelTankWeight * this.numFuelTank );
-    
-    this.acMaxFuel = this.acMaxFuelNoTanks + (this.addedFuelCapacity * this.numFuelTank);
-  },
-  
-  recalculateMaxFuel: function() {
-    this.acMaxFuel = +this.acMaxFuelNoTanks + (+this.numFuelTank * +this.addedFuelCapacity);
-  }
-  
-}  
-
-function getData() {
-  
-  setupFuelData();
-  var retData = [];
-  for(var i = 0; i < fuelRateData.itemSize ; i++) {
-    retData.push(fuelRateData.altitude[i] + ' ' + fuelRateData.fuelUsage[i]);
-  }
-  return retData;
-}  
-
-function checkFuel(fuelLevel) {
-  
-  //minFuel = 0;
-  //maxFuel = 7000;
-  
-  if (fuelLevel > minFuel && fuelLevel <= maxFuel) {
-    return fuelLevel;
-  } /*else {
-    throw "Not valid fuel level";
-  }*/
-  return fuelLevel;
-}
-
-
-
-function initAircraftEquip(fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) {
-  
-  if (numFuelTank <= aircraftManagement.maxFuelTank) {
-    aircraftManagement.numFuelTank = numFuelTank;
-    aircraftManagement.recalculateMaxFuel();
-  } else {
-    errorMsg = "Only one fuel tank can be fitted";
-    return false;
-  }
-  
-  
-  if (fuelWeight > 0 && fuelWeight <= aircraftManagement.acMaxFuel) {
-    aircraftManagement.acFuelRemaining = fuelWeight;
-  } else {
-    errorMsg = "Max fuel level of " + aircraftManagement.acMaxFuel + "kg"; 
-    return false;
-  }
-  
-  aircraftManagement.numMissile = numMissile;
-  aircraftManagement.numDumbBomb = numDumbBomb;
-  aircraftManagement.numReconPod = numReconPod;
-  aircraftManagement.numIntelliBomb = numIntelliBomb;
-  aircraftManagement.numFuelTank = numFuelTank;
-  aircraftManagement.allUpWeight();
-
-  return true;
-
-}
-
-
-// Set data
-function setupFuelData() {
-    console.log("setupFuelData");
-
-        // 400kt table
-        fuelRateData.add(100.0, 400.0, 7000.0, 26.2);
-        fuelRateData.add(500.0, 400.0, 7000.0, 23.8);
-        fuelRateData.add(2000.0, 400.0, 7000.0, 21.8);
-        fuelRateData.add(8000.0, 400.0, 7000.0, 16.5);
-        fuelRateData.add(16000.0, 400.0, 7000.0, 12.3);
-        fuelRateData.add(32000.0, 400.0, 7000.0, 6.8);
-        fuelRateData.add(100.0, 400.0, 8000.0, 27.1);
-        fuelRateData.add(500.0, 400.0, 8000.0, 24.7);
-        fuelRateData.add(2000.0, 400.0, 8000.0, 22.6);
-        fuelRateData.add(8000.0, 400.0, 8000.0, 17.1);
-        fuelRateData.add(16000.0, 400.0, 8000.0, 12.7);
-        fuelRateData.add(32000.0, 400.0, 8000.0, 7);
-        fuelRateData.add(100.0, 400.0, 9000.0, 28.1);
-        fuelRateData.add(500.0, 400.0, 9000.0, 25.5);
-        fuelRateData.add(2000.0, 400.0, 9000.0, 23.4);
-        fuelRateData.add(8000.0, 400.0, 9000.0, 17.7);
-        fuelRateData.add(16000.0, 400.0, 9000.0, 13.2);
-        fuelRateData.add(32000.0, 400.0, 9000.0, 7.3);
-        fuelRateData.add(100.0, 400.0, 10000.0, 29);
-        fuelRateData.add(500.0, 400.0, 10000.0, 26.4);
-        fuelRateData.add(2000.0, 400.0, 10000.0, 24.2);
-        fuelRateData.add(8000.0, 400.0, 10000.0, 18.3);
-        fuelRateData.add(16000.0, 400.0, 10000.0, 13.6);
-        fuelRateData.add(32000.0, 400.0, 10000.0, 7.6);
-        fuelRateData.add(100.0, 400.0, 11000.0, 30.1);
-        fuelRateData.add(500.0, 400.0, 11000.0, 27.4);
-        fuelRateData.add(2000.0, 400.0, 11000.0, 25.1);
-        fuelRateData.add(8000.0, 400.0, 11000.0, 18.9);
-        fuelRateData.add(16000.0, 400.0, 11000.0, 14.1);
-        fuelRateData.add(32000.0, 400.0, 11000.0, 7.8);
-        fuelRateData.add(100.0, 400.0, 12000.0, 31.1);
-        fuelRateData.add(500.0, 400.0, 12000.0, 28.3);
-        fuelRateData.add(2000.0, 400.0, 12000.0, 25.9);
-        fuelRateData.add(8000.0, 400.0, 12000.0, 19.6);
-        fuelRateData.add(16000.0, 400.0, 12000.0, 14.6);
-        fuelRateData.add(32000.0, 400.0, 12000.0, 8.1);
-        fuelRateData.add(100.0, 400.0, 13000.0, 32.2);
-        fuelRateData.add(500.0, 400.0, 13000.0, 29.3);
-        fuelRateData.add(2000.0, 400.0, 13000.0, 26.8);
-        fuelRateData.add(8000.0, 400.0, 13000.0, 20.3);
-        fuelRateData.add(16000.0, 400.0, 13000.0, 15.1);
-        fuelRateData.add(32000.0, 400.0, 13000.0, 8.4);
-        fuelRateData.add(100.0, 400.0, 14000.0, 33.4);
-        fuelRateData.add(500.0, 400.0, 14000.0, 30.3);
-        fuelRateData.add(2000.0, 400.0, 14000.0, 27.8);
-        fuelRateData.add(8000.0, 400.0, 14000.0, 21);
-        fuelRateData.add(16000.0, 400.0, 14000.0, 15.7);
-        fuelRateData.add(32000.0, 400.0, 14000.0, 8.7);
-        fuelRateData.add(100.0, 400.0, 15000.0, 34.5);
-        fuelRateData.add(500.0, 400.0, 15000.0, 31.4);
-        fuelRateData.add(2000.0, 400.0, 15000.0, 28.8);
-        fuelRateData.add(8000.0, 400.0, 15000.0, 21.8);
-        fuelRateData.add(16000.0, 400.0, 15000.0, 16.2);
-        fuelRateData.add(32000.0, 400.0, 15000.0, 19);
-        fuelRateData.add(100.0, 400.0, 16000.0, 35.7);
-        fuelRateData.add(500.0, 400.0, 16000.0, 32.5);
-        fuelRateData.add(2000.0, 400.0, 16000.0, 29.8);
-        fuelRateData.add(8000.0, 400.0, 16000.0, 22.5);
-        fuelRateData.add(16000.0, 400.0, 16000.0, 16.8);
-        fuelRateData.add(32000.0, 400.0, 16000.0, 9.3);
-
-        // 500kt table
-        fuelRateData.add(100.0, 500.0, 7000.0, 36.8);
-        fuelRateData.add(100.0, 500.0, 8000.0, 38.1);
-        fuelRateData.add(100.0, 500.0, 9000.0, 39.5);
-        fuelRateData.add(100.0, 500.0, 10000.0, 40.9);
-        fuelRateData.add(100.0, 500.0, 11000.0, 42.3);
-        fuelRateData.add(100.0, 500.0, 12000.0, 43.8);
-        fuelRateData.add(100.0, 500.0, 13000.0, 45.3);
-        fuelRateData.add(100.0, 500.0, 14000.0, 46.9);
-        fuelRateData.add(100.0, 500.0, 15000.0, 48.6);
-        fuelRateData.add(100.0, 500.0, 16000.0, 50.3);
-        fuelRateData.add(500.0, 500.0, 7000.0, 33.5);
-        fuelRateData.add(500.0, 500.0, 8000.0, 34.7);
-        fuelRateData.add(500.0, 500.0, 9000.0, 35.9);
-        fuelRateData.add(500.0, 500.0, 10000.0, 37.2);
-        fuelRateData.add(500.0, 500.0, 11000.0, 38.5);
-        fuelRateData.add(500.0, 500.0, 12000.0, 39.9);
-        fuelRateData.add(500.0, 500.0, 13000.0, 41.3);
-        fuelRateData.add(500.0, 500.0, 14000.0, 42.7);
-        fuelRateData.add(500.0, 500.0, 15000.0, 44.2);
-        fuelRateData.add(500.0, 500.0, 16000.0, 45.8);
-        fuelRateData.add(2000.0, 500.0, 7000.0, 30.7);
-        fuelRateData.add(2000.0, 500.0, 8000.0, 31.8);
-        fuelRateData.add(2000.0, 500.0, 9000.0, 32.9);
-        fuelRateData.add(2000.0, 500.0, 10000.0, 34.1);
-        fuelRateData.add(2000.0, 500.0, 11000.0, 35.3);
-        fuelRateData.add(2000.0, 500.0, 12000.0, 36.5);
-        fuelRateData.add(2000.0, 500.0, 13000.0, 37.8);
-        fuelRateData.add(2000.0, 500.0, 14000.0, 39.1);
-        fuelRateData.add(2000.0, 500.0, 15000.0, 40.5);
-        fuelRateData.add(2000.0, 500.0, 16000.0, 41.9);
-        fuelRateData.add(8000.0, 500.0, 7000.0, 23.2);
-        fuelRateData.add(8000.0, 500.0, 8000.0, 24);
-        fuelRateData.add(8000.0, 500.0, 9000.0, 24.9);
-        fuelRateData.add(8000.0, 500.0, 10000.0, 25.7);
-        fuelRateData.add(8000.0, 500.0, 11000.0, 26.7);
-        fuelRateData.add(8000.0, 500.0, 12000.0, 27.6);
-        fuelRateData.add(8000.0, 500.0, 13000.0, 28.6);
-        fuelRateData.add(8000.0, 500.0, 14000.0, 29.6);
-        fuelRateData.add(8000.0, 500.0, 15000.0, 30.6);
-        fuelRateData.add(8000.0, 500.0, 16000.0, 31.7);
-        fuelRateData.add(16000.0, 500.0, 7000.0, 17.3);
-        fuelRateData.add(16000.0, 500.0, 8000.0, 17.9);
-        fuelRateData.add(16000.0, 500.0, 9000.0, 18.6);
-        fuelRateData.add(16000.0, 500.0, 10000.0, 19.2);
-        fuelRateData.add(16000.0, 500.0, 11000.0, 19.9);
-        fuelRateData.add(16000.0, 500.0, 12000.0, 20.6);
-        fuelRateData.add(16000.0, 500.0, 13000.0, 21.3);
-        fuelRateData.add(16000.0, 500.0, 14000.0, 22.1);
-        fuelRateData.add(16000.0, 500.0, 15000.0, 22.8);
-        fuelRateData.add(16000.0, 500.0, 16000.0, 23.6);
-        fuelRateData.add(32000.0, 500.0, 7000.0, 9.6);
-        fuelRateData.add(32000.0, 500.0, 8000.0, 9.9);
-        fuelRateData.add(32000.0, 500.0, 9000.0, 10.3);
-        fuelRateData.add(32000.0, 500.0, 10000.0, 10.6);
-        fuelRateData.add(32000.0, 500.0, 11000.0, 11);
-        fuelRateData.add(32000.0, 500.0, 12000.0, 11.4);
-        fuelRateData.add(32000.0, 500.0, 13000.0, 11.8);
-        fuelRateData.add(32000.0, 500.0, 14000.0, 12.2);
-        fuelRateData.add(32000.0, 500.0, 15000.0, 12.6);
-        fuelRateData.add(32000.0, 500.0, 16000.0, 13.1);
-
-        // 600kt table
-        fuelRateData.add(100.0, 600.0, 7000.0, 55.3);
-        fuelRateData.add(100.0, 600.0, 8000.0, 57.2);
-        fuelRateData.add(100.0, 600.0, 9000.0, 59.2);
-        fuelRateData.add(100.0, 600.0, 10000.0, 61.3);
-        fuelRateData.add(100.0, 600.0, 11000.0, 63.5);
-        fuelRateData.add(100.0, 600.0, 12000.0, 65.7);
-        fuelRateData.add(100.0, 600.0, 13000.0, 68);
-        fuelRateData.add(100.0, 600.0, 14000.0, 70.4);
-        fuelRateData.add(100.0, 600.0, 15000.0, 72.9);
-        fuelRateData.add(100.0, 600.0, 16000.0, 75.5);
-        fuelRateData.add(500.0, 600.0, 7000.0, 50.3);
-        fuelRateData.add(500.0, 600.0, 8000.0, 52.1);
-        fuelRateData.add(500.0, 600.0, 9000.0, 53.9);
-        fuelRateData.add(500.0, 600.0, 10000.0, 55.8);
-        fuelRateData.add(500.0, 600.0, 11000.0, 57.8);
-        fuelRateData.add(500.0, 600.0, 12000.0, 59.8);
-        fuelRateData.add(500.0, 600.0, 13000.0, 61.9);
-        fuelRateData.add(500.0, 600.0, 14000.0, 64.1);
-        fuelRateData.add(500.0, 600.0, 15000.0, 66.3);
-        fuelRateData.add(500.0, 600.0, 16000.0, 68.7);
-        fuelRateData.add(2000.0, 600.0, 7000.0, 46.1);
-        fuelRateData.add(2000.0, 600.0, 8000.0, 47.7);
-        fuelRateData.add(2000.0, 600.0, 9000.0, 49.4);
-        fuelRateData.add(2000.0, 600.0, 10000.0, 51.1);
-        fuelRateData.add(2000.0, 600.0, 11000.0, 52.9);
-        fuelRateData.add(2000.0, 600.0, 12000.0, 54.8);
-        fuelRateData.add(2000.0, 600.0, 13000.0, 56.7);
-        fuelRateData.add(2000.0, 600.0, 14000.0, 58.7);
-        fuelRateData.add(2000.0, 600.0, 15000.0, 60.7);
-        fuelRateData.add(2000.0, 600.0, 16000.0, 62.9);
-        fuelRateData.add(8000.0, 600.0, 7000.0, 34.8);
-        fuelRateData.add(8000.0, 600.0, 8000.0, 36);
-        fuelRateData.add(8000.0, 600.0, 9000.0, 37.3);
-        fuelRateData.add(8000.0, 600.0, 10000.0, 38.6);
-        fuelRateData.add(8000.0, 600.0, 11000.0, 40);
-        fuelRateData.add(8000.0, 600.0, 12000.0, 41.4);
-        fuelRateData.add(8000.0, 600.0, 13000.0, 42.8);
-        fuelRateData.add(8000.0, 600.0, 14000.0, 44.4);
-        fuelRateData.add(8000.0, 600.0, 15000.0, 45.9);
-        fuelRateData.add(8000.0, 600.0, 16000.0, 47.5);
-        fuelRateData.add(16000.0, 600.0, 7000.0, 26);
-        fuelRateData.add(16000.0, 600.0, 8000.0, 26.9);
-        fuelRateData.add(16000.0, 600.0, 9000.0, 27.8);
-        fuelRateData.add(16000.0, 600.0, 10000.0, 28.8);
-        fuelRateData.add(16000.0, 600.0, 11000.0, 29.8);
-        fuelRateData.add(16000.0, 600.0, 12000.0, 30.9);
-        fuelRateData.add(16000.0, 600.0, 13000.0, 32);
-        fuelRateData.add(16000.0, 600.0, 14000.0, 33.1);
-        fuelRateData.add(16000.0, 600.0, 15000.0, 34.3);
-        fuelRateData.add(16000.0, 600.0, 16000.0, 35.5);
-        fuelRateData.add(32000.0, 600.0, 7000.0, 14.4);
-        fuelRateData.add(32000.0, 600.0, 8000.0, 14.9);
-        fuelRateData.add(32000.0, 600.0, 9000.0, 15.4);
-        fuelRateData.add(32000.0, 600.0, 10000.0, 15.9);
-        fuelRateData.add(32000.0, 600.0, 11000.0, 16.5);
-        fuelRateData.add(32000.0, 600.0, 12000.0, 17.1);
-        fuelRateData.add(32000.0, 600.0, 13000.0, 17.7);
-        fuelRateData.add(32000.0, 600.0, 14000.0, 18.3);
-        fuelRateData.add(32000.0, 600.0, 15000.0, 19);
-        fuelRateData.add(32000.0, 600.0, 16000.0, 19.6);
-  
-
-}
-
-
-
-
-
- 
-
-
-
-
+			if (buildSelected == 5) {
+				targetNumber++;
+			}
+			document.getElementById('submitButton').disabled = false;
+			numTurns++;
+			document.getElementById('turnNumber').innerHTML = numTurns;
+			document.getElementById('numberGuess').value = "";
+		}
     
 
     </script>
