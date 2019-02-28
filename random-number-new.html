@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base target="_top">
+		<title>The Number Game</title>
+		<!link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+	</head>
+	<body>
+		<h1>The Number Game</h1>
+
+      
+		<p>
+
+            
+
+   
+		<form id="setGameForm" class="form-horizontal"  method="post" action="">
+			<div class="row">
+
+				<div class="col-sm-2">
+					<label class="description" id="buildID" for="buildNumber">Select build:</label>
+				</div>
+				<div class="col-sm-2">
+					<select style="font-size:25px;" class="element select medium" id="buildNumber" name="buildNumber" onchange="selectBuild(this.preset)" > 
+						<option value="-1" ></option>
+						<option value="0" >Demo</option>
+						<option value="1" >1</option>
+						<option value="2" >2</option>
+						<option value="3" >3</option>
+						<option value="4" >4</option>
+						<option value="5" >5</option>
+						<option value="6" >6</option>
+						<option value="7" >7</option>
+						<option value="8" >8</option>
+					</select>
+				</div>
+        
+				
+			</div>
+			<p>
+		</form>
+
+		<form id="rollDiceForm" class="form-horizontal"  method="post" action="" hidden>
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-2">
+					<label class="description" id="gameSelected">Game selected</label>
+				</div>
+				<div class="col-sm-2">
+					<input type="button" class="btn btn-primary" id="rollDiceButton" value="Roll the dice" onClick="rollDice()">
+				</div>
+        
+			</div>
+			<p>
+
+			<div class="row" id="rollDiceRow" hidden>
+				<div class="col-sm-1"></div>
+				<div class="col-sm-2">
+					<label class="description" id="rollDiceLabel">Rolling dice ...</label>
+				</div>
+				<div class="col-sm-2" id="rollDiceGif">
+					<img src="img/rolling_dice.gif">
+				</div>
+			</div>
+		</form>
+
+		<form id="numGuessForm" class="form-horizontal"  method="post" action="" hidden>
+
+			<div class="row">
+				<div class="col-sm-4">
+					<label class="description" id="Game selected">Guess the number...</label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-2">
+					<label class="description" id="turnLabel">Turn:</label> 
+				</div>
+				
+				<div class="col-sm-2">
+					<label class="description" id="turnNumber">0</label> 
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-2">
+					<input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6"  value=""  /> 
+				</div>
+				
+				<div class="col-sm-2">
+					<input type="button" class="btn btn-primary" id="submitButton" value="Submit" onClick="submitNumber()">
+				</div>
+			</div>
+			<p>
+			
+			<div class="row">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-4">
+					<label class="description" id="feedbackLabel"> </label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-1" />
+				<div class="col-sm-6">
+				<textarea id="logForm" rows="10" cols="50"></textarea>
+				</div>
+			</div>
+
+
+
+		</form>
+
+     
+
+    <script>
+    
+		var buildSelected = -1;
+		var targetNumber = 0;
+		var debugOn = true;
+		var numTurns = 1;
+
+		// Get the input field
+		var input = document.getElementById("numberGuess");
+
+		// Execute a function when the user releases a key on the keyboard
+		input.addEventListener("keyup", function(event) {
+			// Number 13 is the "Enter" key on the keyboard
+			if (event.keyCode === 13) {
+				// Cancel the default action, if needed
+				event.preventDefault();
+				// Trigger the button element with a click
+				submitNumber();
+			}
+		});
+
+		function logAction(logEvent) {
+			console.log(logEvent);
+			if (debugOn) {
+				var originalText = document.getElementById('logForm').value;
+				document.getElementById('logForm').value = originalText + logEvent + "\n";
+			}
+		}
+
+		function selectBuild(buildNum) {
+			buildSelected = document.getElementById('buildNumber').value;
+
+			if(buildSelected == -1) {
+				document.getElementById('rollDiceForm').hidden = true;
+				document.getElementById('numGuessForm').hidden = true;
+			} else {
+				document.getElementById('rollDiceForm').hidden = false;
+				document.getElementById('rollDiceButton').value = "Roll the dice";
+				document.getElementById('numGuessForm').hidden = true;
+			}
+		}
+
+		function restoreButtons() {
+			document.getElementById('rollDiceButton').value = "Re-roll";
+			document.getElementById('rollDiceButton').disabled = false;
+			document.getElementById('rollDiceRow').hidden = true;
+		}
+   
+		function rollDice() {
+			document.getElementById('rollDiceButton').disabled = true;
+			document.getElementById('rollDiceRow').hidden = false;
+			document.getElementById('numGuessForm').hidden = true;
+			document.getElementById('logForm').value = "";
+			document.getElementById('feedbackLabel').value = " ";
+
+			var dice1, dice2;
+			
+			dice1 = parseInt(Math.random() * 6.0) + 1;
+			dice2 = parseInt(Math.random() * 6.0) + 1;
+
+			logAction("Dice 1: " + dice1 + ", Dice 2: " + dice2);
+
+			targetNumber = +dice1 + +dice2;
+			numTurns = 1;
+
+			logAction("Target number: " + targetNumber );
+			document.getElementById('rollDiceButton').value = "Re-roll";
+			document.getElementById('rollDiceButton').disabled = false;
+			document.getElementById('turnNumber').value = turnNumber;
+			setTimeout(function() {
+				document.getElementById('rollDiceRow').hidden = true;
+				document.getElementById('numGuessForm').hidden = false;
+			}, 1000);
+
+		}
+
+		function giveFeedback(feedbackString) {
+			document.getElementById('feedbackLabel').value = feedbackString;
+			logAction(feedbackString);
+		}
+
+		function submitNumber() {
+			var guess = document.getElementById('numberGuess').value;
+			document.getElementById('submitButton').disabled = true;
+
+			if (isNaN(guess)) {
+				giveFeedback(guess + ": Not a number!");
+			} else {
+
+				if(guess == targetNumber) {
+					giveFeedback("Correct, it took " + numTurns);
+					return;
+				} else {
+					if(guess > targetNumber) {
+						giveFeedback(guess + ": Too high!");
+					} else {
+						giveFeedback(guess + ": Too low!");
+					}
+				}
+			}
+			document.getElementById('submitButton').disabled = false;
+			numTurns++;
+			document.getElementById('turnNumber').value = turnNumber;
+		}
+    
+
+    </script>
+
+  </body>
+</html>
+
+
