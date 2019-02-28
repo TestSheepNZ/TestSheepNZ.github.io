@@ -108,7 +108,7 @@
 				</div>
 			</div>
 
-			<div class="row">
+			<div class="row" hidden>
 				<div class="col-sm-1" />
 				<div class="col-sm-6">
 				<textarea id="logForm" rows="10" cols="50"></textarea>
@@ -128,21 +128,22 @@
 		var debugOn = true;
 		var numTurns = 1;
 
-		// Get the input field
-		//var input = document.getElementById("numberGuess");
-
-		// Execute a function when the user releases a key on the keyboard
-		/*
-		input.addEventListener("keyup", function(event) {
-			// Number 13 is the "Enter" key on the keyboard
-			if (event.keyCode === 13) {
-				// Cancel the default action, if needed
-				event.preventDefault();
-				// Trigger the button element with a click
-				submitNumber();
-			}
-		});
+		/* Build notes
+		1	Everyone a winner
+		2	Offset value
+		3	Floating number
+		4	Misdirection
+		5	Moving target
+		6	Text error
+		7	Sweet as
+		8	Dice 1 times 2
+		9	Programmed response
+		10	Odd always low, even always high
+		11	8 sided dice
+		12	Dice concatinated
+		13	Unstable
 		*/
+
 
 		
 		function logAction(logEvent) {
