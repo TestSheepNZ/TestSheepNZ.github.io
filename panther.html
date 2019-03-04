@@ -200,6 +200,19 @@
         </div> 
       
     </form>
+		
+	<form id="loadingForm" class="form-horizontal"  method="post" action="" hidden>
+		<div class="row">
+			<div class="col-sm-5"><h2>Loading aircraft ...</h2></div>        
+		</div>
+		<p>
+
+		<div class="row" id="waitGraphic" >
+			<div class="col-sm-5" id="loadEquipment">
+				<img src="img/waiting.gif">
+			</div>
+		</div>
+	</form>
     
     <form id="cruiseForm" class="appnitro"  method="post" action="" hidden>
       <h2>Cruise</h2>
@@ -379,8 +392,15 @@
         document.getElementById('initErrorMsg').innerHTML = "";
         errorMsg = "";
         updateStatus();
-        document.getElementById('statusForm').hidden = false;
+        
         document.getElementById('equipmentForm').hidden = true;
+		document.getElementById('loadingForm').hidden = false;
+
+		var randomTimeout = parseInt(Math.random() * 8000);
+		setTimeout(function() {
+			document.getElementById('statusForm').hidden = false;
+			document.getElementById('loadingForm').hidden = true;
+		}, randomTimeout);
         
       } else {
         document.getElementById('initErrorMsg').innerHTML = errorMsg;
