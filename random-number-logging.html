@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<base target="_top">
-		<title>The Number Game - With Logging</title>
+		<title>The Number Game</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!link rel="stylesheet" href="style.css">
 		<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -21,7 +21,6 @@
             </div>
         </div>
 
-        <p>
 		<form id="ruleList" class="form-horizontal" method="post" action="">
 			<p>
 			<div class="row">
@@ -35,6 +34,7 @@
 				</div>
 			</div>
 		</form>
+
 
 
         <form id="setGameForm" class="form-horizontal" method="post" action="">
@@ -70,7 +70,6 @@
 
         <form id="rollDiceForm" class="form-horizontal" method="post" action="" hidden>
             <div class="row">
-                <div class="col-sm-1"></div>
                 <div class="col-sm-2">
                     <label class="description" id="gameSelected">Game selected</label>
                 </div>
@@ -82,7 +81,6 @@
             <p>
 
                 <div class="row" id="rollDiceRow" hidden>
-                    <div class="col-sm-1"></div>
                     <div class="col-sm-2">
                         <label class="description" id="rollDiceLabel">Rolling dice ...</label>
                     </div>
@@ -101,18 +99,12 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-1"></div>
                 <div class="col-sm-2">
-                    <label class="description" id="turnLabel">Turn:</label>
-                </div>
-
-                <div class="col-sm-2">
-                    <label class="description" id="turnNumber">0</label>
+                    <label class="description" id="turnNumber">Turn: 0</label>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-sm-1"></div>
                 <div class="col-sm-2">
                     <input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6" value="" onkeydown="return (event.keyCode!=13);" />
                 </div>
@@ -124,21 +116,18 @@
             <p>
 
             <div class="row">
-                <div class="col-sm-1"></div>
                 <div class="col-sm-4">
                     <label class="description" id="feedbackLabel" value=""></label>
                 </div>
             </div>
 
             <div class="row" >
-                <div class="col-sm-1" />
                 <div class="col-sm-6">
                     <textarea id="logForm" rows="10" cols="50"></textarea>
                 </div>
             </div>
+			<p>
         </form>
-
-
 
         <script>
 
@@ -242,7 +231,7 @@
                 logAction("Target number: " + targetNumber);
                 document.getElementById('rollDiceButton').value = "Re-roll";
                 document.getElementById('rollDiceButton').disabled = false;
-                document.getElementById('turnNumber').innerHTML = numTurns;
+                document.getElementById('turnNumber').innerHTML = "Turn: " + numTurns;
                 setTimeout(function () {
                     document.getElementById('rollDiceRow').hidden = true;
                     document.getElementById('numGuessForm').hidden = false;
@@ -353,7 +342,7 @@
                 }
                 document.getElementById('submitButton').disabled = false;
                 numTurns++;
-                document.getElementById('turnNumber').innerHTML = numTurns;
+                document.getElementById('turnNumber').innerHTML = "Turn: " + numTurns;
                 document.getElementById('numberGuess').value = "";
             }
 
