@@ -244,6 +244,7 @@
                 if (buildSelected == 13) {
                     setTimeout(function () {
                         logAction("Browser error ... restart");
+						document.getElementById('buildNumber').value = -1;
                         window.location.reload(false);
                     }, 8000);
                 }
@@ -263,6 +264,7 @@
             function crashBrowser(errorMsg) {
                 giveFeedback(errorMsg, true);
                 setTimeout(function () {
+					document.getElementById('buildNumber').value = -1;
                     window.location.reload(false);
                 }, 2000);
             }
