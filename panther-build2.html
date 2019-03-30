@@ -364,8 +364,7 @@
       var numIntelliBomb = document.getElementById('intelliBomb').checked ? 1 : 0;
       var numFuelTank = document.getElementById('fuelTank').checked ? 1 : 0;
       
-      /* DELIBERATE DEFECT
-      if (initAircraftEquip( fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) ) {*/
+      if (initAircraftEquip( fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) ) {
         document.getElementById('initErrorMsg').innerHTML = "";
         errorMsg = "";
         updateStatus();
@@ -378,11 +377,10 @@
           document.getElementById('statusForm').hidden = false;
           document.getElementById('loadingForm').hidden = true;
         }, randomTimeout);
-      /*  
       } else {
         document.getElementById('initErrorMsg').innerHTML = errorMsg;
         equipmentLocked(false);
-      }*/
+      }
    
     }
     
@@ -691,14 +689,16 @@ function initAircraftEquip(fuelWeight, numMissile, numDumbBomb, numReconPod, num
     return false;
   }
   
-  
-  if (fuelWeight > 0 && fuelWeight <= aircraftManagement.acMaxFuel) {
+  /* DELIBERATE DEFECT 
+  if (fuelWeight > 0 && fuelWeight <= aircraftManagement.acMaxFuel) { */
     aircraftManagement.acFuelRemaining = fuelWeight;
+  /*
   } else {
     errorMsg = "Max fuel level of " + aircraftManagement.acMaxFuel + "kg"; 
     return false;
   }
-  
+  */
+
   aircraftManagement.numMissile = numMissile;
   aircraftManagement.numDumbBomb = numDumbBomb;
   aircraftManagement.numReconPod = numReconPod;
