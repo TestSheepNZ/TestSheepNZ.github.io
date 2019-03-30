@@ -364,8 +364,8 @@
       var numIntelliBomb = document.getElementById('intelliBomb').checked ? 1 : 0;
       var numFuelTank = document.getElementById('fuelTank').checked ? 1 : 0;
       
-      
-      if (initAircraftEquip( fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) ) {
+      /* DELIBERATE DEFECT
+      if (initAircraftEquip( fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) ) {*/
         document.getElementById('initErrorMsg').innerHTML = "";
         errorMsg = "";
         updateStatus();
@@ -378,11 +378,11 @@
           document.getElementById('statusForm').hidden = false;
           document.getElementById('loadingForm').hidden = true;
         }, randomTimeout);
-        
+      /*  
       } else {
         document.getElementById('initErrorMsg').innerHTML = errorMsg;
         equipmentLocked(false);
-      }
+      }*
    
     }
     
