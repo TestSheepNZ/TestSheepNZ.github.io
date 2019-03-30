@@ -408,11 +408,14 @@
       var fuelNeeded = +fuelRate * +distance * 60.0 / (1.0 * +speed);
       console.log("Fuel rate: " + fuelRate);  
       
+      // DELIBERATE DEFECT
+      /*
       if(fuelNeeded > aircraftManagement.acFuelRemaining) {
         errorMsg = "Insufficient fuel for manoeuvre";
         setStatusError();
         return;
       }
+      */
       
       //Set new values
       aircraftManagement.acLeg++;
