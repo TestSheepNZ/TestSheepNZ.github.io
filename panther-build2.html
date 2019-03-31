@@ -364,7 +364,6 @@
       var numIntelliBomb = document.getElementById('intelliBomb').checked ? 1 : 0;
       var numFuelTank = document.getElementById('fuelTank').checked ? 1 : 0;
       
-      
       if (initAircraftEquip( fuelWeight, numMissile, numDumbBomb, numReconPod, numIntelliBomb, numFuelTank ) ) {
         document.getElementById('initErrorMsg').innerHTML = "";
         errorMsg = "";
@@ -373,12 +372,11 @@
         document.getElementById('equipmentForm').hidden = true;
         document.getElementById('loadingForm').hidden = false;
 
-        var randomTimeout = parseInt(Math.random() * 8000);
+        var randomTimeout = parseInt(Math.random() * 2000);
         setTimeout(function() {
           document.getElementById('statusForm').hidden = false;
           document.getElementById('loadingForm').hidden = true;
         }, randomTimeout);
-        
       } else {
         document.getElementById('initErrorMsg').innerHTML = errorMsg;
         equipmentLocked(false);
@@ -408,11 +406,14 @@
       var fuelNeeded = +fuelRate * +distance * 60.0 / (1.0 * +speed);
       console.log("Fuel rate: " + fuelRate);  
       
+      // DELIBERATE DEFECT
+      /*
       if(fuelNeeded > aircraftManagement.acFuelRemaining) {
         errorMsg = "Insufficient fuel for manoeuvre";
         setStatusError();
         return;
       }
+      */
       
       //Set new values
       aircraftManagement.acLeg++;
@@ -688,14 +689,16 @@ function initAircraftEquip(fuelWeight, numMissile, numDumbBomb, numReconPod, num
     return false;
   }
   
-  
-  if (fuelWeight > 0 && fuelWeight <= aircraftManagement.acMaxFuel) {
+  /* DELIBERATE DEFECT 
+  if (fuelWeight > 0 && fuelWeight <= aircraftManagement.acMaxFuel) { */
     aircraftManagement.acFuelRemaining = fuelWeight;
+  /*
   } else {
     errorMsg = "Max fuel level of " + aircraftManagement.acMaxFuel + "kg"; 
     return false;
   }
-  
+  */
+
   aircraftManagement.numMissile = numMissile;
   aircraftManagement.numDumbBomb = numDumbBomb;
   aircraftManagement.numReconPod = numReconPod;
