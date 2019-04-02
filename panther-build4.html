@@ -234,7 +234,7 @@
         </div>
       </div>  
       
-      <input type="button" class="btn btn-primary" id="applyDive" value="Apply" onClick="applyCruise()"> 
+      <input type="button" class="btn btn-primary" id="applyCruiseButton" value="Apply" onClick="applyCruise()"> 
       
     </form>
     
@@ -254,7 +254,7 @@
         </div>
       </div>  
             
-      <input type="button" class="btn btn-primary" id="applyClimb" value="Apply" onClick="aircraftClimb(true)">
+      <input type="button" class="btn btn-primary" id="applyClimbButton" value="Apply" onClick="aircraftClimb(true)">
      
     </form>
     
@@ -273,7 +273,7 @@
       </div>  
 
       
-      <input type="button" class="btn btn-primary" id="applyDive" value="Apply" onClick="aircraftClimb(false)"> 
+      <input type="button" class="btn btn-primary" id="applyDiveButton" value="Apply" onClick="aircraftClimb(false)"> 
     </form>
 
     <p></p>
@@ -373,7 +373,7 @@
         document.getElementById('equipmentForm').hidden = true;
         document.getElementById('loadingForm').hidden = false;
 
-        var randomTimeout = parseInt(Math.random() * 2000);
+        var randomTimeout = parseInt(Math.random() * 1000);
         setTimeout(function() {
           document.getElementById('statusForm').hidden = false;
           document.getElementById('loadingForm').hidden = true;
