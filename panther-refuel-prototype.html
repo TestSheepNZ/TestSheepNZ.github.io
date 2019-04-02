@@ -9,7 +9,7 @@
 	<!link rel="stylesheet" href="css/bootstrap-responsive.css">
   </head>
   <body>
-    <h1>Panther ODM Calculator - REFUEL PROTOTYPE</h1>
+    <h1>Panther ODM Calculator - THIS PAGE SHOWS ALL PAGE ELEMENTS TO AID AUTOMATION</h1>
     <img src="img/panther_icon.PNG">
     <p>
     <label class="description">Details about the Panther ODM can be found in <a href="https://docs.google.com/document/d/19Q2Is2WLFLqcv1QyXeFMVQJVWOWU0oc77TKL8y6G-bE/edit?usp=sharing">this document</a></label>
@@ -106,7 +106,7 @@
       <input type="button" class="btn btn-primary" id="setEquipmentButton" value="Load" onClick="initEquipment()">
     </form>
     
-    <form id="statusForm" class="appnitro"  method="post" action="" >
+    <form id="statusForm" class="appnitro"  method="post" action="" hidden>
       <h3><font color="red"><i><label id="statusErrorMsg" /></i></font></h3>
       <h2>Status</h2>
 
@@ -192,7 +192,7 @@
       
     </form>
 		
-	<form id="loadingForm" class="form-horizontal"  method="post" action="" >
+	<form id="loadingForm" class="form-horizontal"  method="post" action="" hidden>
 		<div class="row">
 			<div class="col-sm-5"><h2>Loading aircraft ...</h2></div>        
 		</div>
@@ -205,7 +205,7 @@
 		</div>
 	</form>
     
-    <form id="cruiseForm" class="appnitro"  method="post" action="" >
+    <form id="cruiseForm" class="appnitro"  method="post" action="" hidden>
       <h2>Cruise</h2>
 
       <div class="row">
@@ -238,7 +238,7 @@
       
     </form>
     
-    <form id="climbForm" class="appnitro"  method="post" action="" >
+    <form id="climbForm" class="appnitro"  method="post" action="" hidden>
       <h2>Climb</h2>
 
       <div class="row">
@@ -258,7 +258,7 @@
      
     </form>
     
-    <form id="diveForm" class="appnitro"  method="post" action="" >
+    <form id="diveForm" class="appnitro"  method="post" action="" hidden>
       <h2>Dive</h2>
       <div class="row">
         <div class="col-sm-2">
@@ -276,7 +276,7 @@
       <input type="button" class="btn btn-primary" id="applyDiveButton" value="Apply" onClick="aircraftClimb(false)"> 
     </form>
 
-    <form id="refuelForm" class="appnitro"  method="post" action="" >
+    <form id="refuelForm" class="appnitro"  method="post" action="" hidden>
             <h2>Refuel</h2>
             <div class="row">
                 <div class="col-sm-2">
