@@ -38,7 +38,9 @@
 		<div class="row" >
 			<p>Welcome to Oblique Testing!</p>
 			<p>These cards are based on the ideas of <a href="https://en.wikipedia.org/wiki/Oblique_Strategies">Brian Eno's Oblique Strategies</a>.</p>
-			<p>Buy the book on <a href="https://leanpub.com/obliquetesting">Oblique Testing here</a>.</p>
+			<p>Each card represents a one-star review of your system. The aim is to assume the comment is valid, and revist your testing to determine how you'd attempt to discover that problem.</p>
+			<p>The aim of the cards is to prevent our testing getting into a rut, and approach differently and inventively. The cards can also be used to help check a test approach for any holes in coverage.</p>
+			<p>Buy the book for more details on <a href="https://leanpub.com/obliquetesting">Oblique Testing here</a>.</p>
 			<p><b>Pick to either choose a card randomly or work through</b></p>
 		</div>
 		<div class="row">
@@ -139,18 +141,70 @@
 
 		function setUpCards() {
 			cardData.add(	"I loved the old version! It's rubbish now!",
-							"<br>Test the core parts of your system.<br>Scrutinise your automation - revisit the tests, and the results.");
+							"<ul><li>Test the core parts of your system.<li>Scrutinise your automation - revisit the tests, and the results.</ul>");
 			cardData.add(	"Terrible application - did you even test this?",
 							"Venture into the functionality you least understand.");
 			cardData.add(	"OMG - this doesn't even work on my device!",
-							"<br>Test on a device you've never or rarely used.<br>Revisit analytics on which devices/browsers/machines use your system the most.");
+							"<ul><li>Test on a device you've never or rarely used.<li>Revisit analytics on which devices/browsers/machines use your system the most.");
 			cardData.add(	"So angry - it doesn't work for my browser!",
-							"<br>Test on a different browser.<br>Revisit analytics on which devices/browsers/machines use your system the most.");
+							"<ul><li>Test on a different browser.<li>Revisit analytics on which devices/browsers/machines use your system the most.");
 			cardData.add(	"I applied, then changed my mind and cancelled ... but then I thought I really should. But the system told me I was already there. But I wasn't, was I? Just sort it out!",
 							"Try a crooked path through your system.");
 			cardData.add(	"I was just processing a payment, and my connection was cut. I got charged, but I didn't get my product. YOU RIPPED ME OFF!",
 							"Interrupt connectivity during critical transactions.");
-
+			cardData.add(	"I can't even ...",
+							"Revisit the basics.");
+			cardData.add(	"It's so ridiculous, it works for my friends, but not for me!",
+							"Throw out the way you normally use the software. Try something complicated. Try something new.");
+			cardData.add(	"My account got hacked - I didn't even know!",
+							"<ul><li>Maliciously change details for an account. Where could that be done?<li>Does the original account holder get a notification?<li>Do your audits allow you to work out when and where suspicious activity happened?<li>Has your system raised any red flags? Should it?");
+			cardData.add(	"The site was hacked and my details were hijacked. HOW DARE YOU!",
+							"<ul><li>Review how client data is stored.<li>Revisit system security.<li>A great opportunity to revisit this year's OWASP top 10!");
+			cardData.add(	"I rang the helpdesk - they didn't even know the service was down!!!!!",
+							"<ul><li>Turn off part of your test system.<li>Check for alarms and warnings.<li>What does the user see?");
+			cardData.add(	"The service was down for HOURS!!! UTTER RUBBISH!",
+							"Rebuild part of your system from scratch/backups.<li>How long did it take?<li>Were there any unexpected complications?");
+			cardData.add(	"I was waiting FOREVER for this to load!",
+							"<ul><li>Use the system using throttled internet! [Nothing is slower than public internet access points]<li>Revisit performance testing.");
+			cardData.add(	"I lost so much information from my system - THANKS FOR NOTHING!",
+							"<ul><li>Recover client's information.<li>Create-Retrieve-Update-Delete");
+			cardData.add(	"I thought this would make things easier to do! ONE STAR!!!",
+							"Revisit the sales pitch for your system. Is it delivering what it's supposed to?");
+			cardData.add(	"I can see someone else's information!!! Who can see mine???",
+							"Think about privacy, and how it could go wrong.");
+			cardData.add(	"I can't really see very well...",
+							"Is your product usable by all? <ul><li>Adjust font size.<li>Use a screen reader.<li>Use a poor resolution setting.<li>Use a contrast checker for your text font vs background colours.");
+			cardData.add(	"There's another app that does this so much better, UNINSTALLED!",
+							"Take time to check out your competition.");
+			cardData.add(	"No idea what I'm supposed to do - am I supposed to ring the helpdesk?",
+							"<ul><li>Are the help features useful and up to date? <li>Expose someone new to your system.");
+			cardData.add(	"Grrr - I've changed my details, and I can't retrieve my account. Had to make a brand new one!",
+							"Simulate on your system,<ul><li>Marriage<li>Changed identity<li>Changed gender<li>Moved house<li>New mobile / email<li>Merging/linking two accounts when a customer accidentally creates two");
+			cardData.add(	"My account got messed up. The helpdesk is ****ing useless - avoid!",
+							"Fix a mistake on a customer's account.");
+			cardData.add(	"My details got garbled!  Grrrr - really?",
+							"Take a deep dive into the system. Look at ... <ul><li>Back end<li>Database<li>Log files");
+			cardData.add(	"I thought they'd fixed this already!",
+							"Revisit some old problems on the system, ensure they've not returned or morphed into new issues.");
+			cardData.add(	"I phoned the helpdesk - I'm sure the person who 'helped me' stole my identity.",
+							"<ul><li>How could an admin abuse the helpdesk system?<li>How could that be limited?<li>How would they be caught?");
+			cardData.add(	"Someone's using this system and impersonating me!",
+							"What checks are in place to make sure someone is who they really claim to be?");
+			cardData.add(	"I kept getting told 'unknown error' - WTF does that mean?",
+							"<ul><li>Try to hit as many error messages as you can.<li>Are all the messaged meaningful to an end user, using plain English over technical messaging like 'e - unknown exception thrown'");
+			cardData.add(	"D'oh! C'mon help me out here!",
+							"<ul><li>Do something really stupid with an account.<li>Fix it.");	
+			cardData.add(	"Imaing a message saying 'connecting please wait'. FOREVER",
+							"<ul><li>Test where two components or services interact.<li>Interupt or disrupt.<li>Maybe toggle your WiFi into airplane mode and back / pull cables and replace them.");	
+			cardData.add(	"The helpdesk said part of the system was down for maintenance, but it should still be working!",
+							"<ul><li>Experiment with your system under availability conditions when one node is down. Does everything still work?<li>Do changes done when part of the system is down eventually replicate over to the other site when down. (Make a new account and make sure you can see on both sites etc).");
+			cardData.add(	"Joker: Ask me how I got these scars!",
+							"Talk with your team about nightmarish things which have gone wrong on other projects. Use them as inspiration for a set of tests on your current system.");
+			cardData.add(	"Joker: Do I look like I have a plan?",
+							"<ul><li>Don't overthink. Just try a few things left field.<li>Break your patterns.<li>Don't try and justify what you're testing.<li>Be unpredictable.<li>Introduce a little anarchy.<li>Live without rules.");
+			cardData.add(	"Joker: Just step outside and close the door.",
+							"Ensure nothing is left behind that shouldn't after,<ul><li>Logging out<li>Uninstalling<li>Deleting account");
+	
 		}
 
 	</script>
