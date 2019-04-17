@@ -43,15 +43,15 @@
 			<p>Buy the book for more details on <a href="https://leanpub.com/obliquetesting">Oblique Testing here</a>.</p>
 			<p><b>Pick to either choose a card randomly or work through</b></p>
 		</div>
-		<div class="row">
-			<div class="col-sm-3">
-				<input type="button" class="btn btn-primary" id="pickRandom" value="Select Random" onClick="selectCard(true)">
-			</div>
-			<div class="col-sm-1"></div>
-			<div class="col-sm-3">
-				<input type="button" class="btn btn-secondary" id="pickFirst" value="Work from first" onClick="selectCard(false)">
-			</div>
-		</div>
+
+
+		<table>
+				<tr>
+					<td><input type="button" class="btn btn-primary" id="pickRandom" value="Select Random" onClick="selectCard(true)"></td>
+					<td>    </td>
+					<td><input type="button" class="btn btn-secondary" id="pickFirst" value="Work from first" onClick="selectCard(false)"></td>
+				</tr>
+			</table>
 
 	</form>
 
@@ -61,21 +61,13 @@
 			<p>Want another card?</p>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-3">
-				<input type="button" class="btn btn-primary" id="getRandom" value="Get Random" onClick="selectCard(true)">
-			</div>
-			<div class="col-sm-1"></div>
-			<div class="col-sm-3">
-				<input type="button" class="btn btn-secondary" id="getNext" value="Get Next" onClick="selectCard(false)">
-			</div>
-		</div>
 
 		<table>
-		<tr>
+			<tr>
 				<td><input type="button" class="btn btn-primary" id="getRandom" value="Get Random" onClick="selectCard(true)"></td>
+				<td>    </td>
 				<td><input type="button" class="btn btn-secondary" id="getNext" value="Get Next" onClick="selectCard(false)"></td>
-		</tr>
+			</tr>
 		</table>
 
 	</form>
