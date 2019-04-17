@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base target="_top">
+		<title>Oblique Testing</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<!link rel="stylesheet" href="css/bootstrap-responsive.css">
+	</head>
+<body>
+	<div class="row" style="margin-left:10px;width:450px">
+		<div class="col">
+			<h1>Oblique Testing</h1>
+		</div>
+	</div>
+	<div class="row" style="margin-left:10px;width:450px">
+		<div class="col">
+			<p><i>Your aid to better testing ideas!</i></p>
+		</div>
+	</div>
+
+
+	<table class="p-3 mb-2 bg-primary text-white" style="margin-left:10px;width:450px" id="cardTable" hidden>
+		<caption id="cardCaption"></caption>
+		<tr>
+			<th><h2 id="cardTitle"></h2></th>
+		</tr>
+		<tr>
+			<td id="cardDescription"></td>
+		</tr>
+		<tr>
+			<td><img src="img/one-star.png" width="300px"></td>
+		</tr>
+	</table>
+
+	<form id="welcomeForm" class="form-horizontal" style="margin-left:40px;width:400px" method="post" action="" >
+		<div class="row" >
+			<p>Welcome to Oblique Testing!</p>
+			<p>These cards are based on the ideas of <a href="https://en.wikipedia.org/wiki/Oblique_Strategies">Brian Eno's Oblique Strategies</a>.</p>
+			<p>Buy the book on <a href="https://leanpub.com/obliquetesting">Oblique Testing here</a>.</p>
+			<p><b>Pick to either choose a card randomly or work through</b></p>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<input type="button" class="btn btn-primary" id="pickRandom" value="Select Random" onClick="selectCard(true)">
+			</div>
+			<div class="col-sm-4">
+				<input type="button" class="btn btn-primary" id="pickFirst" value="Work from first" onClick="selectCard(false)">
+			</div>
+		</div>
+
+	</form>
+
+	<form id="selectNext" class="form-horizontal" style="margin-left:40px;width:400px" method="post" action="" hidden>
+		<div class="row" >
+			<p>Want another card?</p>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<input type="button" class="btn btn-primary" id="getRandom" value="Get Random" onClick="selectCard(true)">
+			</div>
+			<div class="col-sm-4">
+				<input type="button" class="btn btn-primary" id="getNext" value="Get Next" onClick="selectCard(false)">
+			</div>
+		</div>
+
+	</form>
+
+
+
+
+
+	<script>
+		var dataSetup = false;
+
+			   		 	  
+
+
+
+		function selectCard(chooseRandom) {
+
+			if (dataSetup == false) {
+				setUpCards();
+				dataSetup = true;
+			}
+
+			if(chooseRandom) {
+				cardData.randomCard();
+			} else {
+				cardData.nextCard();
+			}
+
+			displayCard();
+			document.getElementById('welcomeForm').hidden = true;
+			document.getElementById('cardTable').hidden = false;
+			document.getElementById('selectNext').hidden = false;
+		}
+
+		var cardData = {
+			currentCard: -1,
+			itemSize: 0,
+			caption: 0,
+			title: 0,
+			description: 0,
+
+			add: function (providedTitle, providedDescription) {
+				if ( this.itemSize == 0 ) {
+					// Initialise
+					this.caption=[];
+					this.title = [];
+					this.description = [];
+				} 
+    
+				this.title.push(providedTitle);
+				this.description.push(providedDescription);
+				this.itemSize = this.itemSize + 1;
+				this.caption.push("Card " + this.itemSize);
+			},
+
+			randomCard: function () {
+				this.currentCard = parseInt(Math.random() * this.itemSize);
+			},
+
+			nextCard: function () {
+				this.currentCard = this.currentCard + 1;
+				if(this.currentCard == this.itemSize) {
+					this.currentCard = 0;
+				}
+			},
+		};
+
+		function displayCard () {
+			document.getElementById('cardCaption').innerHTML = cardData.caption[cardData.currentCard];
+			document.getElementById('cardTitle').innerHTML = cardData.title[cardData.currentCard];
+			document.getElementById('cardDescription').innerHTML = cardData.description[cardData.currentCard];
+		}
+
+
+		function setUpCards() {
+			cardData.add(	"I loved the old version! It's rubbish now!",
+							"<br>Test the core parts of your system.<br>Scrutinise your automation - revisit the tests, and the results.");
+			cardData.add(	"Terrible application - did you even test this?",
+							"Venture into the functionality you least understand.");
+			cardData.add(	"OMG - this doesn't even work on my device!",
+							"<br>Test on a device you've never or rarely used.<br>Revisit analytics on which devices/browsers/machines use your system the most.");
+			cardData.add(	"So angry - it doesn't work for my browser!",
+							"<br>Test on a different browser.<br>Revisit analytics on which devices/browsers/machines use your system the most.");
+			cardData.add(	"I applied, then changed my mind and cancelled ... but then I thought I really should. But the system told me I was already there. But I wasn't, was I? Just sort it out!",
+							"Try a crooked path through your system.");
+			cardData.add(	"I was just processing a payment, and my connection was cut. I got charged, but I didn't get my product. YOU RIPPED ME OFF!",
+							"Interrupt connectivity during critical transactions.");
+
+		}
+
+	</script>
+
+  </body>
+</html>
+
+
