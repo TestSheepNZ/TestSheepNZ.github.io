@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base target="_top">
+		<title>Project Glinda</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="shortcut icon" href="../img/testsheep.ico" type="image/x-icon" />
+    <link rel="icon" href="../img/testsheep.ico">
+	</head>
+    <body>
+		<h1>Project Glinda: Overview</h1>
+
+		<img src="Glinda/glinda.jpg">
+
+        <h1>Version Control</h1>
+
+        <table class="table">
+			<thread class="thead-dark">
+				<tr>
+					<th>Version</th>
+                    <th>Date</th>
+                    <th>Changes</th>
+				</tr>
+			</thread>
+			<tr>
+				<td>0.1</td>
+                <td>05/01/2017</td>
+                <td>Initial draft</td>
+			</tr>
+			<tr>
+				<td>0.2</td>
+                <td>06/01/2017</td>
+                <td>Added details for monitoring and auditing</td>
+            </tr>
+            <tr>
+				<td>0.3</td>
+                <td>11/01/2017</td>
+                <td>Details of logging on and device locking to account have been added.</td>
+			</tr>
+		</table>
+
+        <h1>Overview</h1>
+
+        <p>Obviously, dating apps are nothing new, with Tinder being the current market leader, however there is seen rather a dark side to Tinder.  It’s too easy to get an account, and you’re never sure if the person you’ll meet aligns to the photograph.</p>
+        <p>This level of unease is greatest within the gay and lesbian community, for whom 2016 has seen increasing aggressive behaviour towards this community.  We want to create a dating experience where people can feel more comfortable that the person they meet will be the person in the photograph.</p>
+        <p>We also are very mindful that we don’t want to become another organisation which relies of heavy data mining, and requires official documents.  But for the safety of our users, we want to be sure the person with the account is someone we know about.</p>
+        <p>We started work in earnest to create a Gay and Lesbian Tinder, or Glinda, with the mission of providing as safe a dating experience for the gay and lesbian community as possible.</p>
+        <p>A key part is to have a validated account, you need to register an account with a valid credit card.  One of our admins will then video phone you to speak with you – this conversation will be recorded, if you match the profile picture you’ve provided, you become a registered user – that’s all there is to it, no paperwork.</p>
+        <p>To achieve all this we are using some services which already exist such as Skype for communications and dcPay as our payment gateway to minimise what we need to build from scratch.</p>
+
+        <h1>Scope</h1>
+
+        <h2>Mobile Support</h2>
+
+        <p>Glinda will be an application which will work on iOS and Android phones.  The application will require a relatively modern phone – we’ll only support iOS 10 and up, and Android KitKat and beyond.  Likewise a selfie camera is a must, and when a user tries to install this software on a phone which lacks this, it must result in an error.</p>
+
+        <h2>Out of scope - phase 1</h2>
+
+        <p>Currently we’re trying to launch Glinda with provision for supporting gay and lesbian users only, we’re hoping to expand the base to support bisexual and transgender communities in later releases.</p>
+
+        <h1>Account Status</h1>
+
+        <p>A key part of Glinda is knowing you’re really dealing with someone who has been verified.  It’s about making the community feel safer when dating.</p>
+
+        <p>Account registration includes several aspects to this – you need both a credit card, and to have been verified by back office staff to match the person who submitted a photograph.</p>
+
+        <p><b><i>The following outlines the lifecycle of account statuses as an application progresses,</i></b></p>
+
+        <h2>Submitted</h2>
+
+        <p>Users must enter their details together and then take a photo with the selfie camera. They then need to supply a valid credit card details (which match the name they’ve given), and are initially charged $1.</p>
+        <p>At this point, the user account is in a Submitted state.  The users personal details are kept in a database, with their separate payment details kept in another, more secure database which only our payment applications will access.  There will be a unique key linking user record to payment details.</p>
+        <p>In addition, a Skype account will be created on their behalf.  This will be a unique key “_Glinda_XXXXXX” account.  We don’t want to build our own communications channel, so are building on top of Skype.  Our application will provide some throttling on communications.</p>
+
+        <h2>Part Verified</h2>
+
+        <p>Within 48 hours, one of our back office staff will video conference the applicant.  They will hold a brief conversation using the selfie camera.  Their goal is to confirm the applicant is real, and matches the photograph provided.  This video conversation will be recorded, and stored in a video specific database with a unique key.  The back office operator will record the unique video key at time of registration.</p>
+        <p>If the back office operator is satisfied that they have spoken to the person who submitted the application matches the person they spoke to the account is Part-Verified.  Otherwise it will be set to either Resubmit if there are issues with the photo or Suspended if fraud is suspected.</p>
+        <p>The video chat uses a Skype channel to carry the conversation, but the call is launched through our Glinda app.</p>
+
+        <h2>Fully Verified</h2>
+
+        <p>Once an account is Part-Verified, a second admin user should review the account and the conversation, and once satisfied can make the account Verified.  If they’re not satisfied, they can return to either Submitted or Suspended.</p>
+        <p>A user can choose to also add a new profile photo, which sets the account to New Photo.</p>
+        <p>This user has to be a different admin to the one who performed the Part-Verified process in line with our four eyes policy.</p>
+        <p>Only Verified accounts can use the dating applications.</p>
+
+        <h2>Suspended</h2>
+
+        <p>If the account is considered fraudulent or it’s felt a user has broken the Glinda code of conduct, their account can be suspended by Glinda admin staff.  A note will be made against the card details supplied so it cannot be used to create a new account.</p>
+
+        <h2>Resubmit Required</h2>
+
+        <p>If the Glinda admin is not satisfied that the user she’s video calling relates to the photo submitted, or the photo is of poor quality, they can set the account to Resubmit.</p>
+        <p>Next time the user log in with the mobile application, they are taken to the selfie page to retake their photo.  Once submitted, their account is set back to Submitted.</p>
+
+        <h2>Payment Overdue</h2>
+
+        <p>The account is charged an admin fee every 30 days.  If this payment fails, the account is moved into Overdue Payment, and they’re unable to continue dating services until payment is received.</p>
+
+        <h2>On Hold</h2>
+
+        <p>The user can voluntarily put their account on hold.  This takes effect the next time payment is due on the account, where instead of being charged, the account is moved from “verified” to “on hold”.  They can removed this at any time, but will have to be immediately charged an account fee.</p>
+
+        <h2>Dormant</h2>
+
+        <p>A Verified user can toggle their account between Verified and Dormant.  Sleep simply makes clear they’re not interested in dating at the moment.</p>
+
+        <h2>New Photo Added</h2>
+
+        <p>If the user wants to submit a new photo, it is taken out of ‘Verified’ mode and moved into ‘New Photo Added’.</p>
+        <p>They are taken to the ‘Take My Picture’ page, and a new photo taken.</p>
+        <p>The Glinda admin can review this picture versus the old one, and if satisfied update the photo and revert the account to Verified.</p>
+        <p>The user can choose to cancel ‘New Photo Added’ in which case their account will revert to their old profile picture.</p>
+
+        <h1>Logging On</h1>
+
+        <h2>Registration automatic log on</h2>
+
+        <p>After a user has successfully submitted their username and password from a phone, they are automatically logged into Glinda with their credentials.</p>
+        <p>As part of the submission process, details of the mobile phone used are sent as part of the registration process.  The phone becomes locked to the account, and a new account cannot be used on this device.</p>
+        <p>This is to reduce people from using one device for multiple accounts, something which is associated with fraud.</p>
+        <p>If a user downloads the app on the phone, and tries to go to registration, a check will be performed, and they will receive a warning message ‘It looks like this device has been previously registered for an account.  Welcome back!’.</p>
+
+        <h2>Log on to a device registered to another user</h2>
+
+        <p>If a user attempts to log on to a device which is already registered to another user, an error message will be raised, and they will not be allowed to log on.</p>
+
+        <h2>Logging out</h2>
+
+        <p>The user can log out of the app or webpage at any time.</p>
+
+        <h2>Log on to new device with credentials</h2>
+
+        <p>If the user logs into an existing account on a new device, that device is also locked to the user account.  A user account can have a relationship to multiple devices.</p>
+
+        <h2>Log on to a web page</h2>
+
+        <p>When logging into the web page, the functionality available is limited, in this case, no form of device matching occurs.</p>
+
+        <h2>Customer log on support</h2>
+
+        <p>If the user has forgotten either their username or password, they can enter the email address they used to register, either their username, or a 1-hour, one-use-only password will be emailed to them.</p>
+        <p>The login service will only allow 3 incorrect logins to an account within an hour.</p>
+        <p>Most of this behaviour is considered industry-standard.</p>
+
+
+        <h1>Dating services</h1>
+
+        <p>The Glinda app requires permissions for GPS.  We poll devices hourly and record their location – these are kept in a table with location, time, and people’s unique key only.  We only record current location, no historical record will be kept.</p>
+        <p>A user can refresh their location at any time.</p>
+        <p>Using the app, a user perform a search and can select the radius of people they’re interested in, the system will then create a list of users who match sexual preference in that radius.</p>
+        <p>Every user has a list of user IDs for which they’re part-matched, matched, mis-matched, blocking.</p>
+        <p>The user will be shown other users profiles which match criteria (including the rules below).</p>
+
+        <h2>Part-matched</h2>
+        <p>A user shows an interest in a profile when they swipe left.  At this point, they become part-matched.</p>
+        <p>The profile will then no longer be visible to them when they do a search, however right now they can’t make contact.</p>
+        
+        <h2>Matched</h2>
+        <p>If the other party also has swiped left on this users, the couple is matched.  They have both shown an interest in each other.  It’s only at this point that communications can occur between couples on the Glinda app.</p>
+        
+        <h2>Mis-matched</h2>
+        <p>If a user isn’t interested in a profile, they swipe right.  We call this a mis-match, and record the user ID and date occurred together with a count.</p>
+        <p>We won’t show that profile again to the user for 2 days.  If a user swipes right 3 times, we’ll but the profile under blocking.</p>
+        
+        <h2>Blocking</h2>
+        <p>If a user has swiped right a profile 3 times, we put it to blocking.  The user will not see that profile every again.  Likewise, the person with the rejected profile will not be able to see the other users profile from dating searches.</p>
+        <p>In addition, if a user is uncomfortable with someone they’re matched to, they can select to block them.  Users will be allowed to report if they feel they’ve had an interaction which has unsettled them, including a reason.</p>
+
+        <h1>Use of Skype communications</h1>
+
+        <p>Two users who are matched to each other can exchange communications.  We use anonymised Skype accounts to allow this to occur.  We also filter requests in our app service layer to make sure that only communication requests from either admins or matched users are allowed through.</p>
+        <p>Use of audio/video will only be allowed for admins.  They must use video for part-verified confirmation.  They can contact users when investigating any reported incidents.  These interactions will be recorded.</p>
+        <p>Matched users are only allowed to interact by text  or photo exchange.  Each exchange will be recorded in a message table on the database including,</p>
+        
+        <ul>
+            <li>Datetime</li>
+            <li>From user</li>
+            <li>To user</li>
+            <li>Content</li>
+        </ul>
+        
+        <p>Admins will be able to retrieve conversations only if a user has reported another users actions.</p>
+        <p>Glinda will not use the Skype application on mobile devices, but will utilise the channel.  Each Glinda account will use a secret, anonymous Skype account not normally available on Skype.  People on Skype will not be able to make contact as users are only signed in via the Glinda application, and the app layer will not allow chats to get through which are not from admins or are a matched user.</p>
+
+        <h2>Suggest meetup</h2>
+
+        <p>We keep a list of nearby public venues which are gay and lesbian friendly and are located nearby.</p>
+        <p>The database keeps details of their name, location and a website link.</p>
+        <p>In future we might look to having these places fund for top selection places.</p>
+
+        <h2>AI filter for photos sent</h2>
+
+        <p>When a photo is sent between matched users, we will run the photo through the Google Cloud Vision API.</p>
+        <p>If this returns that the picture was obscene (containing genitalia), the photo will not be sent, and the sender warned our obscenity filter.</p>
+        <p>We expect to bring in a contractor used to working with this sort of material to deal with this aspect of behaviour, and limit exposure of indecent material to staff. We will also respect staffs wishes not to work or view material in this area.</p>
+        <p>We expect the fine tuning of this to take a while, but marketing expects this to be a key feature to promote safety online.</p>
+
+
+
+        <h1>Channels</h1>
+
+        <h2>Mobile application</h2>
+
+        <p>The mobile application will be the primary channel for users of Glinda, and available on iOS and Play stores.</p>
+        <p>The application will require the phone to be iOS 10 or Android KitKat and beyond.</p>
+        <p>It will require permissions to,</p>
+        <ul>
+            <li>Camera</li>
+            <li>Microphone</li>
+            <li>GPS location</li>
+        </ul>
+
+        <h2>Public Website</h2>
+
+        <p>Most interaction on Glinda will be done via the mobile application, however we will maintain a static website to talk about the service we offer and frequently asked questions.</p>
+        <p>Users will be able to log in, but have a limited set of functions they can perform,</p>
+        <ul>
+            <li>Manage my account, including changing password</li>
+            <li>Toggle account between verified and either ‘on hold’ or ‘sleep’ modes</li>
+            <li>Edit their payment details</li>
+        </ul>
+
+        <h2>Admin site</h2>
+
+        <p>An admin site will be supported, which will allow selected users to perform admin roles including,</p>
+        <ul>
+            <li>Trigger Skype call with users</li>
+            <li>Change user state to part-verified, verified, suspended</li>
+            <li>View users who have been reported</li>
+            <li>Review conversations of a user who has been reported</li>
+        </ul>
+
+        <p>The admin site will be locked so that it can only be accessed by an IP which relates to being on-site.</p>
+
+
+        <h1>Billing</h1>
+
+        <p>Glinda will use the dcPay payment engine to process payments.  There will be an invoice table which includes a list of payment transaction.  Only verified accounts will be charged monthly.  If a payment fails, this will be recorded in the database, and the users account set to “overdue payment”.</p>
+
+        <h1>Architecture</h1>
+
+        <p>The architecture will be maintained in-house by the Glinda ops team.  A diagram of this is provided in Appendix A.</p>
+        <p>The application aims to be highly available using multiple nodes in the database, application and web tiers.</p>
+        <p>The admin tier will only be single mode.</p>
+
+        <h2>AppService tier</h2>
+
+        <p>The app service tier will contain the business rules for Glinda, and also act as a webservice conduit between,</p>
+
+        <ul>
+            <li>Skype and both the Admin site and Mobile app</li>
+            <li>Run payments through dcPay</li>
+            <li>Bring through map data via Google maps</li>
+            <li>Provide filtered information as required and authorised to the web tier</li>
+        </ul>
+
+        <p>This architecture layer is usually called the application layer, but to avoid confusion between the application service layer in the architecture and the mobile application itself, we will refer to it as the app service to differentiate.</p>
+
+        <h2>Web tier</h2>
+
+        <p>The web tier will create pages from information and authorisations provided by the app tier for consumption on the admin site or user pages</p>
+
+        <h2>Database tier</h2>
+
+        <p>Data is replicated to the primary and secondary database.</p>
+
+        <h2>Drive storage</h2>
+
+        <p>Video and audio files of admin calls are stored as flat files within the drive storage, which is backed up hourly.  Admins will have read-only access to this area.</p>
+
+
+        <h2>High availability</h2>
+
+        <p>Users will be load balanced across nodes on the web and app server as required.  If the node a user is on suffers an outage, they will lose their session with different expected results according to where they’re using.</p>
+        <p>Users on the web page or admin site will lose their session, and will have to log in again.  They might lose some work.</p>
+        <p>Users on the mobile application whose app node has gone will have their session moved to the other app node.  We expect minimal disruption.</p>
+
+        <h2>Backups</h2>
+
+        <p>Each tier will have a backup drive which will be triggered hourly.  Backup processes should not impact performance.  Loss of up to an hour’s data during an incident is considered acceptable.</p>
+        <p>In the event of a database outage, a process will perform a difference check on the primary and secondary database, copying and missing records onto the other database.</p>
+        <p>It’s a requirement that the app or web node can be restored from backup in under an hour.</p>
+
+        <h2>Performance</h2>
+
+        <p>The system should be able to support,</p>
+        <ul>
+            <li>90% of users should have their registration processed (including payment transaction and photo storage) within 30 seconds with a load of 1,000 concurrent users</li>
+            <li>95% of users should have their messages to a matched user delivered within 5 seconds under a load of 10,000 concurrent users</li>
+            <li>90% of users should be able to perform a search of nearby profiles within 20 seconds under a load of 5,000 concurrent users</li>
+        </ul>
+
+        <h2>Monitoring and alerts</h2>
+
+        <p>Every physical server (equating to every node) will have monitoring enabled on it.  This will allow the ops team to keep tabs on the system.</p>
+
+        <h3>Monitoring</h3>
+
+        <p>The following items will be monitored and available to ops staff when required,</p>
+        <ul>
+            <li>CPU usage</li>
+            <li>Memory</li>
+            <li>Disk free</li>
+            <li>Network traffic – including on the app server separate traffic to web server, Skype, Mobile Phone, dcPay and Google Maps traffic</li>
+            <li>Heartbeat</li>
+        </ul>
+
+        <p>Heartbeat is a repeated ping to the node IP that is performed each minute to confirm it’s still working.</p>
+
+        <h3>Alerts</h3>
+
+        <p>The ops team can set thresholds for red and amber alerts for any monitored attribute.  When these thresholds are exceeded, an email alert will be triggered to the ops staff informing them.  This email alert occurs just once, and will not be repeated if that state remains.</p>
+        <p>These settings will be adjusted by ops as they go and learn more about the system.  It’s expected an amber alert will occur if CPU usages is at 90%, with a red alert if CPU usage goes beyond 95%</p>
+        <p>Likewise if a node heartbeat is zero for 5 minutes it should raise an amber alert, with this raised to a red alert if still down after 15 minutes.</p>
+
+        <h1>Auditing</h1>
+
+        <p>All significant actions will be audited, with an entry created in the audit log table.</p>
+        <p>The initial expected audits are covered in Appendix C.  It is expected they will be expanded with the design, and new audits added as needed.</p>
+        <p>It’s important to note – we’ll audit the location someone uses dating services from, but we’ll not provide historical passive tracking of where users are from our hourly poll.  This needs to be communicated to users, and marketing is working on it to make them feel secure and not being spied on.</p>
+        <p>We do monitor more details on what our admins are doing, as we need to be more accountable.</p>
+
+
+        <h1>APPENDIX A - Architecture Diagram</h1>
+
+        <img src="Glinda/architecture.jpg">
+
+        <h1>APPENDIX B - Screen Mock Ups</h1>
+
+        <p>The following are included as examples of key screens, not all screens have been provided.</p>
+
+        <h2>Welcome Page</h2>
+
+        <img src="Glinda/welcomepage.jpg">
+
+        <h2>Previously Registered Page</h2>
+
+        <p>Notice how the Registration button has been removed.</p>
+
+        <img src="Glinda/alreadyregistered.jpg">
+
+        <h2>Registration Page</h2>
+
+        <img src="Glinda/registration.jpg">
+
+        <h2>Take My Picture Page</h2>
+
+        <img src="Glinda/takemypicture.jpg">
+
+        <h2>Review My Picture Page</h2>
+
+        <img src="Glinda/reviewpicture.jpg">
+
+        <h2>Admin Video Call Page</h2>
+
+        <p>This runs a Skype video call within our mobile application.</p>
+
+        <img src="Glinda/admincall.jpg">
+
+        <h2>Find A Match Page</h2>
+
+        <p>This page will use the location provided by the mobile phone, and overlay maps provided by Google maps service.</p>
+
+        <img src="Glinda/findmatch.jpg">
+
+        <h2>Profile Page</h2>
+
+        <img src="Glinda/interested.jpg">
+
+        <h2>Match Chat Page</h2>
+
+        <img src="Glinda/chat.jpg">
+
+
+        <h1>APPENDIX C - Auditing</h1>
+
+        <p>Below is a table of expected results.  Key field descriptions,</p>
+
+        <ul>
+            <li>ID is a number to categorise the audit number</li>
+            <li>UserID is the unique identifier of the user who owns the account</li>
+            <li>Body is the descriptor for the audit</li>
+            <li>MatchID is the unique identified of a second user – typically that the main actor is interacting with through viewing profile or matching</li>
+            <li>AdminID is only filled in for functions where an admin is looking up a user</li>           
+        </ul>
+
+        <table class="table">
+			<thread class="thead-dark">
+				<tr>
+					<th>ID</th>
+                    <th>UserID</th>
+                    <th>Body</th>
+                    <th>MatchID</th>
+                    <th>AdminID</th>
+                    <th>Datetime</th>
+                    <th>Notes</th>
+				</tr>
+			</thread>
+            <tr>	<th>101</th>	<th>N/A</th>	<th>Registration initiated</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has opened the registration page.  At this point they have no id.</th>	</tr>
+            <tr>	<th>102</th>	<th>N/A</th>	<th>Selfie initiated</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has activated the selfie function</th>	</tr>
+            <tr>	<th>103</th>	<th>N/A</th>	<th>Photo taken</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User face recognised and photo taken</th>	</tr>
+            <tr>	<th>104</th>	<th>N/A</th>	<th>Review my picture</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has been shown their picture</th>	</tr>
+            <tr>	<th>105</th>	<th>N/A</th>	<th>Retake photo</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has selected to retake photo</th>	</tr>
+            <tr>	<th>106</th>	<th>N/A</th>	<th>Submit registration</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has submitted their registration</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>201</th>	<th>N/A</th>	<th>Registration payment successful</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment has gone through</th>	</tr>
+            <tr>	<th>202</th>	<th>N/A</th>	<th>Registration payment failed – dcPay down</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment failed due to problem with dcPay system</th>	</tr>
+            <tr>	<th>203</th>	<th>N/A</th>	<th>Registration payment failed – incorrect card details</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment failed due to faulty card details</th>	</tr>
+            <tr>	<th>204</th>	<th>N/A</th>	<th>Registration payment failed – insufficient funds</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment failed due to insufficient funds</th>	</tr>
+            <tr>	<th>211</th>	<th>YES</th>	<th>Monthly payment failed – dcPay down</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment failed due to problem with dcPay system</th>	</tr>
+            <tr>	<th>212</th>	<th>YES</th>	<th>Monthly payment failed – incorrect card details</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment failed due to faulty card details</th>	</tr>
+            <tr>	<th>212</th>	<th>YES</th>	<th>Monthly payment failed – insufficient funds</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User payment failed due to insufficient funds</th>	</tr>
+            <tr>	<th>220</th>	<th>YES</th>	<th>User has changed payment details</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>The user has changed their payment details</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>300</th>	<th>YES</th>	<th>Device ID ####### locked to user account</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>The device has become locked to a user account</th>	</tr>
+            <tr>	<th>301</th>	<th>YES</th>	<th>User logged into app – automatic registration</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has logged into the device automatically as post-registration</th>	</tr>
+            <tr>	<th>302</th>	<th>YES</th>	<th>User logged into app – logged in via log on page</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has logged into the device via the app page</th>	</tr>
+            <tr>	<th>303</th>	<th>YES</th>	<th>User logged into webpage</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has logged into account on a browser</th>	</tr>
+            <tr>	<th>310</th>	<th>YES</th>	<th>Login attempted, user ID relates to no known user</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>Someone has attempted to login with unknown credentials</th>	</tr>
+            <tr>	<th>320</th>	<th>YES</th>	<th>Incorrect login</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>Someone has attempted to login using an incorrect password</th>	</tr>
+            <tr>	<th>321</th>	<th>YES</th>	<th>Account locked for one hour after 3 consecutive incorrect logins</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>Repeated attempts to login to an account has caused it to be locked.</th>	</tr>
+            <tr>	<th>322</th>	<th>YES</th>	<th>Repeated login attempt during lock out</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>Login attempts have continued once the account was locked.</th>	</tr>
+            <tr>	<th>330</th>	<th>YES</th>	<th>User has attempted to login to a device locked to another user</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>A user has attempted to login to a device which has been registered and locked to another user.</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>1000</th>	<th>YES</th>	<th>User account created, state SUBMITTED.</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>Users account has been created (and payment has gone through)</th>	</tr>
+            <tr>	<th>1001</th>	<th>YES</th>	<th>User unique Skype account created ID #####</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>A Skype ID has been created for the user.</th>	</tr>
+            <tr>	<th>1002</th>	<th>YES</th>	<th>User account PART-VERIFIED</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin has confirmed identity via Skype</th>	</tr>
+            <tr>	<th>1003</th>	<th>YES</th>	<th>User account VERIFIED</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Second admin has reviewed evidence of identity.  Account is ready to use.</th>	</tr>
+            <tr>	<th>1004</th>	<th>YES</th>	<th>User account SUSPENDED reason FRAUD</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin suspended account for suspected fraud</th>	</tr>
+            <tr>	<th>1005</th>	<th>YES</th>	<th>User account SUSPENDED reason ABUSIVE BEHAVIOUR</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin suspended account for breaking code of conduct</th>	</tr>
+            <tr>	<th>1006</th>	<th>YES</th>	<th>User account RESUBMIT</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin wants user to resubmit a selfie</th>	</tr>
+            <tr>	<th>1007</th>	<th>YES</th>	<th>User account OVERDUE PAYMENT</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>Account on hold as monthly fees failed</th>	</tr>
+            <tr>	<th>1008</th>	<th>YES</th>	<th>User account ON HOLD</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has put their account on hold</th>	</tr>
+            <tr>	<th>1009</th>	<th>YES</th>	<th>User account SLEEP</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has put their account to sleep</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>2000</th>	<th>YES</th>	<th>User initiated dating services match from location ####</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User has triggered a dating search from this location</th>	</tr>
+            <tr>	<th>2001</th>	<th>YES</th>	<th>User initiated dating services match – location not found</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>There was a problem getting the user’s location</th>	</tr>
+            <tr>	<th>2010</th>	<th>YES</th>	<th>User shown member profile</th>	<th>N/A</th>	<th>N/A</th>	<th>YES</th>	<th>User is shown the profile of another user who matches their criteria</th>	</tr>
+            <tr>	<th>2011</th>	<th>YES</th>	<th>User has shown interest in other user</th>	<th>YES</th>	<th>N/A</th>	<th>YES</th>	<th>User has shown interest in other user</th>	</tr>
+            <tr>	<th>2012</th>	<th>YES</th>	<th>User has shown disinterest in other user</th>	<th>YES</th>	<th>N/A</th>	<th>YES</th>	<th>User has shown disinterest in other user</th>	</tr>
+            <tr>	<th>2013</th>	<th>YES</th>	<th>User has chosen to block other user</th>	<th>YES</th>	<th>N/A</th>	<th>YES</th>	<th>User has chosen to block other user</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>2020</th>	<th>YES</th>	<th>Full match has occurred between users</th>	<th>YES</th>	<th>N/A</th>	<th>YES</th>	<th>Records that a match has occurred</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>2100</th>	<th>YES</th>	<th>Skype message set to other user</th>	<th>YES</th>	<th>N/A</th>	<th>YES</th>	<th>A Skype message was sent</th>	</tr>
+            <tr>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	<th></th>	</tr>
+            <tr>	<th>3001</th>	<th>N/A</th>	<th>Admin login from IP ##.##.##.##</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin user has logged in.  We record the IP of the machine used.</th>	</tr>
+            <tr>	<th>3002</th>	<th>YES</th>	<th>Admin has looked up user</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin has looked at a user profile</th>	</tr>
+            <tr>	<th>3003</th>	<th>YES</th>	<th>Admin initiates Skype call</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Admin has activated phone call</th>	</tr>
+            <tr>	<th>3004</th>	<th>YES</th>	<th>Skype call ends</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Skype call has ended</th>	</tr>
+            <tr>	<th>3005</th>	<th>YES</th>	<th>Skype call fails</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>System error in Skype has terminated call</th>	</tr>
+            <tr>	<th>3006</th>	<th>YES</th>	<th>Skype call unanswered</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>Skype call was not answered</th>	</tr>
+            <tr>	<th>3005</th>	<th>YES</th>	<th>Video chat stored as file ID ####</th>	<th>N/A</th>	<th>YES</th>	<th>YES</th>	<th>The video record was stored, including ID</th>	</tr>
+
+        <p>
+    </body>
+</html>
+
+
