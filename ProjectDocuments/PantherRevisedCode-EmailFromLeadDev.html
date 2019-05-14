@@ -23,8 +23,8 @@
         <p>Well yes, the test team came to me over the Panther ODM code, with some concerns about how we test it – I’ve taken a look into it, and share their concerns.</p>
         <p>I was impressed that one of them had <a href="http://angiejones.tech/test-automation-code-smells/">found this article by Angie Jones on this</a>, and had even found a couple of cute quotes from it.</p>
 
-        <img src="Panther/longclass1.jpg">
-        <img src="Panther/longclass2.jpg">
+        <img src="Panther/longclass1.JPG">
+        <img src="Panther/longclass2.JPG">
 
         <p>It’s not the worst code I’ve seen, but it could be a lot better.  I really don’t like how Jake has created a large class to handle both fuel calculation and weight management.  I did raise concerns with you about his work, and didn’t feel he was the right person to be working on this so unsupervised.</p>        
         <p>What I’ve done is break down his main class – from outside, <b>AircraftManagement</b> looks and works the same (so all those JUnit tests will work as is), but ideally a class should be a small, self-contained instance.  So I’ve added the following smaller classes which <b>AircraftManagement</b> uses,</p>
