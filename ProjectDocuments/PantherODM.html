@@ -223,16 +223,77 @@
         <p>It’s provided in the format</p>
         <p>&nbsp &nbsp<b>| Height | Speed | Weight | Fuel Usage |</b></p>
         <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
+        <p>Because this file is so mission critical, there are strict rules handling of this file.  The system must fail if,</p>
+        <ul>
+            <li>Any line contains and more or less than 4 sets of data separated by |</li>
+            <li>Any set of data does not convert to a number</li>
+            <li>There are less than 180 data entries</li>
+        </ul>
+        <p>This is because it’s seen as better to make a flight crew calculate fuel usage manually than accept a value from the system where data was missing.</p>
         <p></p>
 
+        <h1>Detailed Example</h1>
+
+        <p>A Panther aircraft is going to take part in a live exercise at the army base in Waioru, and will be dropping unarmed “dumb bombs” on a firing range.</p>
+
+        <h2>Equipment</h2>
+        <p>The aircraft will be armed with 4 dumb bombs and 8 air-to-air missiles.</p>
+        <p>It will be carrying fuel tanks and a total of 5000kg of fuel.</p>
+        <p>This should give it an all up weight of 14,800kg.</p>
+        <p></p>
+
+        <h2>Cruise to Palmerston North</h2>
+
+        <img src="Panther/cruisetopalmy.jpg">
+        
+        <p>The aircraft will take off from Wellington, and climb to 20,000 ft using 200kg of fuel.  From here it will fly at 400kts until it reaches Palmerston North.  This is a distance of 75 nm.</p>
+        <p>The aircraft should have at this point an all up weight of 14,600kg.  Using the 400kts table, weight of 15,000kg and altitude of 16,000ft – this should mean its consuming 16.2kg/min of fuel.</p>
+        <p>At 400kts, it should take 11.25 mins to travel this (= 60mins x 75nm / 400kts).</p>
+        <p>Hence it should use 182.25kg of fuel (=11.25mins x 16.2kg/min).</p>
+        <p></p>
+
+        <h2>Attack run to Waioru</h2>
+
+        <img src="Panther/attackrun.jpg">
+
+        <p>From Palmerston North to Waioru it will fly at only 200ft to keep a low radar profile.  It will accelerate to an attack speed of 600kts.  This is a distance of 86nm.</p>
+        <p>The aircraft should have at this point an all up weight of 14,417.75kg.  Using the 600kts table, weight of 15,000kg and altitude of 0ft – this should mean its consuming 72.9kg/min of fuel.</p>
+        <p>At 600kts, it should take 8.6 mins to travel this (= 60mins x 86nm / 600kts).</p>
+        <p>Hence it should use 626.94kg of fuel (=8.6mins x 72.9kg/min).</p>
+        <p></p>
+
+        <h2>Escape to Whanganui</h2>
+
+        <img src="Panther/escapeflight.jpg">
+        
+        <p>At Waioru it will drop 4 of its dumb bombs, and climb to 1000ft.  The climb will use 8kg of fuel.</p>
+        <p>At this point, combined with the loss of its 4 bombs, the aircraft weight will be 11,109.89kg.</p>
+        <p>It will then cruise to Whanganui at 500kts.  This is a distance of 57nm.</p>
+        <p>Using the 500kts table, weight of 12,000kg and altitude of 500ft – this should mean its consuming 39.9kg/min of fuel.</p>
+        <p>At 500kts, it should take 6.84 mins to travel this (= 60mins x 57nm / 500kts).</p>
+        <p>Hence it should use 272.92kg of fuel (=6.48 mins x 39.9kg/min).</p>
+        <p></p>
+
+        <h2>Refuel at Whanganui</h2>
+
+        <p>At Whanganui, a tanker will be waiting to perform an in-air refuel.</p>
+        <p>The aircraft will climb to 18,000 feet, and take on 2000kg of fuel.</p>
+        <p>At this point the aircraft weight will be 12799.89kg.</p>
+        <p></p>
+
+        <h2>Cruise to Sydney</h2>
+
+        <img src="Panther/ausflight.jpg">
+
+        <p>The aircraft is due to take part in a trade show at Sydney.  From Whanganui it will fly non-stop at 500kts to Sydney at 32,000ft.  This is a distance of 1188nm.</p>
+        <p>Using the 500kts table, weight of 13,000kg and altitude of 32000ft – this should mean its consuming 11.8kg/min of fuel.</p>
+        <p>At 500kts, it should take 142.56mins to travel this (= 60mins x 1188nm / 500kts).</p>
+        <p>Hence it should use 1682.21kg of fuel (=142.56 mins x 11.8kg/min).</p>
+        <p></p>
+
+        <h1>Source</h1>
+        <p>If you’re interested in knowing more, a real life copy of the Jaguar ODM can be found <a href="http://www.avialogs.com/en/aircraft/europe-and-consortiums/sepecat/jaguar/ap-101b-3100-16-jaguar-aircraft-operating-data-manual.html">here.</a></p>
+        <p></p>
         
         <p>
     </body>
