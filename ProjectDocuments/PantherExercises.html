@@ -106,9 +106,22 @@
 
         <p>As in the previous exercise, before running you need to go into the file <b>test.properties</b> and edit the command <b>website_under_test</b> to point to the appropriate html link.</p>
 
-        <h2>Exercise 7 - Browser support (BONUS)</h2>
+        <h2>Exercise 7 - Redefine using XPath (BONUS)</h2>
 
-        <p>This is an item for you to try after the workshop - support can be provided remotely.</p>
+        <p><i>This is an item for you to try after the workshop - support can be provided remotely.</i></p>
+
+        <p>Currently if you look at the classes under <b>src/main/testsheepnz.panther/page</b> all the @FindBy instances are find by ID,</p>
+
+        <p>    @FindBy(id = INITIAL_FUEL_FIELD) <br>
+                private WebElement fuelField;</p>
+
+        <p>Change the code, starting with <b>EquipmentPage.java</b> to work from find by XPath. Make sure you keep running your test to make sure what you're changing still works!</p>
+
+        <p>Harnessing the power of Google, look to see how you find XPath elements for a page, and what advantages there are against find by ID.</p>
+
+        <h2>Exercise 8 - Browser support (BONUS)</h2>
+
+        <p><i>This is an item for you to try after the workshop - support can be provided remotely.</i></p>
 
         <p>You are going to attempt to support Internet Explorer (IE) as a supported browser going forward. <i>This obviously only works for Windows machine, if you have another machine, just choose another browser for which you can find driver support.</i></p>
 
