@@ -86,7 +86,7 @@
         <p>We will now be working with <a href="https://github.com/TestSheepNZ/pantheraircraftseleniumautomation">pantheraircraftseleniumautomation</a> from GitHub. </p>
 
         <p>This repository contains a lot more defined tests.</p>
-        <p>A number of builds can be found <a href="./../odm-builds.html">here</a>. Builds 1-4 have been rejected, but no-one knows the exact reason why.</p>
+        <p>A number of builds can be found <a href="./../odm-builds.html">here</a>. Builds 1-5 have been rejected, but no-one knows the exact reason why.</p>
 
         <p>You can get this suite to run on the builds by going into the file <b>test.properties</b> and editing the command <b>website_under_test</b> to point to the appropriate html link.</p>
 
@@ -105,6 +105,28 @@
         <p>Again, you might want to look at <b>ClimbTest.java</b> and <b>DiveTest.java</b> for starting ideas.</p>
 
         <p>As in the previous exercise, before running you need to go into the file <b>test.properties</b> and edit the command <b>website_under_test</b> to point to the appropriate html link.</p>
+
+        <h2>Exercise 7 - Browser support (BONUS)</h2>
+
+        <p>This is an item for you to try after the workshop - support can be provided remotely.</p>
+
+        <p>You are going to attempt to support Internet Explorer (IE) as a supported browser going forward. <i>This obviously only works for Windows machine, if you have another machine, just choose another browser for which you can find driver support.</i></p>
+
+        <h3>1) Download driver</h3>
+        <p>Download the driver for Internet Explorer and place in the <b>resources/drivers.windows</b> folders.</p>
+
+        <h3>2) Handle case for IE browser</h3>
+        <p>Browser support is provided by setting the value <b>browser</b> in <b>test.properties</b> and how this parameter is handled in <b>TestProperties.java</b> including the enum <b>BrowserType</b> and method <b>setBrowserType</b>.</p>
+
+        <h3>3) Open WebDriver for IE instance</h3>
+        <p>If you look into the method <b>launchDriver</b> for class <b>SeleniumInstance</b>, you will find a set of if statements covering opening the WebDriver instance for different browsers.</p>
+        <p>You need to create a new instance to handle IE browsers, including handling the name of the driver and where it is located.</p>
+
+        <h3>4) Troubleshoot</h3>
+
+        <p>IE is one of the trickiest browsers to work with and doesn't work as 'out of the box' as other browsers. You will need to investigate this - but you'll need to set some <b>InternetExplorerOptions</b> before setting <b>driver</b>.</p>
+
+
 
     </body>
 </html>
