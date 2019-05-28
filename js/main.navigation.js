@@ -1,5 +1,5 @@
 (function($) {
   	"use strict"; // Start of use strict
-	$("#mainBanner").load("main-banner.html"); 
+	$("#mainNavigation").load("main-navigation.html"); 
 
 })(jQuery); // End of use strict
