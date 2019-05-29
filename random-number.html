@@ -1,365 +1,539 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<base target="_top">
-		<title>The Number Game</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
-        <link rel="icon" href="img/testsheep.ico">
-	</head>
-    <body>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TestSheepNZ landing page">
+  <meta name="author" content="TestSheepNZ">
+
+  <title>The Number Game</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
+  <link rel="icon" href="img/testsheep.ico">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div id="mainNavigation"></div>
+  </nav>
+
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+          <div class="intro-heading text-uppercase">The Number Game</div>
+          <img src="img/dice.JPG">
+          <div class="intro-lead-in">How good a tester are you?</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="toggleLogging()" hidden >Logging</a>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./random-game-instructions.html" >Instructions</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contents -->
+  <section class="bg-light page-section" id="the-number-game">
+    <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                <h1>The Number Game</h1>
+            <div class="col-lg-12 text-center">
+
+               
+                
+                <form id="ruleList" class="form-horizontal" method="post" action="">
+                    <p>
+                    <div class="row">
+                        <div class="col-lg-12" align="centre">
+                            <h1>Choose a build to test ...</h1>
+                            <i>
+                                <p>
+                                This page simulates rolling a pair of 6-sided dice to generate a random number.<br />
+                                Guess the number - you'll be told "correct", "too high", "too low" or "not a number".
+                            </p></i>
+                        </div>
+                    </div>
+                </form>
+        
+        
+        
+                <form id="setGameForm" class="form-horizontal" method="post" action="">
+                    <div class="row">
+                        <div class="col-lg-3" ></div>
+                        <div class="col-lg-3" >
+                            <label class="description" id="buildID" for="buildNumber">Select build:</label>
+                        </div>
+                        <div class="col-lg-3" >
+                            <select style="font-size:25px;" class="element select medium" id="buildNumber" name="buildNumber" onchange="selectBuild(this.preset)">
+                                <option value="-1"></option>
+                                <option value="0">Demo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3" ></div>
+        
+        
+                    </div>
+                    <p>
+                </form>
+        
+                <form id="rollDiceForm" class="form-horizontal" method="post" action="" hidden>
+                    <div class="row">
+                        <div class="col-lg-3" ></div>
+                        <div class="col-lg-3" >
+                            <label class="description" id="gameSelected">Game selected</label>
+                        </div>
+                        <div class="col-lg-3" >
+                            <input type="button" class="btn btn-primary" id="rollDiceButton" value="Roll the dice" onClick="rollDice()">
+                        </div>
+                        <div class="col-lg-3" ></div>
+        
+                    </div>
+                    <p>
+        
+                        <div class="row" id="rollDiceRow" hidden>
+                            <div class="col-lg-3" ></div>
+                            <div class="col-lg-3" >
+                                <label class="description" id="rollDiceLabel">Rolling dice ...</label>
+                            </div>
+                            <div class="col-lg-3" id="rollDiceGif" >
+                                <img src="img/rolling_dice.gif">
+                            </div>
+                            <div class="col-lg-3" ></div>
+                        </div>
+                </form>
+        
+                <form id="numGuessForm" class="form-horizontal" method="post" action="" hidden>
+        
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label class="description" id="Game selected">Guess the number...</label>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label class="description" id="turnNumber">Turn: 0</label>
+                        </div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-lg-3" ></div>
+                        <div class="col-lg-3" >
+                            <input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6" value="" onkeydown="return (event.keyCode!=13);" />
+                        </div>
+        
+                        <div class="col-lg-3" >
+                            <input type="button" class="btn btn-primary" id="submitButton" value="Submit" onClick="submitNumber()">
+                        </div>
+                        <div class="col-lg-3" ></div>
+                    </div>
+                    <p>
+        
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label class="description" id="feedbackLabel" value=""></label>
+                        </div>
+                    </div>
+        
+                    <div class="row" hidden id="logingElement">
+                        <div class="col-lg-12">
+                            <textarea id="logForm" rows="10" cols="50"></textarea>
+                        </div>
+                    </div>
+                    <p>
+                    
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a href="https://github.com/TestSheepNZ/TestSheepNZ.github.io/issues">GitHub issues register</a>
+                        </div>
+                    </div>
+                    <p>  
+                </form>
+        
             </div>
         </div>
+    </div>
+  </section>
+  
 
-		<div class="row">
-            <div class="col-sm-6">
-                <h2><i><a href="index.html">//testsheepnz.github.io/</a></i></h2>
-            </div>
+
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
         </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Terms of use</h2>
+                <p class="item-intro text-muted">You are free to use the material here for your own learning, or learning within your teams. But please always show attribution to me as the originator.</p>
+                <p>Use of material for submission to conference or paid workshop is restricted. <br>Please contact me first.</p>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-
-		<form id="ruleList" class="form-horizontal" method="post" action="">
-			<p>
-			<div class="row">
-				<div class="col-sm-6">
-					<p><a href="random-game-instructions.html">Instructions here.</a> Choose a build to test ...</p>
-					<i>
-						<p>
-						This page simulates rolling a pair of 6-sided dice to generate a random number.<br />
-						Guess the number - you'll be told "correct", "too high", "too low" or "not a number".
-					</p></i>
-				</div>
-			</div>
-		</form>
-
-
-
-        <form id="setGameForm" class="form-horizontal" method="post" action="">
+    <!-- Modal 2 -->
+    <div class="portfolio-modal modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+              <div class="rl"></div>
+            </div>
+          </div>
+          <div class="container">
             <div class="row">
-
-                <div class="col-sm-2">
-                    <label class="description" id="buildID" for="buildNumber">Select build:</label>
+              <div class="col-lg-8 mx-auto">
+                <div class="modal-body">
+                  <!-- Project Details Go Here -->
+                  <h2 class="text-uppercase">About</h2>
+                  <p class="item-intro text-muted">Whilst material is based on real projects, no confidential information or intellectual property has been reproduced.</p>
+                  <p>All material owned by Mike Talks.</p>
+                  <button class="btn btn-primary" data-dismiss="modal" type="button">
+                    <i class="fas fa-times"></i>
+                    Close Project</button>
                 </div>
-                <div class="col-sm-2">
-                    <select style="font-size:25px;" class="element select medium" id="buildNumber" name="buildNumber" onchange="selectBuild(this.preset)">
-                        <option value="-1"></option>
-                        <option value="0">Demo</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                    </select>
-                </div>
-
-
+              </div>
             </div>
-            <p>
-        </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <form id="rollDiceForm" class="form-horizontal" method="post" action="" hidden>
-            <div class="row">
-                <div class="col-sm-2">
-                    <label class="description" id="gameSelected">Game selected</label>
-                </div>
-                <div class="col-sm-2">
-                    <input type="button" class="btn btn-primary" id="rollDiceButton" value="Roll the dice" onClick="rollDice()">
-                </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Mike Talks 2019</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="https://twitter.com/TestSheepNZ">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item" hidden>
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/mike-talks-3423348/">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item" >
+              <a data-toggle="modal" href="#aboutModal">About</a>
+            </li>
+            <li class="list-inline-item">
+              <a data-toggle="modal" href="#termsModal">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-            </div>
-            <p>
+  <!-- Portfolio Modals -->
 
-                <div class="row" id="rollDiceRow" hidden>
-                    <div class="col-sm-2">
-                        <label class="description" id="rollDiceLabel">Rolling dice ...</label>
-                    </div>
-                    <div class="col-sm-2" id="rollDiceGif">
-                        <img src="img/rolling_dice.gif">
-                    </div>
-                </div>
-        </form>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <form id="numGuessForm" class="form-horizontal" method="post" action="" hidden>
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-            <div class="row">
-                <div class="col-sm-4">
-                    <label class="description" id="Game selected">Guess the number...</label>
-                </div>
-            </div>
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
 
-            <div class="row">
-                <div class="col-sm-2">
-                    <label class="description" id="turnNumber">Turn: 0</label>
-                </div>
-            </div>
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
 
-            <div class="row">
-                <div class="col-sm-2">
-                    <input id="numberGuess" name="numberGuess" class="element text medium" type="text" maxlength="6" value="" onkeydown="return (event.keyCode!=13);" />
-                </div>
-
-                <div class="col-sm-2">
-                    <input type="button" class="btn btn-primary" id="submitButton" value="Submit" onClick="submitNumber()">
-                </div>
-            </div>
-            <p>
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <label class="description" id="feedbackLabel" value=""></label>
-                </div>
-            </div>
-
-            <div class="row" hidden>
-                <div class="col-sm-6">
-                    <textarea id="logForm" rows="10" cols="50"></textarea>
-                </div>
-            </div>
-			<p>
-            
-            <div class="row">
-                <div class="col-sm-6">
-                    <a href="https://github.com/TestSheepNZ/TestSheepNZ.github.io/issues">GitHub issues register</a>
-                </div>
-            </div>
-            <p>  
-        </form>
-
-        <script>
-
-            var buildSelected = -1;
-            var targetNumber = 0;
-            var debugOn = true;
-            var numTurns = 1;
-
-            /* Build notes
-            1	Everyone a winner
-            2	Offset value
-            3	Floating number
-            4	Misdirection
-            5	Moving target
-            6	Text error
-            7	Sweet as
-            8	Dice 1 times 2
-            9	Programmed response
-            10	Odd always low, even always high
-            11	8 sided dice
-            12	Dice concatinated
-            13	Unstable
-            */
+  <!-- Sets up the header-->
+  <script src="js/main.navigation.js"></script> 
 
 
+  <script>
 
-            function logAction(logEvent) {
-                console.log(logEvent);
-                if (debugOn) {
-                    var originalText = document.getElementById('logForm').value;
-                    document.getElementById('logForm').value = originalText + logEvent + "\n";
-                }
+        var buildSelected = -1;
+        var targetNumber = 0;
+        var debugOn = true;
+        var numTurns = 1;
+
+        /* Build notes
+        1	Everyone a winner
+        2	Offset value
+        3	Floating number
+        4	Misdirection
+        5	Moving target
+        6	Text error
+        7	Sweet as
+        8	Dice 1 times 2
+        9	Programmed response
+        10	Odd always low, even always high
+        11	8 sided dice
+        12	Dice concatinated
+        13	Unstable
+        */
+
+        function toggleLogging() {
+            logAction("Toggle logging");
+            document.getElementById('logingElement').hidden = !(document.getElementById('logingElement').hidden);
+        }
+
+
+        function logAction(logEvent) {
+            console.log(logEvent);
+            if (debugOn) {
+                var originalText = document.getElementById('logForm').value;
+                document.getElementById('logForm').value = originalText + logEvent + "\n";
             }
+        }
 
-            function selectBuild(buildNum) {
-                buildSelected = document.getElementById('buildNumber').value;
+        function selectBuild(buildNum) {
+            buildSelected = document.getElementById('buildNumber').value;
 
-                if (buildSelected == -1) {
-                    document.getElementById('rollDiceForm').hidden = true;
-                    document.getElementById('numGuessForm').hidden = true;
-                } else {
-                    document.getElementById('rollDiceForm').hidden = false;
-                    document.getElementById('rollDiceButton').value = "Roll the dice";
-                    document.getElementById('numGuessForm').hidden = true;
-                }
-            }
-
-            function restoreButtons() {
-                document.getElementById('rollDiceButton').value = "Re-roll";
-                document.getElementById('rollDiceButton').disabled = false;
-                document.getElementById('rollDiceRow').hidden = true;
-            }
-
-            function rollOneDice() {
-                var randomNumber = Math.random();
-                var scaledNumber, returnValue;
-
-                if (buildSelected == 11) {
-                    scaledNumber = +randomNumber * 8.0;
-                } else {
-                    scaledNumber = +randomNumber * 6.0;
-                }
-
-                if (buildSelected != 2) {
-                    scaledNumber = +scaledNumber + 1.0;
-                }
-
-                if (buildSelected != 3) {
-                    returnValue = parseInt(+scaledNumber);
-                } else {
-                    returnValue = +scaledNumber;
-                }
-
-                return returnValue;
-            }
-
-            function rollDice() {
-                document.getElementById('rollDiceButton').disabled = true;
-                document.getElementById('rollDiceRow').hidden = false;
+            if (buildSelected == -1) {
+                document.getElementById('rollDiceForm').hidden = true;
                 document.getElementById('numGuessForm').hidden = true;
-                document.getElementById('logForm').value = "";
-                document.getElementById('feedbackLabel').innerHTML = " ";
+            } else {
+                document.getElementById('rollDiceForm').hidden = false;
+                document.getElementById('rollDiceButton').value = "Roll the dice";
+                document.getElementById('numGuessForm').hidden = true;
+            }
+        }
 
-                var dice1, dice2;
+        function restoreButtons() {
+            document.getElementById('rollDiceButton').value = "Re-roll";
+            document.getElementById('rollDiceButton').disabled = false;
+            document.getElementById('rollDiceRow').hidden = true;
+        }
 
-                dice1 = rollOneDice();
-                dice2 = rollOneDice();
+        function rollOneDice() {
+            var randomNumber = Math.random();
+            var scaledNumber, returnValue;
 
-                logAction("Dice One: " + dice1 + ", Dice Two: " + dice2);
-
-                if (buildSelected == 8) {
-                    targetNumber = +dice1 + +dice1;
-
-                } else if (buildSelected == 12) {
-                    targetNumber = "" + dice1 + dice2;
-                } else {
-                    targetNumber = +dice1 + +dice2;
-                }
-                numTurns = 1;
-
-                logAction("Target number: " + targetNumber);
-                document.getElementById('rollDiceButton').value = "Re-roll";
-                document.getElementById('rollDiceButton').disabled = false;
-                document.getElementById('turnNumber').innerHTML = "Turn: " + numTurns;
-                setTimeout(function () {
-                    document.getElementById('rollDiceRow').hidden = true;
-                    document.getElementById('numGuessForm').hidden = false;
-                    document.getElementById('submitButton').disabled = false;
-                    document.getElementById('numberGuess').value = "";
-                }, 1000);
-
-
-                if (buildSelected == 13) {
-                    setTimeout(function () {
-                        logAction("Browser error ... restart");
-						document.getElementById('buildNumber').value = -1;
-                        window.location.reload(false);
-                    }, 8000);
-                }
+            if (buildSelected == 11) {
+                scaledNumber = +randomNumber * 8.0;
+            } else {
+                scaledNumber = +randomNumber * 6.0;
             }
 
-            function giveFeedback(feedbackString, errorMsg) {
-                var fontSet;
-                if (errorMsg) {
-                    fontSet = "<font size=\"+2\" color=\"red\">";
-                } else {
-                    fontSet = "<font size=\"+2\" color=\"black\">";
-                }
-                document.getElementById('feedbackLabel').innerHTML = fontSet + "<b><i>" + feedbackString + "</i></b></font>";
-                logAction(feedbackString);
+            if (buildSelected != 2) {
+                scaledNumber = +scaledNumber + 1.0;
             }
 
-            function crashBrowser(errorMsg) {
-                giveFeedback(errorMsg, true);
-                setTimeout(function () {
-					document.getElementById('buildNumber').value = -1;
-                    window.location.reload(false);
-                }, 2000);
+            if (buildSelected != 3) {
+                returnValue = parseInt(+scaledNumber);
+            } else {
+                returnValue = +scaledNumber;
             }
 
+            return returnValue;
+        }
 
+        function rollDice() {
+            document.getElementById('rollDiceButton').disabled = true;
+            document.getElementById('rollDiceRow').hidden = false;
+            document.getElementById('numGuessForm').hidden = true;
+            document.getElementById('logForm').value = "";
+            document.getElementById('feedbackLabel').innerHTML = " ";
 
-            function submitNumber() {
-                var guess = document.getElementById('numberGuess').value;
-                document.getElementById('submitButton').disabled = true;
+            var dice1, dice2;
 
-                if (buildSelected == 1) {
-                    giveFeedback("Correct, it took " + numTurns + " turns!", false);
-                    return;
-                }
+            dice1 = rollOneDice();
+            dice2 = rollOneDice();
 
-                if (buildSelected != 9) {
+            logAction("Dice One: " + dice1 + ", Dice Two: " + dice2);
 
-                    if (isNaN(guess)) {
-                        if (buildSelected == 6) {
-                            crashBrowser("Error: NaN not handled, restart", false);
-                        } else {
-                            giveFeedback(guess + ": Not a number!", true);
-                        }
-                    } else {
-                        if (buildSelected == 6 && guess >= 32000) {
-                            crashBrowser("Error: Integer overflow, restart", false);
-                            return;
-                        }
+            if (buildSelected == 8) {
+                targetNumber = +dice1 + +dice1;
 
-                        if (guess == targetNumber) {
-                            giveFeedback("Correct, it took " + numTurns + " turns!", false);
-                            return;
-                        } else {
-                            var tooHighText, tooLowText;
-                            if (buildSelected == 4) {
-                                tooLowText = ": Too high!";
-                                tooHighText = ": Too low!";
-                            } else {
-                                tooHighText = ": Too high!";
-                                tooLowText = ": Too low!";
-                            }
+            } else if (buildSelected == 12) {
+                targetNumber = "" + dice1 + dice2;
+            } else {
+                targetNumber = +dice1 + +dice2;
+            }
+            numTurns = 1;
 
-                            if (buildSelected == 10) {
-                                if ((guess % 2) == 0) {
-                                    giveFeedback(guess + tooHighText, true);
-                                } else {
-                                    giveFeedback(guess + tooLowText, true);
-                                }
-                            } else {
-                                if (guess > targetNumber) {
-                                    giveFeedback(guess + tooHighText, true);
-                                } else {
-                                    giveFeedback(guess + tooLowText, true);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    var tooHighText, tooLowText;
-                    tooHighText = ": Too high!";
-                    tooLowText = ": Too low!";
-
-                    switch (numTurns) {
-                        case 1:
-                            giveFeedback(guess + tooHighText, true);
-                            break;
-                        case 2:
-                            giveFeedback(guess + tooLowText, true);
-                            break;
-                        case 3:
-                            giveFeedback("Correct, it took " + numTurns + " turns!", false);
-                            return;
-                    }
-                }
-
-                if (buildSelected == 5) {
-                    targetNumber++;
-                }
+            logAction("Target number: " + targetNumber);
+            document.getElementById('rollDiceButton').value = "Re-roll";
+            document.getElementById('rollDiceButton').disabled = false;
+            document.getElementById('turnNumber').innerHTML = "Turn: " + numTurns;
+            setTimeout(function () {
+                document.getElementById('rollDiceRow').hidden = true;
+                document.getElementById('numGuessForm').hidden = false;
                 document.getElementById('submitButton').disabled = false;
-                numTurns++;
-                document.getElementById('turnNumber').innerHTML = "Turn: " + numTurns;
                 document.getElementById('numberGuess').value = "";
+            }, 1000);
+
+
+            if (buildSelected == 13) {
+                setTimeout(function () {
+                    logAction("Browser error ... restart");
+                    document.getElementById('buildNumber').value = -1;
+                    window.location.reload(false);
+                }, 8000);
+            }
+        }
+
+        function giveFeedback(feedbackString, errorMsg) {
+            var fontSet;
+            if (errorMsg) {
+                fontSet = "<font size=\"+2\" color=\"red\">";
+            } else {
+                fontSet = "<font size=\"+2\" color=\"black\">";
+            }
+            document.getElementById('feedbackLabel').innerHTML = fontSet + "<b><i>" + feedbackString + "</i></b></font>";
+            logAction(feedbackString);
+        }
+
+        function crashBrowser(errorMsg) {
+            giveFeedback(errorMsg, true);
+            setTimeout(function () {
+                document.getElementById('buildNumber').value = -1;
+                window.location.reload(false);
+            }, 2000);
+        }
+
+
+
+        function submitNumber() {
+            var guess = document.getElementById('numberGuess').value;
+            document.getElementById('submitButton').disabled = true;
+
+            if (buildSelected == 1) {
+                giveFeedback("Correct, it took " + numTurns + " turns!", false);
+                return;
             }
 
+            if (buildSelected != 9) {
 
-        </script>
+                if (isNaN(guess)) {
+                    if (buildSelected == 6) {
+                        crashBrowser("Error: NaN not handled, restart", false);
+                    } else {
+                        giveFeedback(guess + ": Not a number!", true);
+                    }
+                } else {
+                    if (buildSelected == 6 && guess >= 32000) {
+                        crashBrowser("Error: Integer overflow, restart", false);
+                        return;
+                    }
 
-    </body>
+                    if (guess == targetNumber) {
+                        giveFeedback("Correct, it took " + numTurns + " turns!", false);
+                        return;
+                    } else {
+                        var tooHighText, tooLowText;
+                        if (buildSelected == 4) {
+                            tooLowText = ": Too high!";
+                            tooHighText = ": Too low!";
+                        } else {
+                            tooHighText = ": Too high!";
+                            tooLowText = ": Too low!";
+                        }
+
+                        if (buildSelected == 10) {
+                            if ((guess % 2) == 0) {
+                                giveFeedback(guess + tooHighText, true);
+                            } else {
+                                giveFeedback(guess + tooLowText, true);
+                            }
+                        } else {
+                            if (guess > targetNumber) {
+                                giveFeedback(guess + tooHighText, true);
+                            } else {
+                                giveFeedback(guess + tooLowText, true);
+                            }
+                        }
+                    }
+                }
+            } else {
+                var tooHighText, tooLowText;
+                tooHighText = ": Too high!";
+                tooLowText = ": Too low!";
+
+                switch (numTurns) {
+                    case 1:
+                        giveFeedback(guess + tooHighText, true);
+                        break;
+                    case 2:
+                        giveFeedback(guess + tooLowText, true);
+                        break;
+                    case 3:
+                        giveFeedback("Correct, it took " + numTurns + " turns!", false);
+                        return;
+                }
+            }
+
+            if (buildSelected == 5) {
+                targetNumber++;
+            }
+            document.getElementById('submitButton').disabled = false;
+            numTurns++;
+            document.getElementById('turnNumber').innerHTML = "Turn: " + numTurns;
+            document.getElementById('numberGuess').value = "";
+        }
+
+
+    </script>
+
+
+</body>
+
+
+
+
 </html>
-
-
