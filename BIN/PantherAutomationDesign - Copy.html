@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<base target="_top">
+		<title>Panther ODM Version 2.0</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="shortcut icon" href="../img/testsheep.ico" type="image/x-icon" />
+    <link rel="icon" href="../img/testsheep.ico">
+	</head>
+    <body>
+        <h1>Panther UI Automation Design</h1>
+
+        <p><i>The following email was recieved from the lead developer...</i></p>
+        <p><b>From:</b> Sharmila Sudha [Automation Specialist]</p>
+        <p><b>Sent:</b> Friday, 12 January 2018 15:43 p.m.</p>
+        <p><b>To:</b> Mike Talks [Avionic Manager]; Test Team</p>
+        <p><b>Subject:</b> Panther UI Automation Suite</p>
+        <p></p>
+
+        <p>Hi Mike - Happy New Year!</p>
+        <p></p>
+        <p>Well, we're getting there. The first working version of the ODM pages were ready before Christmas, and I've been putting together the Selenium framework to allow us to build some tests. I'm going to talk you through some of the design decisions, and maybe you'll want one of the testers to put this into a wiki sometime.</p>
+        
+        <h1>Test properties</h1>
+        <img src="Panther/testproperties.jpg">
+
+        <p></p>
+        <p>Under the base directory you'll find the <b>readme.md</b> which outlines the project and the all important <b>test.properties</b> file.</p>
+        <p>The <b>test.properties</b> file contains the test parameters used in the test code. The important ones of these are,</p>
+        <ul>
+            <li><b>browser</b>, the type of browser to test on</li>
+            <li><b>machine_type</b>, the type of machine you're running this on</li>
+            <li><b>website_under_test</b>, the url for the website you're testing</li>
+            <li><b>max_wait</b>, the maximum amount of time the system will wait before failing a step</li>
+            <li><b>shut_browser_when_done</b>, should normally be <b>true</b>, but if you're exploring a new test, you might want it set to <b>false</b></li>
+        </ul>
+
+        <h1>Utilities</h1>
+        <p>The utility package can be found under <b>src/main/java/testsheepnz.panther/util</b>. This includes a host of the backbone classes to make the tests work. I will only talk about the classes your testers might have to worry about here.</p>
+
+        <h2>SeleniumInstance</h2>
+        <img src="Panther/seleniuminstance.jpg">
+        <p>The most important one is <b>SeleniumInstance</b>, which collects together both the Selenium webdriver and wait, together with the properties defined in <b>test.properties</b>.</p>
+        <p>It uses the properties to define what kind of browser to launch together with where to find the driver, what size to make the page and how long to definte the default wait.</p>
+
+        <h2>TestLog</h2>
+        <p><b>TestLog</b> looks after creating screenshots, and creating documents for each test run. Tests will take screenshots at tactical points as defined by the user. This handles making that happen.</p>
+        <p>For your testers they probably only need to worry about calling the method <b>addScreenshot</b> within their test.</p>
+        <p>The output test logs can be found under <b>src/main/resources/screenshots</b></p>
+
+        <h2>SetupAssistant</h2>
+        <p>This is a set of methods which will take care of setting up the webpage if they're using later features. It helps make their tests as simple as possible.</p>
+        <p>Because these are utility methods to set up data for a test, we do not use any assertions here.</p>
+        <p>Methods available to them include,</p>
+        <ul>
+            <li><b>setupStandardAircraftFromEquipmentForm</b>, they just need to provide fuel, and sets up a Panther in a default equipment setting</li>
+            <li><b>setUpAircraftFromEquipmentForm</b>, is a more customisable way to load the aircraft</li>
+            <li><b>selectLoadFromEquipmentForm</b>, waits for the equipment form to be visible, then selects to load</li>
+            <li><b>selectCruiseFromStatusForm</b>, waits for the status form to be visible, then selects cruise</li>
+            <li><b>selectClimbFromStatusForm</b>, waits for the status form to be visible, then selects climb</li>
+            <li><b>selectDiveFromStatusForm</b>, waits for the status form to be visible, then selects dive</li>
+            <li><b>applyCruiseFromCruiseForm</b>, waits for the cruise form to be visible, then enters the details for cruise, then applies</li>
+            <li><b>applyDiveFromDiveForm</b>, waits for the dive form to be visible, then enters the details for dive, then applies</li>
+            <li><b>applyClimbFromClimbForm</b>, waits for the climb form to be visible, then enters the details for climb, then applies</li>
+            <li><b>setHeightFromStatusForm</b>, will set the aircraft to whatever altitude you need it to be</li>
+            <li><b>getErrorMessage</b>, captures any error message and returns it</li>
+        </ul>
+
+
+        <h1>Page Definitions</h1>
+        <p>The Selenium tests use the Page Factory model (references at the bottom), with pages defined under <b>src/main/java/testsheepnz.panther/page</b></p>
+        <p>Pages extend the <b>BasePage</b> class, which contains all the WebDriver, TestProperty and WebDriverWait objects, as well as calls the <b>PageFactory.initElements</b> to initialise the elements for the page.</p>
+        <p>The pages themselves are technically defined for each active form on the Panther, which we felt made sense - it's a single application acting like several pages!</p>
+
+
+        <img src="Panther/pagedefinitions.jpg">
+
+        <p>For each web page such as <b>DivePage</b>, there are the following items,</p>
+        <ul>
+            <li><b>definitions</b> - an identifier in the form <b><i>private static final String </i></b> for the web element (your testers can check these using the browser developer tools)</li>
+            <li><b>waitForPage method</b> - this is a method which will wait until a certain element for a form is present. We're typically using forms for the ODM page, but it can be anything which once it visible, you know you can proceed. Occasionally we've specified a reverse <b>waitForPageToVanish</b></li>
+            <li><b>@FindBy declaration</b> - each element needs to have a @FindBy statement. We're currently using @FindBy ID as our definition.</li>
+            <li><b>public activity methods</b> - define all our @FindBy methods as private. For each element we're using we need to decide how the tests will interact and use them, and create public methods to facilitate that. So for the apply button we'll create a method to click the button called <b>clickApplyButton</b>. For a text field we might want to create a method to get the value from the field, as well as another method to be able to set the value of the field - so <b>getDiveAltitude</b> and <b>setDiveAltitude</b> respectively.</li>
+        </ul>
+
+        <h1>Tests</h1>
+
+        <p>Ah, this is where the magic happens, and where your testers will be most interested in. They're under <b>src/test/testsheepnz.panther.aircraft.test</b></p>
+
+        <h2>BaseTest</h2>
+        <p>There is a parent <b>BaseTest</b> class which all tests extend from. <b>BaseTest</b> contains the <b>SeleniumInstance</b> as well as the <b>TestLog</b></p>
+        <p><b>BaseTest</b> runs some @Before / @BeforeClass methods before tests are run which will read the test properties, set up a Selenium Instance (opening a browser) as well as set up the log file.</p>
+        <p>Correspondingly it will also run some @After / @AfterClass methods to close the file and browser afterwards.</p>
+        <p>Note that there is a parameter, <b><i>protected Boolean testPasses</i></b> which is set to <i>false</i> at the start of a test, and only set to <i>true</i> as the last step in a test. This means if the test aborts because of a problem, the log file will assume it failed. You only get it to pass if the test ran all the way through.</p>
+
+        <h2>Individiual tests</h2>
+
+        <p>Each test class extends <b>BaseTest</b>.</p>
+
+        <img src="Panther/beforeclass.jpg">
+
+        <p>They should have a @BeforeClass which will include the name of the class. This helps define the name of the logfile generated for these test.</p>
+
+
+        <img src="Panther/textexample.jpg">
+
+        <p>A typical test looks like this,</p>
+
+        <ul>
+            <li>Start by setting the <b>SeleniumInstance</b> to the homepage.</li>
+            <li>We use <b>testDecription</b> as a form of comment, which will be sent to <b>takeScreenshot</b> at an appropriate point.</li>
+            <li>We then declare an instance of <b>EquipmentPage</b>, and we use methods on there to wait for the page to be displayed (then take a screenshot).</li>
+            <li>We assert that when we call the method <b>attemptNumMissile(1)</b> it returns true</li>
+        </ul>
+        <p><i>Ideally we want to limit ourselves to one or two assertions for each test, and give them a meaningful name.</i></p>
+
+
+        <h1>Reading</h1>
+        <p>I know the Page Factory model is a bit new to some of your testers, you might find some of the following reading helpful,</p>
+        <ul>
+            <li><a href="https://github.com/SeleniumHQ/selenium/wiki/PageFactory">Using the page factory</a></li>
+            <li><a href="https://www.guru99.com/page-object-model-pom-page-factory-in-selenium-ultimate-guide.html">Page Object Model (POM) & Page Factory</a></li>
+            <li><a href="https://www.logigear.com/blog/test-automation/building-a-selenium-framework-from-a-to-z/">Building a Selenium framework</a></li>
+            <li><a href="https://www.swtestacademy.com/page-object-model-java/">Page object model in Java</a></li>
+            <li><a href="https://www.testingexcellence.com/page-object-framework-java-webdriver/">Page Object Model Framework with Java and WebDriver</a></li>
+            <li><a href="https://blog.testproject.io/2017/07/16/page-object-model/">Page Object Model- Make It Simple, Use Abstraction</a></li>
+            <li><a href="https://www.pluralsight.com/guides/getting-started-with-page-object-pattern-for-your-selenium-tests">Creating Page class</a></li>
+        </ul>
+        <p></p>
+        <p>Good luck with this, your testers know where to find me,</p>
+        <p>Sharmila Sudha</p>
+        <p>Automation Specialist, Panther Project</p>
+        <p></p>                        
+    </body>
+</html>

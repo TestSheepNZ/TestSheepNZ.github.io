@@ -1,145 +1,272 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<base target="_top">
-		<title>Panther ODM Version 2.0</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="shortcut icon" href="../img/testsheep.ico" type="image/x-icon" />
-    <link rel="icon" href="../img/testsheep.ico">
-	</head>
-    <body>
-        <h1>Panther Test Kata Exercises</h1>
+<html lang="en">
 
-        <img src="Panther/Panther.png">
+<head>
 
-        <p>Welcome to the Panther Test Kata exercise - this page will give you a breakdown of tasks for throughout the workshop.</p>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Panther Exercises">
+  <meta name="author" content="TestSheepNZ">
 
+  <title>Panther Exercises</title>
 
-        <h2>Setting up your machine</h2>
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        <p>The exercise requires a machine which can run Java - don't worry too much if you're relatively new to Java, the exercises are designed to be useable with a minimum understanding of the language (although you'll get more out of it the more you understand).</p>
-        <p>To help, you'll also be working in groups.</p>
-        <p>Still, it's important to arrive with a working laptop that's ready to go!</p>
-        <p></p>
-        <p>Here are the items I recommend pre-installing.</p>
-        <ul>
-            <li>Oracle Java Development Kit (JDK) relevant for your machine. This will allow Java to run on your machine. This is required for your Integrated Development Environment to work on. <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Currently can be found here.</a></li>
-            <li>IntelliJ IDEA Community Edition (IDE). This is where we'll be editing code. <a href="https://www.jetbrains.com/idea/download/">Currently can be found here.</a></li>
-        </ul>
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
-        <p>I recommend a Windows laptop, but the code should work on Linux or macOS (been designed with you in mind, but I have nothing to test it on).</p>
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
 
-        <p>If possible, I recommend pre-reading through <a href="PantherOverview.html">the following introduction to the scenario you face</a> together with <a href="PantherODM.html">this set of requirements</a>.</p>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
+  <link rel="icon" href="img/testsheep.ico">
 
-        <h2>Exercise 1 - Testing fuel data load</h2>
+</head>
 
-        <p>We start working with <a href="https://github.com/TestSheepNZ/pantheraircraftodminitial">pantheraircraftodminitial</a> from GitHub.</p>
+<body id="page-top">
 
-        <p>
-
-        <p>This is the start version of the code we're working on.</p>
-        <p>We are going to focus on the tests in <b>src/test/java/testsheepnz/panther/odm/calculator/test/FuelRateDataTests.java</b></p>
-        <p>These tests are designed to test the how the class <b>FuelRateData</b> copes with lines of data given.</p>
-        <p>Currently there is a postive and negative test created, but the test manager doesn't like them. Can you do better?</p>
-        <p></p>                        
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div id="mainNavigation"></div>
+  </nav>
 
 
-        <h2>Exercise 2 - Testing equipment load</h2>
+  <!-- Header -->
+    <!-- Header -->
+    <header class="masthead">
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-heading text-uppercase">Panther ODM</div>
+                <img src="img/panther_icon.PNG">
+                <div class="intro-lead-in">Exercises</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./PantherDocuments.html" >Documentation</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./PantherExercises.html" hidden >Exercises</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./panther-all-builds.html" >Builds</a>
+            </div>
+        </div>
+    </header>
 
-        <p>We start working again with <a href="https://github.com/TestSheepNZ/pantheraircraftodminitial">pantheraircraftodminitial</a> from GitHub.</p>
+  <!-- Contents -->
+  <section class="bg-light page-section" id="main-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-left">
 
-        <p>We are going to look at the other test class which can be found in <b>src/test/java/testsheepnz/panther/odm/calculator/test/AircraftManagementTests.java</b></p>
+                <h1>Panther Test Kata Exercises</h1>
 
-        <ul>
-            <li><b><i>What are your thoughts on these tests?</i></b></li>
-            <li><b><i>What are they trying to test?</i></b></li>
-            <li><b><i>Do any of the scenarios look familiar?</i></b></li>
-        </ul>
+                <img src="./img/Panther/Panther.png">
+        
+                <p>Welcome to the Panther Test Kata exercise - this page will give you a breakdown of tasks for throughout the workshop.</p>
+        
+        
+                <h2>Setting up your machine</h2>
+        
+                <p>The exercise requires a machine which can run Java - don't worry too much if you're relatively new to Java, the exercises are designed to be useable with a minimum understanding of the language (although you'll get more out of it the more you understand).</p>
+                <p>To help, you'll also be working in groups.</p>
+                <p>Still, it's important to arrive with a working laptop that's ready to go!</p>
+                <p></p>
+                <p>Here are the items I recommend pre-installing.</p>
+                <ul>
+                    <li>Oracle Java Development Kit (JDK) relevant for your machine. This will allow Java to run on your machine. This is required for your Integrated Development Environment to work on. <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">Currently can be found here.</a></li>
+                    <li>IntelliJ IDEA Community Edition (IDE). This is where we'll be editing code. <a href="https://www.jetbrains.com/idea/download/">Currently can be found here.</a></li>
+                </ul>
+        
+                <p>I recommend a Windows laptop, but the code should work on Linux or macOS (been designed with you in mind, but I have nothing to test it on).</p>
+        
+                <p>If possible, I recommend pre-reading through <a href="PantherOverview.html">the following introduction to the scenario you face</a> together with <a href="PantherODM.html">this set of requirements</a>.</p>
+        
+                <h2>Exercise 1 - Testing fuel data load</h2>
+        
+                <p>We start working with <a href="https://github.com/TestSheepNZ/pantheraircraftodminitial">pantheraircraftodminitial</a> from GitHub.</p>
+        
+                <p>
+        
+                <p>This is the start version of the code we're working on.</p>
+                <p>We are going to focus on the tests in <b>src/test/java/testsheepnz/panther/odm/calculator/test/FuelRateDataTests.java</b></p>
+                <p>These tests are designed to test the how the class <b>FuelRateData</b> copes with lines of data given.</p>
+                <p>Currently there is a postive and negative test created, but the test manager doesn't like them. Can you do better?</p>
+                <p></p>                        
+        
+        
+                <h2>Exercise 2 - Testing equipment load</h2>
+        
+                <p>We start working again with <a href="https://github.com/TestSheepNZ/pantheraircraftodminitial">pantheraircraftodminitial</a> from GitHub.</p>
+        
+                <p>We are going to look at the other test class which can be found in <b>src/test/java/testsheepnz/panther/odm/calculator/test/AircraftManagementTests.java</b></p>
+        
+                <ul>
+                    <li><b><i>What are your thoughts on these tests?</i></b></li>
+                    <li><b><i>What are they trying to test?</i></b></li>
+                    <li><b><i>Do any of the scenarios look familiar?</i></b></li>
+                </ul>
+        
+                <p>During this exercise you'll create a series of tests to check for scenarios with equipment loads. Think what makes a good test, and what will make for useful feedback.</p>
+                <p>Report any issues you find with the software. If you're feeling really confident, you might want to have a go at fixing them.</p>
+                <p></p>
+        
+        
+                <h2>Exercise 3 - Fuel Rate Data</h2>
+        
+                <p>We start working again with <a href="https://github.com/TestSheepNZ/pantheraircraftodminitial">pantheraircraftodminitial</a> from GitHub.</p>
+        
+                <p>There are a number of tables of fuel rate data in the <a href="PantherODM.html">ODM requirements</a>.</p>
+                <p><b>On paper</b> - you need to design a number of scenarios to test this data. Just follow the maths!</p>
+        
+                <p></p>
+                <p>Later on in this exercise you will be asked to check out <a href="https://github.com/TestSheepNZ/pantheraircraftodmmodified">pantheraircraftodmmodified</a> from GitHub. </p>
+        
+                <h2>Exercise 4 - UI Tests With Selenium</h2>
+        
+                <p>We will now be working with <a href="https://github.com/TestSheepNZ/pantheraircraftseleniumautomation">pantheraircraftseleniumautomation</a> from GitHub. </p>
+        
+                <p>A working version of the software has been built with a front-end. It can <a href="./../panther.html">be found here.</a></p>
+                <p>One of your developers has build a basic test framework for you to build tests from.</p>
+                <p>Build and run a few basic tests. Work with the initial tests in <b>/src/test/java/testsheepnz/panther/aircraft/test/EquipmentFormTest.java</b></p>
+                <p></p>
+        
+                <h2>Exercise 5 - What went wrong?</h2>
+        
+                <p>We will now be working with <a href="https://github.com/TestSheepNZ/pantheraircraftseleniumautomation">pantheraircraftseleniumautomation</a> from GitHub. </p>
+        
+                <p>This repository contains a lot more defined tests.</p>
+                <p>A number of builds can be found <a href="./../odm-builds.html">here</a>. Builds 1-5 have been rejected, but no-one knows the exact reason why.</p>
+        
+                <p>You can get this suite to run on the builds by going into the file <b>test.properties</b> and editing the command <b>website_under_test</b> to point to the appropriate html link.</p>
+        
+                <p>You can read through any errors, but also check out logs in <b>/src/main/resources/screenshots</b>. You can also check out manually if you need to.</p>
+                <p>Catalog the problems you find, and bring to the attention of your line manager.</p>
+        
+                <h2>Exercise 6 - Refuel fun</h2>
+        
+                <p><i>This item is extension material - to be honest we could run another full day on this code base! Different people are at different stages in their automation journey, so some might want to tackle this on the day or else look at later.</i></p>
+                <p>New functionality has been added for refueling <a href="./../panther-refuel-prototype.html">on this page</a>.</p>
+                <p>You need to create a new page definition class for this under <b>https://github.com/TestSheepNZ/pantheraircraftseleniumautomation/tree/master/src/main/java/testsheepnz/panther/page</b></p>
+                <p>It might help to look at items like the <b>ClimbPage.java</b> or <b>DivePage.java</b> which have similar definitions.</p>
+                <p>You need to think not just about the elements you need to define but also any methods for what you'll want to do with the elements.</p>
+        
+                <p>Finally you will want to define a test class under <b>/src/test/java/testsheepnz/panther/aircraft/test/</b> which includes some tests.</p>
+                <p>Again, you might want to look at <b>ClimbTest.java</b> and <b>DiveTest.java</b> for starting ideas.</p>
+        
+                <p>As in the previous exercise, before running you need to go into the file <b>test.properties</b> and edit the command <b>website_under_test</b> to point to the appropriate html link.</p>
+        
+                <h2>Exercise 7 - Redefine using XPath (BONUS)</h2>
+        
+                <p><i>This is an item for you to try after the workshop - support can be provided remotely.</i></p>
+        
+                <p>Currently if you look at the classes under <b>src/main/testsheepnz.panther/page</b> all the @FindBy instances are find by ID,</p>
+        
+                <p>    @FindBy(id = INITIAL_FUEL_FIELD) <br>
+                        private WebElement fuelField;</p>
+        
+                <p>Change the code, starting with <b>EquipmentPage.java</b> to work from find by XPath. Make sure you keep running your test to make sure what you're changing still works!</p>
+        
+                <p>Harnessing the power of Google, look to see how you find XPath elements for a page, and what advantages there are against find by ID.</p>
+        
+                <h2>Exercise 8 - Browser support (BONUS)</h2>
+        
+                <p><i>This is an item for you to try after the workshop - support can be provided remotely.</i></p>
+        
+                <p>You are going to attempt to support Internet Explorer (IE) as a supported browser going forward. <i>This obviously only works for Windows machine, if you have another machine, just choose another browser for which you can find driver support.</i></p>
+        
+                <h3>1) Download driver</h3>
+                <p>Download the driver for Internet Explorer and place in the <b>resources/drivers.windows</b> folders.</p>
+        
+                <h3>2) Handle case for IE browser</h3>
+                <p>Browser support is provided by setting the value <b>browser</b> in <b>test.properties</b> and how this parameter is handled in <b>TestProperties.java</b> including the enum <b>BrowserType</b> and method <b>setBrowserType</b>.</p>
+        
+                <h3>3) Open WebDriver for IE instance</h3>
+                <p>If you look into the method <b>launchDriver</b> for class <b>SeleniumInstance</b>, you will find a set of if statements covering opening the WebDriver instance for different browsers.</p>
+                <p>You need to create a new instance to handle IE browsers, including handling the name of the driver and where it is located.</p>
+        
+                <h3>4) Troubleshoot</h3>
+        
+                <p>IE is one of the trickiest browsers to work with and doesn't work as 'out of the box' as other browsers. You will need to investigate this - but you'll need to set some <b>InternetExplorerOptions</b> before setting <b>driver</b>.</p>
+            
+            </div>
+        </div>
+    </div>
+  </section>
+  
 
-        <p>During this exercise you'll create a series of tests to check for scenarios with equipment loads. Think what makes a good test, and what will make for useful feedback.</p>
-        <p>Report any issues you find with the software. If you're feeling really confident, you might want to have a go at fixing them.</p>
-        <p></p>
 
 
-        <h2>Exercise 3 - Fuel Rate Data</h2>
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-        <p>We start working again with <a href="https://github.com/TestSheepNZ/pantheraircraftodminitial">pantheraircraftodminitial</a> from GitHub.</p>
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
-        <p>There are a number of tables of fuel rate data in the <a href="PantherODM.html">ODM requirements</a>.</p>
-        <p><b>On paper</b> - you need to design a number of scenarios to test this data. Just follow the maths!</p>
-
-        <p></p>
-        <p>Later on in this exercise you will be asked to check out <a href="https://github.com/TestSheepNZ/pantheraircraftodmmodified">pantheraircraftodmmodified</a> from GitHub. </p>
-
-        <h2>Exercise 4 - UI Tests With Selenium</h2>
-
-        <p>We will now be working with <a href="https://github.com/TestSheepNZ/pantheraircraftseleniumautomation">pantheraircraftseleniumautomation</a> from GitHub. </p>
-
-        <p>A working version of the software has been built with a front-end. It can <a href="./../panther.html">be found here.</a></p>
-        <p>One of your developers has build a basic test framework for you to build tests from.</p>
-        <p>Build and run a few basic tests. Work with the initial tests in <b>/src/test/java/testsheepnz/panther/aircraft/test/EquipmentFormTest.java</b></p>
-        <p></p>
-
-        <h2>Exercise 5 - What went wrong?</h2>
-
-        <p>We will now be working with <a href="https://github.com/TestSheepNZ/pantheraircraftseleniumautomation">pantheraircraftseleniumautomation</a> from GitHub. </p>
-
-        <p>This repository contains a lot more defined tests.</p>
-        <p>A number of builds can be found <a href="./../odm-builds.html">here</a>. Builds 1-5 have been rejected, but no-one knows the exact reason why.</p>
-
-        <p>You can get this suite to run on the builds by going into the file <b>test.properties</b> and editing the command <b>website_under_test</b> to point to the appropriate html link.</p>
-
-        <p>You can read through any errors, but also check out logs in <b>/src/main/resources/screenshots</b>. You can also check out manually if you need to.</p>
-        <p>Catalog the problems you find, and bring to the attention of your line manager.</p>
-
-        <h2>Exercise 6 - Refuel fun</h2>
-
-        <p><i>This item is extension material - to be honest we could run another full day on this code base! Different people are at different stages in their automation journey, so some might want to tackle this on the day or else look at later.</i></p>
-        <p>New functionality has been added for refueling <a href="./../panther-refuel-prototype.html">on this page</a>.</p>
-        <p>You need to create a new page definition class for this under <b>https://github.com/TestSheepNZ/pantheraircraftseleniumautomation/tree/master/src/main/java/testsheepnz/panther/page</b></p>
-        <p>It might help to look at items like the <b>ClimbPage.java</b> or <b>DivePage.java</b> which have similar definitions.</p>
-        <p>You need to think not just about the elements you need to define but also any methods for what you'll want to do with the elements.</p>
-
-        <p>Finally you will want to define a test class under <b>/src/test/java/testsheepnz/panther/aircraft/test/</b> which includes some tests.</p>
-        <p>Again, you might want to look at <b>ClimbTest.java</b> and <b>DiveTest.java</b> for starting ideas.</p>
-
-        <p>As in the previous exercise, before running you need to go into the file <b>test.properties</b> and edit the command <b>website_under_test</b> to point to the appropriate html link.</p>
-
-        <h2>Exercise 7 - Redefine using XPath (BONUS)</h2>
-
-        <p><i>This is an item for you to try after the workshop - support can be provided remotely.</i></p>
-
-        <p>Currently if you look at the classes under <b>src/main/testsheepnz.panther/page</b> all the @FindBy instances are find by ID,</p>
-
-        <p>    @FindBy(id = INITIAL_FUEL_FIELD) <br>
-                private WebElement fuelField;</p>
-
-        <p>Change the code, starting with <b>EquipmentPage.java</b> to work from find by XPath. Make sure you keep running your test to make sure what you're changing still works!</p>
-
-        <p>Harnessing the power of Google, look to see how you find XPath elements for a page, and what advantages there are against find by ID.</p>
-
-        <h2>Exercise 8 - Browser support (BONUS)</h2>
-
-        <p><i>This is an item for you to try after the workshop - support can be provided remotely.</i></p>
-
-        <p>You are going to attempt to support Internet Explorer (IE) as a supported browser going forward. <i>This obviously only works for Windows machine, if you have another machine, just choose another browser for which you can find driver support.</i></p>
-
-        <h3>1) Download driver</h3>
-        <p>Download the driver for Internet Explorer and place in the <b>resources/drivers.windows</b> folders.</p>
-
-        <h3>2) Handle case for IE browser</h3>
-        <p>Browser support is provided by setting the value <b>browser</b> in <b>test.properties</b> and how this parameter is handled in <b>TestProperties.java</b> including the enum <b>BrowserType</b> and method <b>setBrowserType</b>.</p>
-
-        <h3>3) Open WebDriver for IE instance</h3>
-        <p>If you look into the method <b>launchDriver</b> for class <b>SeleniumInstance</b>, you will find a set of if statements covering opening the WebDriver instance for different browsers.</p>
-        <p>You need to create a new instance to handle IE browsers, including handling the name of the driver and where it is located.</p>
-
-        <h3>4) Troubleshoot</h3>
-
-        <p>IE is one of the trickiest browsers to work with and doesn't work as 'out of the box' as other browsers. You will need to investigate this - but you'll need to set some <b>InternetExplorerOptions</b> before setting <b>driver</b>.</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Mike Talks 2019</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="https://twitter.com/TestSheepNZ">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item" hidden>
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/mike-talks-3423348/">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item" >
+              <a data-toggle="modal" href="#aboutModal">About</a>
+            </li>
+            <li class="list-inline-item">
+              <a data-toggle="modal" href="#termsModal">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 
 
-    </body>
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+  <!-- Sets up the header-->
+  <script src="js/main.navigation.js"></script> 
+
+  <!-- Footer Modals -->
+  <script src="js/footer.modals.js"></script> 
+
+</body>
+
+
+
+
 </html>

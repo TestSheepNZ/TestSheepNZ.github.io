@@ -1,153 +1,329 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <base target="_top">
-    <title>Panther Manual Calculator</title>
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="shortcut icon" href="./../img/testsheep.ico" type="image/x-icon" />
-    <link rel="icon" href="./../img/testsheep.ico">
-  </head>
-  <body>
-    <h1>Panther Manual Calculator</h1>
-    <img src="./../img/panther_icon.PNG">
-    <p>
-    <label class="description">Details about the Panther ODM can be found in <a href="./PantherDocuments.html">this document</a></label>
-    <p>There is a lot of maths involved in this exercise - this is designed to make it just a little easier by doing the actual number handling.</p>
-    <p>You <b>will</b> have to look up the appropriate fuel usage from the data tables.</p>
-      
-    <p>
-   
-    <form id="errorForm" class="form-horizontal"  method="post" action="">
-        <h3><font color="red"  ><i><label id="errorMsgField"></label></i></font></h3>
-    </form>
+<html lang="en">
 
-    <form id="cruiseForm" class="form-horizontal"  method="post" action="">
+<head>
 
-      <h2>Cruise</h2>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TestSheepNZ landing page">
+  <meta name="author" content="TestSheepNZ">
 
-        
-      <div class="row">
+  <title>The Number Game</title>
 
-        <div class="col-sm-2">
-          <label class="description" >Fuel rate</label>
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
+  <link rel="icon" href="img/testsheep.ico">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div id="mainNavigation"></div>
+  </nav>
+
+
+  <!-- Header -->
+    <!-- Header -->
+    <header class="masthead">
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-heading text-uppercase">Panther ODM</div>
+                <img src="img/panther_icon.PNG">
+                <div class="intro-lead-in">Manual Calculator</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./PantherDocuments.html" >Documentation</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./PantherExercises.html" >Exercises</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./panther-all-builds.html"  >Builds</a>
+            </div>
         </div>
-        <div class="col-sm-2">
-          <input id="fuelRateField" name="fuelRate" class="element text medium" type="text" maxlength="10"  value=""/> 
-        </div>
-        <div class="col-sm-1">
-            <label class="description" >kg / min</label>
+    </header>
+
+  <!-- Contents -->
+  <section class="bg-light page-section" id="main-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-left">
+                <p>
+                <p>There is a lot of maths involved in this exercise - this is designed to make it just a little easier by doing the actual number handling.</p>
+                <p>You <b>will</b> have to look up the appropriate fuel usage from the data tables.</p>
+                  
+                <p>
+              
+                <form id="errorForm" class="form-horizontal"  method="post" action="">
+                    <h3><font color="red"  ><i><label id="errorMsgField"></label></i></font></h3>
+                </form>
+
+                <form id="cruiseForm" class="form-horizontal"  method="post" action="">
+
+                  <h2>Cruise</h2>
+
+                    
+                  <div class="row">
+
+                    <div class="col-sm-2">
+                      <label class="description" >Fuel rate</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="fuelRateField" name="fuelRate" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >kg / min</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-sm-2">
+                      <label class="description" >Distance</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="distanceField" name="distance" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >nm</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-sm-2">
+                      <label class="description" >Speed</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="speedField" name="speed" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >nm</label>
+                    </div>
+                  </div>
+
+                  <div class="row">
+              
+                      <div class="col-sm-2"></div>
+                      <div class="col-sm-3">
+                          <input type="button" class="btn btn-primary" id="calculateCruiseButton" value="Calculate" onClick="calculateCruise()"> 
+                          <p></p>
+                      </div>
+                      <div class="col-sm-7"></div>
+                    </div>
+                  
+
+                  <div class="row">
+
+                    <div class="col-sm-2">
+                      <label class="description" >Fuel Used</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="fuelUsedField" name="fuelUsed" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >kg</label>
+                    </div>
+                  </div>
+                  <p></p>
+
+                </form>
+
+                <form id="climbForm" class="form-horizontal"  method="post" action="">
+
+                  <h2>Climb</h2>
+            
+                    
+                  <div class="row">
+            
+                    <div class="col-sm-2">
+                      <label class="description" >Start altitude</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="startAltField" name="startAlt" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >ft</label>
+                    </div>
+                    <p></p>
+                  </div>
+            
+                  <div class="row">
+            
+                    <div class="col-sm-2">
+                      <label class="description" >Final Altitude</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="finalAltField" name="finalAlt" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >ft</label>
+                    </div>
+                  </div> 
+                  <div class="row">
+            
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-3">
+                        <input type="button" class="btn btn-primary" id="calculateClimbButton" value="Calculate" onClick="calculateClimb()"> 
+                        <p></p>
+                    </div>
+                    <div class="col-sm-7"></div>
+                  </div>
+                  
+            
+                  <div class="row">
+            
+                    <div class="col-sm-2">
+                      <label class="description" >Fuel Used</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input id="fuelUsedClimbField" name="fuelUsedClimb" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
+                    </div>
+                    <div class="col-sm-7">
+                        <label class="description" >kg</label>
+                    </div>
+                    <p></p>
+                  </div>
+
+                  <p></p>
+
+                  <h1>Fuel usage charts</h1>
+                  <h2>Fuel usage 400kts speed</h2>
+                  <p>All up weight against aircraft altitude. Fuel usage is in kg / min</p>
+
+                  <table class="table">
+                      <thread class="thead-dark">
+                                <tr>	<th>Altitude/AUW</th><th>7000kg</th>	<th>8000kg</th>	<th>9000kg</th>	<th>10000kg</th>	<th>11000kg</th>	<th>12000kg</th>	<th>13000kg</th>	<th>14000kg</th>	<th>15000kg</th>	<th>16000kg</th>	</tr>
+                            </thread>									
+                           
+                            <tr>	<td><b>0ft</b></td>	<td>26.2</td>	<td>27.1</td>	<td>28.1</td>	<td>29</td>	<td>30.1</td>	<td>31.1</td>	<td>32.2</td>	<td>33.4</td>	<td>34.5</td>	<td>35.7</td>	</tr>
+                            <tr>	<td><b>500ft</b></td>	<td>23.8</td>	<td>24.7</td>	<td>25.5</td>	<td>26.4</td>	<td>27.4</td>	<td>28.3</td>	<td>29.3</td>	<td>30.3</td>	<td>31.4</td>	<td>32.5</td>	</tr>
+                            <tr>	<td><b>2,000ft</b></td>	<td>21.8</td>	<td>22.6</td>	<td>23.4</td>	<td>24.2</td>	<td>25.1</td>	<td>25.9</td>	<td>26.8</td>	<td>27.8</td>	<td>28.8</td>	<td>29.8</td>	</tr>
+                            <tr>	<td><b>8,000ft</b></td>	<td>16.5</td>	<td>17.1</td>	<td>17.7</td>	<td>18.3</td>	<td>18.9</td>	<td>19.6</td>	<td>20.3</td>	<td>21</td>	<td>21.8</td>	<td>22.5</td>	</tr>
+                            <tr>	<td><b>16,000ft</b></td>	<td>12.3</td>	<td>12.7</td>	<td>13.2</td>	<td>13.6</td>	<td>14.1</td>	<td>14.6</td>	<td>15.1</td>	<td>15.7</td>	<td>16.2</td>	<td>16.8</td>	</tr>
+                            <tr>	<td><b>32,000ft</b></td>	<td>6.8</td>	<td>7</td>	<td>7.3</td>	<td>7.6</td>	<td>7.8</td>	<td>8.1</td>	<td>8.4</td>	<td>8.7</td>	<td>9</td>	<td>9.3</td>	</tr>
+                
+                        </table>
+                        <p></p>       
+                
+                        <h2>Fuel usage 500kts speed</h2>
+                        <p>All up weight against aircraft altitude. Fuel usage is in kg / min</p>
+                
+                        <table class="table">
+                            <thread class="thead-dark">												
+                                <tr>	<th>Altitude/AUW</th><th>7000kg</th>	<th>8000kg</th>	<th>9000kg</th>	<th>10000kg</th>	<th>11000kg</th>	<th>12000kg</th>	<th>13000kg</th>	<th>14000kg</th>	<th>15000kg</th>	<th>16000kg</th>	</tr>
+                            </thread>												
+                            <tr>	<td><b>0ft</b></td>	<td>36.8</td>	<td>38.1</td>	<td>39.5</td>	<td>40.9</td>	<td>42.3</td>	<td>43.8</td>	<td>45.3</td>	<td>46.9</td>	<td>48.6</td>	<td>50.3</td>	</tr>
+                            <tr>	<td><b>500ft</b></td>	<td>33.5</td>	<td>34.7</td>	<td>35.9</td>	<td>37.2</td>	<td>38.5</td>	<td>39.9</td>	<td>41.3</td>	<td>42.7</td>	<td>44.2</td>	<td>45.8</td>	</tr>
+                            <tr>	<td><b>2,000ft</b></td>	<td>30.7</td>	<td>31.8</td>	<td>32.9</td>	<td>34.1</td>	<td>35.3</td>	<td>36.5</td>	<td>37.8</td>	<td>39.1</td>	<td>40.5</td>	<td>41.9</td>	</tr>
+                            <tr>	<td><b>8,000ft</b></td>	<td>23.2</td>	<td>24</td>	<td>24.9</td>	<td>25.7</td>	<td>26.7</td>	<td>27.6</td>	<td>28.6</td>	<td>29.6</td>	<td>30.6</td>	<td>31.7</td>	</tr>
+                            <tr>	<td><b>16,000ft</b></td>	<td>17.3</td>	<td>17.9</td>	<td>18.6</td>	<td>19.2</td>	<td>19.9</td>	<td>20.6</td>	<td>21.3</td>	<td>22.1</td>	<td>22.8</td>	<td>23.6</td>	</tr>
+                            <tr>	<td><b>32,000ft</b></td>	<td>9.6</td>	<td>9.9</td>	<td>10.3</td>	<td>10.6</td>	<td>11</td>	<td>11.4</td>	<td>11.8</td>	<td>12.2</td>	<td>12.6</td>	<td>13.1</td>	</tr>
+                        </table>
+                
+                
+                        <h2>Fuel usage 600kts speed</h2>
+                        <p>All up weight against aircraft altitude. Fuel usage is in kg / min</p>
+                
+                        <table class="table">
+                            <thread class="thead-dark">												
+                                <tr>	<th>Altitude/AUW</th><th>7000kg</th>	<th>8000kg</th>	<th>9000kg</th>	<th>10000kg</th>	<th>11000kg</th>	<th>12000kg</th>	<th>13000kg</th>	<th>14000kg</th>	<th>15000kg</th>	<th>16000kg</th>	</tr>
+                            </thread>												
+                            <tr>	<td><b>0ft</b></td>	<td>55.3</td>	<td>57.2</td>	<td>59.2</td>	<td>61.3</td>	<td>63.5</td>	<td>65.7</td>	<td>68</td>	<td>70.4</td>	<td>72.9</td>	<td>75.5</td>	</tr>
+                            <tr>	<td><b>500ft</b></td>	<td>50.3</td>	<td>52.1</td>	<td>53.9</td>	<td>55.8</td>	<td>57.8</td>	<td>59.8</td>	<td>61.9</td>	<td>64.1</td>	<td>66.3</td>	<td>68.7</td>	</tr>
+                            <tr>	<td><b>2,000ft</b></td>	<td>46.1</td>	<td>47.7</td>	<td>49.4</td>	<td>51.1</td>	<td>52.9</td>	<td>54.8</td>	<td>56.7</td>	<td>58.7</td>	<td>60.7</td>	<td>62.9</td>	</tr>
+                            <tr>	<td><b>8,000ft</b></td>	<td>34.8</td>	<td>36</td>	<td>37.3</td>	<td>38.6</td>	<td>40</td>	<td>41.4</td>	<td>42.8</td>	<td>44.4</td>	<td>45.9</td>	<td>47.5</td>	</tr>
+                            <tr>	<td><b>16,000ft</b></td>	<td>26</td>	<td>26.9</td>	<td>27.8</td>	<td>28.8</td>	<td>29.8</td>	<td>30.9</td>	<td>32</td>	<td>33.1</td>	<td>34.3</td>	<td>35.5</td>	</tr>
+                            <tr>	<td><b>32,000ft</b></td>	<td>14.4</td>	<td>14.9</td>	<td>15.4</td>	<td>15.9</td>	<td>16.5</td>	<td>17.1</td>	<td>17.7</td>	<td>18.3</td>	<td>19</td>	<td>19.6</td>	</tr>
+                        </table>  
+                        <p></p>     
+            
+                </form>
+
+            </div>
+          </div>
+      </div>
+    </section>
+    
+  
+  
+  
+    <!-- Modal 1 -->
+    <div class="portfolio-modal modal fade" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+  
+    <!-- Modal 2 -->
+    <div class="portfolio-modal modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="copyright">Copyright &copy; Mike Talks 2019</span>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/TestSheepNZ">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item" hidden>
+                <a href="#">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/mike-talks-3423348/">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline quicklinks">
+              <li class="list-inline-item" >
+                <a data-toggle="modal" href="#aboutModal">About</a>
+              </li>
+              <li class="list-inline-item">
+                <a data-toggle="modal" href="#termsModal">Terms of Use</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-
-      <div class="row">
-
-        <div class="col-sm-2">
-          <label class="description" >Distance</label>
-        </div>
-        <div class="col-sm-2">
-          <input id="distanceField" name="distance" class="element text medium" type="text" maxlength="10"  value=""/> 
-        </div>
-        <div class="col-sm-1">
-            <label class="description" >nm</label>
-        </div>
-      </div>
-
-      <div class="row">
-
-        <div class="col-sm-2">
-          <label class="description" >Speed</label>
-        </div>
-        <div class="col-sm-2">
-          <input id="speedField" name="speed" class="element text medium" type="text" maxlength="10"  value=""/> 
-        </div>
-        <div class="col-sm-1">
-            <label class="description" >nm</label>
-        </div>
-      </div>
-
-      <div class="row">
+    </footer>
   
-          <div class="col-sm-2"></div>
-          <div class="col-sm-2">
-              <input type="button" class="btn btn-primary" id="calculateCruiseButton" value="Calculate" onClick="calculateCruise()"> 
-          </div>
-        </div>
-      
-
-      <div class="row">
-
-        <div class="col-sm-2">
-          <label class="description" >Fuel Used</label>
-        </div>
-        <div class="col-sm-2">
-          <input id="fuelUsedField" name="fuelUsed" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
-        </div>
-        <div class="col-sm-1">
-            <label class="description" >kg</label>
-        </div>
-      </div>
-      <p></p>
-
-    </form>
-
-    <form id="climbForm" class="form-horizontal"  method="post" action="">
-
-        <h2>Climb</h2>
   
-          
-        <div class="row">
   
-          <div class="col-sm-2">
-            <label class="description" >Start altitude</label>
-          </div>
-          <div class="col-sm-2">
-            <input id="startAltField" name="startAlt" class="element text medium" type="text" maxlength="10"  value=""/> 
-          </div>
-          <div class="col-sm-1">
-              <label class="description" >ft</label>
-          </div>
-          <p></p>
-        </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   
-        <div class="row">
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
   
-          <div class="col-sm-2">
-            <label class="description" >Final Altitude</label>
-          </div>
-          <div class="col-sm-2">
-            <input id="finalAltField" name="finalAlt" class="element text medium" type="text" maxlength="10"  value=""/> 
-          </div>
-          <div class="col-sm-1">
-              <label class="description" >ft</label>
-          </div>
-        </div> 
-        <div class="row">
+    <!-- Contact form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
   
-          <div class="col-sm-2"></div>
-          <div class="col-sm-2">
-              <input type="button" class="btn btn-primary" id="calculateClimbButton" value="Calculate" onClick="calculateClimb()"> 
-          </div>
-        </div>
-        
+    <!-- Custom scripts for this template -->
+    <script src="js/agency.min.js"></script>
   
-        <div class="row">
+    <!-- Sets up the header-->
+    <script src="js/main.navigation.js"></script> 
   
-          <div class="col-sm-2">
-            <label class="description" >Fuel Used</label>
-          </div>
-          <div class="col-sm-2">
-            <input id="fuelUsedClimbField" name="fuelUsedClimb" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
-          </div>
-          <div class="col-sm-1">
-              <label class="description" >kg</label>
-          </div>
-          <p></p>
-        </div>
-  
-      </form>
-  
-     
+    <!-- Footer Modals -->
+    <script src="js/footer.modals.js"></script> 
 
     <script>
 
@@ -223,11 +399,16 @@
 
       }
 
-    
+
 
     </script>
-
+  
   </body>
-</html>
+  
+  
+  
+  
+  </html>
+  
 
 
