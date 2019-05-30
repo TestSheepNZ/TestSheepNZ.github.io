@@ -1,50 +1,181 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<base target="_top">
-		<title>Panther ODM Version 2.0</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="shortcut icon" href="../img/testsheep.ico" type="image/x-icon" />
-    <link rel="icon" href="../img/testsheep.ico">
-	</head>
-    <body>
-        <h1>Panther ODM Version 2.0</h1>
+<html lang="en">
 
-        <p><i>The following email was recieved from the lead developer...</i></p>
-        <p><b>From:</b> Chloe Beck [Lead Developer]</p>
-        <p><b>Sent:</b> Monday, 7 August 2017 17:51 p.m.</p>
-        <p><b>To:</b> Mike Talks [Avionic Manager]</p>
-        <p><b>Subject:</b> Panther ODM refactoring</p>
-        <p></p>
+<head>
 
-        <p>Hi Mike</p>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Panther ODM Code Redesign">
+  <meta name="author" content="TestSheepNZ">
 
-        <p>Well yes, the test team came to me over the Panther ODM code, with some concerns about how we test it – I’ve taken a look into it, and share their concerns.</p>
-        <p>I was impressed that one of them had <a href="http://angiejones.tech/test-automation-code-smells/">found this article by Angie Jones on this</a>, and had even found a couple of cute quotes from it.</p>
+  <title>Panther ODM Code Redesign</title>
 
-        <img src="Panther/longclass1.JPG">
-        <img src="Panther/longclass2.JPG">
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        <p>It’s not the worst code I’ve seen, but it could be a lot better.  I really don’t like how Jake has created a large class to handle both fuel calculation and weight management.  I did raise concerns with you about his work, and didn’t feel he was the right person to be working on this so unsupervised.</p>        
-        <p>What I’ve done is break down his main class – from outside, <b>AircraftManagement</b> looks and works the same (so all those JUnit tests will work as is), but ideally a class should be a small, self-contained instance.  So I’ve added the following smaller classes which <b>AircraftManagement</b> uses,</p>
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
-        <ul>
-            <li><b>ManageWeight</b> – handles everything to do with the weight of the aircraft including refuelling and applying changes due to fuel being burned</li>
-            <li><b>CalculateFuelUsage</b> – handles the calculation of fuel usage for the aircraft given a set altitude and weight</li>
-        </ul>
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
 
-        <p></p>
-        <p>Breaking it down like this should make the testing a lot easier – your team might want to add dedicated testing classes as well.</p>
-        <p>The testers were previously tying themselves in knots because as soon as they got their aircraft to the right height they needed, its weight had changed from the climb.  It should be easier to test more scenarios under <b>CalculateFuelUsage</b>, they have better control of the inputs when they unit test now, with the weight being something you can just set as needs be.</p>
-        <p>This will mean you can test in depth using just the <b>CalculateFuelUsage</b> class, but you’ll have to check separately that the <b>AircraftManagement</b> is handling passing changes in weight from <b>ManageWeight</b> to <b>CalculateFuelUsage</b> and vice versa.  It looks to be good – but that’s why we test yeah?</p>
-        <p></p>
-        <p>I’m off on client site tomorrow for the rest of the week up in Lossiemouth, Scotland.  You know how it is on the airbase, I have to check in my smartphone whilst on site.  My trip is important, and I really can’t it, but the test leads seem to be smart and onto it, so I think you’ll be fine!</p>
-        <p></p>        
-        <p>And cheer up, it could be worse.  We could still have Jake working for us! :-)</p>
-        <p></p>
-        <p>Chloe Beck</p>
-        <p>Lead Developer, Panther Project</p>
-        <p></p>                        
-    </body>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
+  <link rel="icon" href="img/testsheep.ico">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div id="mainNavigation"></div>
+  </nav>
+
+
+  <!-- Header -->
+    <!-- Header -->
+    <header class="masthead">
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-heading text-uppercase">Panther ODM</div>
+                <img src="img/panther_icon.PNG">
+                <div class="intro-lead-in">Code redesign email</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./PantherDocuments.html" >Documentation</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./PantherExercises.html" >Exercises</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="./panther-all-builds.html"  >Builds</a>
+            </div>
+        </div>
+    </header>
+
+  <!-- Contents -->
+  <section class="bg-light page-section" id="main-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-left">
+
+                <h1>Panther ODM Version 2.0</h1>
+
+                <p><i>The following email was recieved from the lead developer...</i></p>
+                <p><b>From:</b> Chloe Beck [Lead Developer]</p>
+                <p><b>Sent:</b> Monday, 7 August 2017 17:51 p.m.</p>
+                <p><b>To:</b> Mike Talks [Avionic Manager]</p>
+                <p><b>Subject:</b> Panther ODM refactoring</p>
+                <p></p>
+
+                <p>Hi Mike</p>
+
+                <p>Well yes, the test team came to me over the Panther ODM code, with some concerns about how we test it – I’ve taken a look into it, and share their concerns.</p>
+                <p>I was impressed that one of them had <a href="http://angiejones.tech/test-automation-code-smells/">found this article by Angie Jones on this</a>, and had even found a couple of cute quotes from it.</p>
+
+                <div align="center">
+                    <img src="Panther/longclass1.JPG">
+                    <img src="Panther/longclass2.JPG">
+                </div>
+                <p>It’s not the worst code I’ve seen, but it could be a lot better.  I really don’t like how Jake has created a large class to handle both fuel calculation and weight management.  I did raise concerns with you about his work, and didn’t feel he was the right person to be working on this so unsupervised.</p>        
+                <p>What I’ve done is break down his main class – from outside, <b>AircraftManagement</b> looks and works the same (so all those JUnit tests will work as is), but ideally a class should be a small, self-contained instance.  So I’ve added the following smaller classes which <b>AircraftManagement</b> uses,</p>
+
+                <ul>
+                    <li><b>ManageWeight</b> – handles everything to do with the weight of the aircraft including refuelling and applying changes due to fuel being burned</li>
+                    <li><b>CalculateFuelUsage</b> – handles the calculation of fuel usage for the aircraft given a set altitude and weight</li>
+                </ul>
+
+                <p></p>
+                <p>Breaking it down like this should make the testing a lot easier – your team might want to add dedicated testing classes as well.</p>
+                <p>The testers were previously tying themselves in knots because as soon as they got their aircraft to the right height they needed, its weight had changed from the climb.  It should be easier to test more scenarios under <b>CalculateFuelUsage</b>, they have better control of the inputs when they unit test now, with the weight being something you can just set as needs be.</p>
+                <p>This will mean you can test in depth using just the <b>CalculateFuelUsage</b> class, but you’ll have to check separately that the <b>AircraftManagement</b> is handling passing changes in weight from <b>ManageWeight</b> to <b>CalculateFuelUsage</b> and vice versa.  It looks to be good – but that’s why we test yeah?</p>
+                <p></p>
+                <p>I’m off on client site tomorrow for the rest of the week up in Lossiemouth, Scotland.  You know how it is on the airbase, I have to check in my smartphone whilst on site.  My trip is important, and I really can’t it, but the test leads seem to be smart and onto it, so I think you’ll be fine!</p>
+                <p></p>        
+                <p>And cheer up, it could be worse.  We could still have Jake working for us! :-)</p>
+                <p></p>
+                <p>Chloe Beck</p>
+                <p>Lead Developer, Panther Project</p>
+                <p></p>                        
+
+            </div>
+        </div>
+    </div>
+  </section>
+  
+
+
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Mike Talks 2019</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="https://twitter.com/TestSheepNZ">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item" hidden>
+              <a href="#">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/mike-talks-3423348/">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item" >
+              <a data-toggle="modal" href="#aboutModal">About</a>
+            </li>
+            <li class="list-inline-item">
+              <a data-toggle="modal" href="#termsModal">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
+
+  <!-- Sets up the header-->
+  <script src="js/main.navigation.js"></script> 
+
+  <!-- Footer Modals -->
+  <script src="js/footer.modals.js"></script> 
+
+</body>
+
+
+
+
 </html>
