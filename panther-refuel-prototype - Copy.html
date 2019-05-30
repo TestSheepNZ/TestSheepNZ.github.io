@@ -2,14 +2,14 @@
 <html>
   <head>
     <base target="_top">
-    <title>Panther Fuel Calculator</title>
+    <title>Panther Fuel Calculator - REFUEL PROTOTYPE</title>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
     <link rel="icon" href="img/testsheep.ico">
   </head>
   <body>
-    <h1>Panther ODM Calculator</h1>
+    <h1>Panther ODM Calculator - INCLUDES NEW REFUEL PROTOTYPE CODE</h1>
     <img src="img/panther_icon.PNG">
     <p>
     <label class="description">Details about the Panther ODM can be found in <a href="./ProjectDocuments/PantherDocuments.html">this document</a></label>
@@ -25,22 +25,22 @@
         
       <div class="row">
 
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <label class="description" >Initial fuel</label>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <input id="initialFuel" name="initialFuel" class="element text medium" type="text" maxlength="10"  value=""/> 
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-1">
             <label class="description" >kg</label>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <label class="description" id="missileList" for="numMissiles">Number of missiles</label>	
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <select class="element select medium" id="numMissiles" name="numMissiles"> 
             <option value="0" >0</option>
             <option value="1" >1</option>
@@ -53,14 +53,13 @@
             <option value="8" >8</option>
           </select>
         </div>
-        <div class="col-sm-2"></div>
       </div>
 
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <label class="description" for="numDumbBomb" >Number of dumb bombs</label>	
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
             <select class="element select medium" id="numDumbBomb" name="numDumbBomb" onchange="dumbBomb(this.preset)"> 
                 <option value="0" >0</option>
                 <option value="1" >1</option>
@@ -71,31 +70,28 @@
                 <option value="6" >6</option>
             </select>
         </div>
-        <div class="col-sm-2"></div>
       </div>
 
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-2">
             <label class="description" for="reconPodLabel">Recon pod </label>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <span onchange="reconPod()" >
             <input id="reconPod" name="reconPod" class="element checkbox" type="checkbox" value="1" />
           </span>
         </div>
-        <div class="col-sm-2"></div>
       </div>
 
       <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-2">
             <label class="description" for="intelliBombLabel" >Intelli bomb </label>
         </div>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
           <span onchange="intelliBomb()">
             <input id="intelliBomb" name="intelliBomb" class="element checkbox" type="checkbox" value="1" />
           </span>
         </div>
-        <div class="col-sm-2"></div>
       </div>
   
       <div class="row">
@@ -105,7 +101,6 @@
           <div class="col-sm-2">
             <input id="fuelTank" name="fuelTank" class="element checkbox" type="checkbox" value="1" />
         </div>
-        <div class="col-sm-2"></div>
       </div>
 
       <input type="button" class="btn btn-primary" id="setEquipmentButton" value="Load" onClick="initEquipment()">
@@ -189,8 +184,8 @@
                 <option value="1" >Cruise</option>
                 <option value="2" >Climb</option>
                 <option value="3" >Dive</option>
-                <option value="4" disabled >Drop bomb(coming soon)</option>
-                <option value="5" disabled >Refuel(coming soon)</option>
+                <option value="4" >Refuel</option>
+                <option value="5" disabled >Drop bomb(coming soon)</option>
             </select>
           </div>
         </div> 
@@ -280,6 +275,24 @@
       
       <input type="button" class="btn btn-primary" id="applyDiveButton" value="Apply" onClick="aircraftClimb(false)"> 
     </form>
+
+    <form id="refuelForm" class="appnitro"  method="post" action="" hidden>
+            <h2>Refuel</h2>
+            <div class="row">
+                <div class="col-sm-2">
+                    <label>Remaining fuel</label>
+                </div>
+                <div class="col-sm-2">
+                    <input id="refuelWeight" name="refuelWeight" class="element text medium" type="text" maxlength="10"  />
+                </div>
+                <div class="col-sm-1">
+                    <label class="description" >kg</label>
+                </div>
+            </div>  
+      
+            
+            <input type="button" class="btn btn-primary" id="applyRefuelButton" value="Apply" onClick="refuel(false)"> 
+          </form>
 
     <p></p>
     <input type="button" class="btn btn-secondary" id="restartButton" value="Restart" onClick="window.location.reload(false)">
@@ -470,6 +483,24 @@
       
       updateStatus();
     }
+
+    //Refuel
+    function refuel() {
+        var newFuel = document.getElementById('refuelWeight').value;
+
+        if(isNaN(newFuel)) {
+            errorMsg = "New refuel level is not a number";
+            setStatusError();
+            return;
+        }
+
+        //Set new value
+        aircraftManagement.acFuelRemaining = newFuel;
+        aircraftManagement.allUpWeight();
+        errorMsg = "";
+
+        updateStatus();
+    }
     
     // Move functions
     
@@ -482,19 +513,24 @@
       document.getElementById('cruiseForm').hidden = true;
       document.getElementById('climbForm').hidden = true;
       document.getElementById('diveForm').hidden = true;
+      document.getElementById('refuelForm').hidden = true;
+
      
       switch (+selection) {
         case 0:
-          break;
+            break;
         case 1:
-          document.getElementById('cruiseForm').hidden = false;
-          break;
+            document.getElementById('cruiseForm').hidden = false;
+            break;
         case 2:
-          document.getElementById('climbForm').hidden = false;
-          break;
+            document.getElementById('climbForm').hidden = false;
+            break;
         case 3:
-          document.getElementById('diveForm').hidden = false;
-          break;
+            document.getElementById('diveForm').hidden = false;
+            break;
+        case 4:
+            document.getElementById('refuelForm').hidden = false;
+            break;
         default:
       }
     }
@@ -902,7 +938,7 @@ function setupFuelData() {
         fuelRateData.add(32000.0, 600.0, 14000.0, 18.3);
         fuelRateData.add(32000.0, 600.0, 15000.0, 19);
         fuelRateData.add(32000.0, 600.0, 16000.0, 19.6);
- 
+  
 
 }
 
