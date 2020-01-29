@@ -130,6 +130,18 @@
                     </div>
                     <div class="col-sm-2"></div>
                   </div>
+
+                  <div class="row">
+
+                      <div class="col-sm-3"><label class="description" ><i>Integers only</i></label></div>
+                      <div class="col-sm-7">
+                        <span onchange="displayAnswer()" >
+                          <input id="integerSelect" name="intSelection" class="element checkbox" type="checkbox" value="1" />
+                        </span> 
+                      </div>
+                      <div class="col-sm-2"></div>
+                    </div>
+
                   <p></p>
 
                   <div class="row">
@@ -145,9 +157,6 @@
                 </form>
                 <p></p>
 
-  
-
-               
             
               </form>
 
@@ -231,6 +240,7 @@
 
       // Utility functions
       var errorMsg = "";
+      var answer = "";
 
       function setStatusError() {
         console.log("setStatusError");
@@ -246,7 +256,6 @@
                 
         var num1 = document.getElementById('number1Field').value;
         var num2 = document.getElementById('number2Field').value;
-        var answer;
         
         if(isNaN(num1)) {
           errorMsg = "Number 1 is not a number";
@@ -287,7 +296,7 @@
 
         }
 
-        document.getElementById('numberAnswerField').value = answer;
+        displayAnswer();
         setStatusError();
 
       }
@@ -295,10 +304,22 @@
      
       // Clear answer
       function clearAnswer() {
-        console.log("calcclearAnswerulateNumber");
+        console.log("clearAnswer");
         errorMsg = "";
-        document.getElementById('numberAnswerField').value = "";
+        answer="";
+        document.getElementById('numberAnswerField').value = answer;
         setStatusError();
+      }
+
+      // Integers only
+      function displayAnswer() {
+        console.log("displayAnswer");
+        display = answer;
+
+        if (document.getElementById('integerSelect').checked && answer != ""){
+          display = parseInt(answer);
+        }
+        document.getElementById('numberAnswerField').value = display;
       }
 
     </script>
