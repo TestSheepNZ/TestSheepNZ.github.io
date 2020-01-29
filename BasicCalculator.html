@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="TestSheepNZ's basic Selenium page">
+  <meta name="author" content="TestSheepNZ">
+
+  <title>Basic Calculator</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="shortcut icon" href="img/testsheep.ico" type="image/x-icon" />
+  <link rel="icon" href="img/testsheep.ico">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div id="mainNavigation"></div>
+  </nav>
+
+
+  <!-- Header -->
+    <!-- Header -->
+    <header class="masthead">
+        <div class="container">
+            <div class="intro-text">
+                <div class="intro-heading text-uppercase">Basic Calculator</div>
+                <div class="intro-lead-in">Selenium Object</div>
+            </div>
+        </div>
+    </header>
+
+  <!-- Contents -->
+  <section class="bg-light page-section" id="main-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-left">
+
+                <h1>Instructions</h1>
+                <p>
+                <p>The following page is a very basic calculator - I know you have one on your phone, so why do you need another one?</p>
+                <p>The purpose of this page is to provide an object with basic functionality for you to try your first attempt to use Selenium on.</p>
+                  
+                <p>
+              
+                <form id="errorForm" class="form-horizontal"  method="post" action="">
+                    <h3><font color="red"  ><i><label id="errorMsgField"></label></i></font></h3>
+                </form>
+
+                <form id="cruiseForm" class="form-horizontal"  method="post" action="">
+
+                  <h2>Calculate</h2>
+
+                    
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <label class="description" >First number</label>
+                    </div>
+                    <div class="col-sm-7">
+                      <input id="number1Field" name="number1" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+
+                  <div class="row">
+
+                    <div class="col-sm-3">
+                      <label class="description" >Second number</label>
+                    </div>
+                    <div class="col-sm-7">
+                      <input id="number2Field" name="number2" class="element text medium" type="text" maxlength="10"  value=""/> 
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+
+
+                  <div class="row">
+
+                    <div class="col-sm-3">
+                      <label class="description" >Operation</label>
+                    </div>
+                    
+                    <div class="col-sm-7">
+                        <select class="element select medium" id="selectOperationDropdown" name="selectOperation" > 
+                            <option value="0" >Add</option>
+                            <option value="1" >Subtract</option>
+                            <option value="2" >Multiply</option>
+                            <option value="3" >Divide</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+
+                  <div class="row">
+              
+                      <div class="col-sm-3"></div>
+                      <div class="col-sm-7">
+                          <input type="button" class="btn btn-primary" id="calculateCruiseButton" value="Calculate" onClick="calculate()"> 
+                          <p></p>
+                      </div>
+                      <div class="col-sm-2"></div>
+                    </div>
+                  
+
+                  <div class="row">
+
+                    <div class="col-sm-3">
+                      <label class="description" >Answer</label>
+                    </div>
+                    <div class="col-sm-7">
+                      <input id="numberAnswerField" name="numberAnswer" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                  <p></p>
+
+                  <div class="row">
+
+                      <div class="col-sm-3"></div>
+                      <div class="col-sm-7">
+                          <input type="button" class="btn btn-secondary" id="clearButton" value="Clear" onClick="clearAnswer()">
+                      </div>
+                      <div class="col-sm-2"></div>
+                    </div>
+                    <p></p>
+
+                </form>
+                <p></p>
+
+  
+
+               
+            
+              </form>
+
+            </div>
+          </div>
+      </div>
+    </section>
+    
+  
+  
+  
+    <!-- Modal 1 -->
+    <div class="portfolio-modal modal fade" id="termsModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+  
+    <!-- Modal 2 -->
+    <div class="portfolio-modal modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+  
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="copyright">Copyright &copy; Mike Talks 2020</span>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/TestSheepNZ">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item" hidden>
+                <a href="#">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/mike-talks-3423348/">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline quicklinks">
+              <li class="list-inline-item" >
+                <a data-toggle="modal" href="#aboutModal">About</a>
+              </li>
+              <li class="list-inline-item">
+                <a data-toggle="modal" href="#termsModal">Terms of Use</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  
+  
+  
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+    <!-- Contact form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+  
+    <!-- Custom scripts for this template -->
+    <script src="js/agency.min.js"></script>
+  
+    <!-- Sets up the header-->
+    <script src="js/main.navigation.js"></script> 
+  
+    <!-- Footer Modals -->
+    <script src="js/footer.modals.js"></script> 
+
+    <script>
+
+      // Utility functions
+      var errorMsg = "";
+
+      function setStatusError() {
+        console.log("setStatusError");
+        document.getElementById('errorMsgField').innerHTML = errorMsg;
+      }
+      
+    
+  
+      // Calculate
+      function calculate() {
+        console.log("calculateNumber");
+        errorMsg = "";
+                
+        var num1 = document.getElementById('number1Field').value;
+        var num2 = document.getElementById('number2Field').value;
+        var answer;
+        
+        if(isNaN(num1)) {
+          errorMsg = "Number 1 is not a number";
+          setStatusError();
+          return;
+        }
+        
+        if(isNaN(num2)) {
+          errorMsg = "Number 2 is not a number";
+          setStatusError();
+          return;
+        }
+        
+
+        var selection = document.getElementById('selectOperationDropdown').value;
+      
+        console.log("Dropdown selected:" + selection);
+      
+        switch (+selection) {
+          case 0:
+            answer = +num1 + +num2;
+            break;
+          case 1:
+            answer = num1 - num2;
+            break;
+          case 2:
+            answer = num1 * num2;
+            break;
+          case 3:
+            if(num2==0) {
+              errorMsg = "Divide by zero error!";
+              setStatusError();
+              return;
+            }
+            answer = num1 / num2;
+            break;
+          default:
+
+        }
+
+        document.getElementById('numberAnswerField').value = answer;
+        setStatusError();
+
+      }
+
+     
+      // Clear answer
+      function clearAnswer() {
+        console.log("calcclearAnswerulateNumber");
+        errorMsg = "";
+        document.getElementById('numberAnswerField').value = "";
+        setStatusError();
+      }
+
+    </script>
+  
+  </body>
+  
+  
+  
+  
+  </html>
+  
+
+
