@@ -99,11 +99,12 @@
                     </div>
                     
                     <div class="col-sm-7">
-                        <select class="element select medium" id="selectOperationDropdown" name="selectOperation" > 
+                        <select class="element select medium" id="selectOperationDropdown" name="selectOperation" onchange="operationChanged(this.preset)"> 
                             <option value="0" >Add</option>
                             <option value="1" >Subtract</option>
                             <option value="2" >Multiply</option>
                             <option value="3" >Divide</option>
+                            <option value="4" >Concatenate</option>
                         </select>
                     </div>
                     <div class="col-sm-2"></div>
@@ -133,7 +134,7 @@
 
                   <div class="row">
 
-                      <div class="col-sm-3"><label class="description" ><i>Integers only</i></label></div>
+                      <div class="col-sm-3"><label class="description" id="intSelectionLabel"><i>Integers only</i></label></div>
                       <div class="col-sm-7">
                         <span onchange="displayAnswer()" >
                           <input id="integerSelect" name="intSelection" class="element checkbox" type="checkbox" value="1" />
@@ -241,10 +242,16 @@
       // Utility functions
       var errorMsg = "";
       var answer = "";
+      var isNumber=true;
 
       function setStatusError() {
         console.log("setStatusError");
         document.getElementById('errorMsgField').innerHTML = errorMsg;
+      }
+
+      function setIfMathematical() {
+        var selection = document.getElementById('selectOperationDropdown').value;
+        isNumber = (selection != 4);
       }
       
     
@@ -253,24 +260,27 @@
       function calculate() {
         console.log("calculateNumber");
         errorMsg = "";
+        setIfMathematical();
+
+        var selection = document.getElementById('selectOperationDropdown').value;
                 
         var num1 = document.getElementById('number1Field').value;
         var num2 = document.getElementById('number2Field').value;
         
-        if(isNaN(num1)) {
+        if(isNaN(num1) && isNumber) {
           errorMsg = "Number 1 is not a number";
           setStatusError();
           return;
         }
         
-        if(isNaN(num2)) {
+        if(isNaN(num2)  && isNumber) {
           errorMsg = "Number 2 is not a number";
           setStatusError();
           return;
         }
         
 
-        var selection = document.getElementById('selectOperationDropdown').value;
+
       
         console.log("Dropdown selected:" + selection);
       
@@ -293,7 +303,8 @@
             answer = num1 / num2;
             break;
           default:
-
+            answer = num1 + num2;
+            break;
         }
 
         displayAnswer();
@@ -320,6 +331,23 @@
           display = parseInt(answer);
         }
         document.getElementById('numberAnswerField').value = display;
+      }
+
+      // Operation changed
+      function operationChanged(number) {
+        console.log("operationChanged");
+        setIfMathematical();
+
+        if( isNumber ) {
+          document.getElementById('integerSelect').disabled = false;
+          document.getElementById('integerSelect').hidden = false;
+          document.getElementById('intSelectionLabel').hidden = false;
+        } else {
+          document.getElementById('integerSelect').disabled = true;
+          document.getElementById('integerSelect').checked = false;
+          document.getElementById('integerSelect').hidden = true;
+          document.getElementById('intSelectionLabel').hidden = true;
+        }  
       }
 
     </script>
