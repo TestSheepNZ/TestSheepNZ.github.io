@@ -60,6 +60,28 @@
                 <p>The purpose of this page is to provide an object with basic functionality for you to try your first attempt to use Selenium on.</p>
                   
                 <p>
+
+                <div class="row">
+
+                  <div class="col-sm-3">
+                    <label class="description" >Build</label>
+                  </div>
+                  
+                  <div class="col-sm-7">
+                      <select class="element select medium" id="selectBuild" name="selectBuild" onchange="buildChanged(this.preset)"> 
+                          <option value="0" >Prototype</option>
+                          <option value="1" >1</option>
+                          <option value="2" >2</option>
+                          <option value="3" >3</option>
+                          <option value="4" >4</option>
+                          <option value="5" >5</option>
+                          <option value="6" >6</option>
+                          <option value="7" >7</option>
+                          <option value="8" >8</option>
+                      </select>
+                  </div>
+                  <div class="col-sm-2"></div>
+                </div>
               
                 <form id="errorForm" class="form-horizontal"  method="post" action="">
                     <h3><font color="red"  ><i><label id="errorMsgField"></label></i></font></h3>
@@ -243,6 +265,20 @@
       var errorMsg = "";
       var answer = "";
       var isNumber=true;
+      var selectedBuild=0;
+
+      /*
+       * BUILD DESCRIPTOR
+       * 0 - all is good
+       * 1 - doesn't check for valid numbers
+       * 2 - add and concatonate are the wrong way around
+       * 3 - always treats like a number
+       * 4 - locked on integer
+       * 5 - Clear button unavailable
+       * 6 - Divide by zero not checked
+       * 7 - Uses answer, not number 1 as first for operation
+       * 8 - Switches numbers 1 and 2 around
+       */
 
       function setStatusError() {
         console.log("setStatusError");
@@ -251,7 +287,12 @@
 
       function setIfMathematical() {
         var selection = document.getElementById('selectOperationDropdown').value;
-        isNumber = (selection != 4);
+
+        if (selectedBuild != 3) {
+          isNumber = (selection != 4);
+        } else {
+          isNumber = true;
+        }
       }
       
     
@@ -263,17 +304,37 @@
         setIfMathematical();
 
         var selection = document.getElementById('selectOperationDropdown').value;
+
+        // Applying build 2 oddball
+        if (selectedBuild == 2) {
+          if (selection == 0) {
+            selection = 4;
+            isNumber = false;
+          } else if (selection == 4) {
+            selection = 0;
+            isNumber = true;
+          }
+          
+        }
                 
         var num1 = document.getElementById('number1Field').value;
         var num2 = document.getElementById('number2Field').value;
+
+        if (selectedBuild == 7) {
+          num1 = answer;
+        } else if (selectedBuild == 8) {
+          var temp = num1;
+          num1 = num2;
+          num2 = temp;
+        }
         
-        if(isNaN(num1) && isNumber) {
+        if(isNaN(num1) && isNumber && selectedBuild != 1) {
           errorMsg = "Number 1 is not a number";
           setStatusError();
           return;
         }
         
-        if(isNaN(num2)  && isNumber) {
+        if(isNaN(num2)  && isNumber && selectedBuild != 1) {
           errorMsg = "Number 2 is not a number";
           setStatusError();
           return;
@@ -295,7 +356,7 @@
             answer = num1 * num2;
             break;
           case 3:
-            if(num2==0) {
+            if(num2==0 && selectedBuild != 6 ) {
               errorMsg = "Divide by zero error!";
               setStatusError();
               return;
@@ -333,21 +394,55 @@
         document.getElementById('numberAnswerField').value = display;
       }
 
+      // Build changes
+      function buildChanged() {
+        console.log("buildChanged");
+
+        selectedBuild = document.getElementById('selectBuild').value;
+        setIfMathematical();
+        setFieldStatus();
+
+        if (selectedBuild == 5) {
+          document.getElementById('clearButton').disabled = true;
+        } else {
+          document.getElementById('clearButton').disabled = false;
+        }
+      }
+
       // Operation changed
-      function operationChanged(number) {
+      function operationChanged() {
         console.log("operationChanged");
         setIfMathematical();
+        setFieldStatus();
 
-        if( isNumber ) {
-          document.getElementById('integerSelect').disabled = false;
-          document.getElementById('integerSelect').hidden = false;
-          document.getElementById('intSelectionLabel').hidden = false;
+      }
+
+      function setFieldStatus() {
+
+        if( selectedBuild != 4) {
+          if( isNumber ) {
+            document.getElementById('integerSelect').disabled = false;
+            document.getElementById('integerSelect').hidden = false;
+            document.getElementById('intSelectionLabel').hidden = false;
+          } else {
+            document.getElementById('integerSelect').disabled = true;
+            document.getElementById('integerSelect').checked = false;
+            document.getElementById('integerSelect').hidden = true;
+            document.getElementById('intSelectionLabel').hidden = true;
+          } 
         } else {
-          document.getElementById('integerSelect').disabled = true;
-          document.getElementById('integerSelect').checked = false;
-          document.getElementById('integerSelect').hidden = true;
-          document.getElementById('intSelectionLabel').hidden = true;
-        }  
+          if( isNumber ) {
+            document.getElementById('integerSelect').disabled = true;
+            document.getElementById('integerSelect').checked = true;
+            document.getElementById('integerSelect').hidden = false;
+            document.getElementById('intSelectionLabel').hidden = false;
+          } else {
+            document.getElementById('integerSelect').disabled = true;
+            document.getElementById('integerSelect').checked = false;
+            document.getElementById('integerSelect').hidden = true;
+            document.getElementById('intSelectionLabel').hidden = true;
+          }
+        }
       }
 
     </script>
