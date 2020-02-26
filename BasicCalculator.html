@@ -91,7 +91,7 @@
                     <h3><font color="red"  ><i><label id="errorMsgField"></label></i></font></h3>
                 </form>
 
-                <form id="cruiseForm" class="form-horizontal"  method="post" action="">
+                <form id="calcForm" class="form-horizontal"  method="post" action="">
 
                   <h2>Calculate</h2>
 
@@ -145,21 +145,35 @@
                       </div>
                       <div class="col-sm-2"></div>
                     </div>
+                </form>
+
+                  <form id="calculatingForm" class="form-horizontal"  method="post" action="" hidden>
+                    <div class="row">
+                      <div class="col-sm-12"><h2>Calculating ...</h2></div>        
+                    </div>
+                    <p>
+                
+                    <div class="row" id="waitGraphic" >
+                      <div class="col-sm-12" id="loadEquipment">
+                        <img src="img/waiting.gif">
+                      </div>
+                    </div>
+                  </form>
                   
+                  <form id="answerForm" class="form-horizontal"  method="post" action="" >
+                    <div class="row">
 
-                  <div class="row">
-
-                    <div class="col-sm-3">
-                      <label class="description" >Answer</label>
+                      <div class="col-sm-3">
+                        <label class="description" >Answer</label>
+                      </div>
+                      <div class="col-sm-7">
+                        <input id="numberAnswerField" name="numberAnswer" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
+                      </div>
+                      <div class="col-sm-2"></div>
                     </div>
-                    <div class="col-sm-7">
-                      <input id="numberAnswerField" name="numberAnswer" class="element text medium" type="text" maxlength="10"  value=""  readonly /> 
-                    </div>
-                    <div class="col-sm-2"></div>
-                  </div>
 
-                  <div class="row">
-
+                    <div class="row">
+                
                       <div class="col-sm-3"><label class="description" id="intSelectionLabel"><i>Integers only</i></label></div>
                       <div class="col-sm-7">
                         <span onchange="displayAnswer()" >
@@ -168,9 +182,12 @@
                       </div>
                       <div class="col-sm-2"></div>
                     </div>
+                  </form>
 
                   <p></p>
 
+                  <form id="resetForm" class="form-horizontal"  method="post" action="" >
+  
                   <div class="row">
 
                       <div class="col-sm-3"></div>
@@ -300,13 +317,29 @@
         }
       }
       
-    
+
+      function lockCalculate() {
+          document.getElementById('calculateButton').disabled = true;
+          document.getElementById('clearButton').disabled = true;
+          document.getElementById('calculatingForm').hidden = false;
+          document.getElementById('answerForm').hidden = true;
+      }
+
   
+      function unlockCalculate() {
+          document.getElementById('calculateButton').disabled = false;
+          document.getElementById('clearButton').disabled = false;
+          document.getElementById('calculatingForm').hidden = true;
+          document.getElementById('answerForm').hidden = false;
+      }
+
       // Calculate
       function calculate() {
         console.log("calculateNumber");
         errorMsg = "";
         setIfMathematical();
+
+        lockCalculate();
 
         var selection = document.getElementById('selectOperationDropdown').value;
 
@@ -336,12 +369,14 @@
         if(isNaN(num1) && isNumber && selectedBuild != 1) {
           errorMsg = "Number 1 is not a number";
           setStatusError();
+          unlockCalculate();
           return;
         }
         
         if(isNaN(num2)  && isNumber && selectedBuild != 1) {
           errorMsg = "Number 2 is not a number";
           setStatusError();
+          unlockCalculate();
           return;
         }
         
@@ -375,6 +410,11 @@
 
         displayAnswer();
         setStatusError();
+
+        var randomTimeout = parseInt(Math.random() * 1000);
+        setTimeout(function() {
+          unlockCalculate();
+        }, randomTimeout);
 
       }
 
