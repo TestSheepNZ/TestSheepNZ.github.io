@@ -81,6 +81,7 @@
                           <option value="6" >6</option>
                           <option value="7" >7</option>
                           <option value="8" >8</option>
+                          <option value="9" >9</option>
                       </select>
                   </div>
                   <div class="col-sm-2"></div>
@@ -139,7 +140,7 @@
               
                       <div class="col-sm-3"></div>
                       <div class="col-sm-7">
-                          <input type="button" class="btn btn-primary" id="calculateCruiseButton" value="Calculate" onClick="calculate()"> 
+                          <input type="button" class="btn btn-primary" id="calculateButton" value="Calculate" onClick="calculate()"> 
                           <p></p>
                       </div>
                       <div class="col-sm-2"></div>
@@ -281,6 +282,7 @@
        * 6 - Divide by zero not checked
        * 7 - Uses answer, not number 1 as first for operation
        * 8 - Switches numbers 1 and 2 around
+       * 9 - Elements vanish
        */
 
       function setStatusError() {
@@ -410,6 +412,19 @@
         } else {
           document.getElementById('clearButton').disabled = false;
         }
+
+        if (selectedBuild == 9) {
+          document.getElementById('number2Field').hidden = true;
+          document.getElementById('number2Field').disabled = true;
+          document.getElementById('calculateButton').hidden = true;
+          document.getElementById('calculateButton').disabled = true;
+        } else {
+          document.getElementById('number2Field').hidden = false;
+          document.getElementById('number2Field').disabled = false;
+          document.getElementById('calculateButton').hidden = false;
+          document.getElementById('calculateButton').disabled = false;
+        }
+
       }
 
       // Operation changed
